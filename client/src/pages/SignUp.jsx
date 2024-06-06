@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import imageToBaseUrl from '../helpers/imageToBaseUrl';
 
 const Signup = () => {
 
@@ -12,7 +13,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    profilePicture:""
+    profilePicture: ""
   });
 
   const handleLogin = (e) => {
@@ -30,7 +31,17 @@ const Signup = () => {
     });
   };
 
-  console.log(data);
+  const handleUploadPic = async (e) => {
+    const file = e.target.files[0];
+
+    const image = await imageToBaseUrl(file);
+    setData((prev) => {
+      return {
+        ...prev,
+        profilePicture: image
+      };
+    });
+  };
 
   return (
     <section id='signup' className='w-full h-full'>
@@ -39,8 +50,22 @@ const Signup = () => {
         <div className='bg-gray-300 w-full py-2 max-w-md mx-auto rounded p-3 '>
 
 
-          <div className='w-20 h-20 mx-auto rounded-full mt-4'>
-            <img src={loginIcon} alt="" />
+          <div className='w-20 h-20 mx-auto rounded-full mt-4 mb-2 relative flex justify-center overflow-hidden'>
+
+            <div>
+              <img src={data.profilePicture || loginIcon} alt="" />
+            </div>
+
+            <form className='text-xs text-center py-1 bg-opacity-80 bg-violet-100 w-full absolute bottom-0 cursor-pointer' >
+              <label>
+                <div className='cursor-pointer' >
+                  Upload <br />
+                  Photo
+                </div>
+                <input type="file" name="photo" id="photo" className='hidden' onChange={handleUploadPic} />
+              </label>
+            </form>
+
           </div>
 
 
@@ -54,6 +79,7 @@ const Signup = () => {
                   name="username"
                   value={data.username}
                   onChange={handleOnChange}
+                  required
                   id=""
                   placeholder='enter username'
                   className='w-full h-full outline-none bg-transparent' />
@@ -67,6 +93,7 @@ const Signup = () => {
                   type="email"
                   name="email"
                   value={data.email}
+                  required
                   onChange={handleOnChange}
                   id=""
                   placeholder='enter email'
@@ -83,6 +110,7 @@ const Signup = () => {
                   onChange={handleOnChange}
                   name="password"
                   id=""
+                  required
                   placeholder='enter password'
                   className='w-full h-full outline-none bg-transparent' />
 
@@ -107,6 +135,7 @@ const Signup = () => {
                   onChange={handleOnChange}
                   name="confirm-password"
                   id=""
+                  required
                   placeholder='confirm password'
                   className='w-full h-full outline-none bg-transparent' />
 

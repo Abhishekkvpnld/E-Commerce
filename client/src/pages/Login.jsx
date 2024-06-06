@@ -50,6 +50,7 @@ const Login = () => {
                                     name="email"
                                     value={data.email}
                                     onChange={handleOnChange}
+                                    required
                                     id=""
                                     placeholder='enter email'
                                     className='w-full h-full outline-none bg-transparent' />
@@ -63,6 +64,7 @@ const Login = () => {
                                     type={showPassword ? "text" : "password"}
                                     value={data.password}
                                     onChange={handleOnChange}
+                                    required
                                     name="password"
                                     id=""
                                     placeholder='enter password'
