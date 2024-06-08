@@ -4,17 +4,22 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import dbConnection from "./config/database.js";
 import auth from "./routes/auth.js";
+import cookie from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookie());
 
 //Routes middlewares
-app.use("/api/auth",auth); 
+app.use("/api/auth", auth);
 
 
 app.get("/api", (req, res) => {

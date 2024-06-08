@@ -11,7 +11,7 @@ const endPoints = {
     logIn: {
         url: `${backendDomain}/auth/login`,
         method: "POST"
-    }
+    },
 
 };
 

@@ -1,19 +1,36 @@
 import React, { useState } from 'react';
 import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import endPoints from '../../common/configApi';
+import toast from "react-hot-toast";
 
 
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-    });
+    const [data, setData] = useState({ email: "", password: "" });
 
-    const handleLogin = (e) => {
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
         e.preventDefault();
+
+        try {
+            const response = await axios.post(endPoints.logIn.url, data,{withCredentials:true});
+
+            console.log('data', response.data);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                navigate("/")
+            };
+
+        } catch (error) {
+            console.log(error.response.data.message || error);
+            toast.error(error.response.data.message || error)
+        };
     };
 
     const handleOnChange = (e) => {
@@ -27,7 +44,6 @@ const Login = () => {
         });
     };
 
-    console.log(data)
 
     return (
         <section id='login' className='w-full h-full'>
