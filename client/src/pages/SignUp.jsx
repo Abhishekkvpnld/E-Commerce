@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import imageToBaseUrl from '../helpers/imageToBaseUrl';
+import axios from "axios";
+import endPoints from '../../common/configApi';
+import toast from 'react-hot-toast';
+
 
 const Signup = () => {
 
@@ -16,9 +20,35 @@ const Signup = () => {
     profilePicture: ""
   });
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
     e.preventDefault();
+
+    if (data.password === data.confirmPassword) {
+      try {
+        const response = await axios.post(endPoints.singUp.url, data);
+
+        if (response.data.success) {
+          toast.success(response.data.message);
+          navigate("/login")
+        };
+
+        if (response.data.error) {
+          console.log ('error',response.data.message);
+          toast.error(response.data.message);
+        };
+
+      } catch (error) {
+        toast.error(error.response.data.message);
+      };
+
+    } else {
+      toast.error("Please check the password and confirm passwor");
+    };
+
   };
+
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +60,7 @@ const Signup = () => {
       }
     });
   };
+
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
@@ -69,7 +100,7 @@ const Signup = () => {
           </div>
 
 
-          <form onSubmit={handleLogin} className='flex flex-col gap-2'>
+          <form onSubmit={handleSignup} className='flex flex-col gap-2'>
 
             <div className='grid'>
               <label>Username</label>
@@ -133,7 +164,7 @@ const Signup = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   value={data.confirmPassword}
                   onChange={handleOnChange}
-                  name="confirm-password"
+                  name="confirmPassword"
                   id=""
                   required
                   placeholder='confirm password'

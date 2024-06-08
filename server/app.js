@@ -11,8 +11,10 @@ const app = express();
 
 app.use(cors());
 app.use(morgan("dev"));
-app.use("/auth",auth); 
 app.use(express.json());
+
+//Routes middlewares
+app.use("/api/auth",auth); 
 
 
 app.get("/api", (req, res) => {

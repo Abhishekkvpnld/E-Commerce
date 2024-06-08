@@ -6,12 +6,15 @@ export const signUp = async (req, res) => {
 
     try {
 
-        const { username, email, password } = req.body;
+        const { username, email, password, profilePicture } = req.body;
 
         const user = await userModel.findOne({ email });
 
         if (user) {
-            throw new Error("User already exits")
+            throw new Error("User already exits");
+            // return res.status(500).json({
+            //     message: 
+            // });
         };
 
         if (!username) {
@@ -27,19 +30,21 @@ export const signUp = async (req, res) => {
         }
 
         const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = await bcrypt.hashSync(password, salt);
+        const hashedPassword = bcrypt.hashSync(password, salt);
 
         if (!hashedPassword) {
             throw new Error("Something went wrong");
         };
 
         const payload = {
-            ...req.body,
+            username,
+            email,
+            profilePicture,
             password: hashedPassword
         };
 
         const userData = new userModel(payload);
-        const saveUser = userData.save();
+        const saveUser = await userData.save();
 
         res.status(201).json({
             data: saveUser,
