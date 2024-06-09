@@ -7,12 +7,19 @@ import axios from "axios";
 import endPoints from '../common/configApi';
 import { useEffect } from 'react';
 import userContext from './context/userContext';
+import { useDispatch } from "react-redux";
+import { setUserDetails } from './redux/userSlice';
 
 function App() {
+
+  const dispatch = useDispatch();
 
   const fetchUserDetails = async () => {
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
+
+      dispatch(setUserDetails(current_user.data.data));
+
     } catch (error) {
       console.log(error);
     };
@@ -25,7 +32,7 @@ function App() {
 
   return (
     <>
-      <userContext.Provider value={{ fetchUserDetails }}>     {/*User details*/ }
+      <userContext.Provider value={{ fetchUserDetails }}>     {/*User details*/}
         <Header />
 
         <main className='min-h-[calc(100vh-100px)] flex items-center justify-center'>
