@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import toast from "react-hot-toast";
+import userContext from '../context/userContext';
 
 
 const Login = () => {
@@ -13,18 +14,20 @@ const Login = () => {
     const [data, setData] = useState({ email: "", password: "" });
 
     const navigate = useNavigate();
+    const { fetchUserDetails } = useContext(userContext);
+
+    console.log(fetchUserDetails)
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(endPoints.logIn.url, data,{withCredentials:true});
-
-            console.log('data', response.data);
+            const response = await axios.post(endPoints.logIn.url, data, { withCredentials: true });
 
             if (response.data.success) {
                 toast.success(response.data.message);
-                navigate("/")
+                navigate("/");
+                fetchUserDetails();
             };
 
         } catch (error) {

@@ -80,7 +80,7 @@ export const login = async (req, res) => {
         const user = await userModel.findOne({ email });
 
         if (!user) {
-            throw new Error("User not found🤦")
+            throw new Error("User not found🤦");
         };
 
         const checkPassword = await bcrypt.compare(password, user.password);
@@ -93,13 +93,6 @@ export const login = async (req, res) => {
                 email: user.email
             };
             const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY, { expiresIn: 60 * 60 * 24 });
-
-            req.user = {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                profilePicture: user.profilePicture,
-            }
 
             const tokenOption = {
                 httpOnly: true,
@@ -114,7 +107,7 @@ export const login = async (req, res) => {
             });
 
         } else {
-            throw new Error("Please check password");
+            throw new Error("Please check password🤦");
         };
 
 

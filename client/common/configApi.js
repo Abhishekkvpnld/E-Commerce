@@ -12,6 +12,10 @@ const endPoints = {
         url: `${backendDomain}/auth/login`,
         method: "POST"
     },
+    current_user: {
+        url: `${backendDomain}/user-details`,
+        method: "GET"
+    },
 
 };
 

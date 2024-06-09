@@ -5,6 +5,7 @@ import morgan from "morgan";
 import dbConnection from "./config/database.js";
 import auth from "./routes/auth.js";
 import cookie from "cookie-parser";
+import userRoute from "./routes/userRoute.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(cookie());
 
 //Routes middlewares
 app.use("/api/auth", auth);
+app.use("/api",userRoute);
 
 
 app.get("/api", (req, res) => {
