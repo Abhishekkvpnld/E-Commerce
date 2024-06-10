@@ -35,7 +35,7 @@ const Signup = () => {
         };
 
         if (response.data.error) {
-          console.log ('error',response.data.message);
+          console.log('error', response.data.message);
           toast.error(response.data.message);
         };
 

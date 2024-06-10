@@ -35,7 +35,7 @@ function App() {
       <userContext.Provider value={{ fetchUserDetails }}>     {/*User details*/}
         <Header />
 
-        <main className='min-h-[calc(100vh-100px)] flex items-center justify-center'>
+        <main className='min-h-[calc(100vh-100px)]'>
           <Outlet />
         </main>
 

@@ -10,6 +10,8 @@ import Signup from './pages/SignUp.jsx';
 import { Provider } from "react-redux";
 import { store } from './redux/store.js';
 import AdminPanel from './pages/AdminPanel.jsx';
+import AllUsers from './pages/AllUsers.jsx';
+import AllProducts from './pages/AllProducts.jsx';
 
 
 
@@ -36,13 +38,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin-panel",
-        element: <AdminPanel />
+        element: <AdminPanel />,
+        children: [
+          {
+            path: "all-users",
+            element: <AllUsers />
+          },
+          {
+            path: "all-products",
+            element: <AllProducts />
+          }
+        ]
       }
     ]
-  },
-
+  }
 ]);
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

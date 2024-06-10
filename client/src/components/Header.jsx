@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import Logo from './Logo';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import endPoints from '../../common/configApi';
@@ -13,12 +13,11 @@ import { setUserDetails } from "../redux/userSlice";
 const Header = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [menuDisplay, setMenuDisplay] = useState(false);
 
   const user = useSelector((state) => state?.user?.user);
-  console.log("user", user)
-
 
   const handleLogout = async () => {
     try {
@@ -26,7 +25,8 @@ const Header = () => {
 
       if (response?.data?.success) {
         toast.success(response?.data?.message);
-        dispatch(setUserDetails(null))
+        dispatch(setUserDetails(null));
+        navigate("/")
       };
 
     } catch (error) {
@@ -62,7 +62,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className='relative group flex justify-center' onClick={()=>setMenuDisplay((prev)=>!prev)}>
+          <div className='relative group flex justify-center' onClick={() => setMenuDisplay((prev) => !prev)}>
             <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1 flex relative justify-center'>
               {
                 user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
