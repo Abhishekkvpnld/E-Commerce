@@ -12,6 +12,7 @@ import { store } from './redux/store.js';
 import AdminPanel from './pages/AdminPanel.jsx';
 import AllUsers from './pages/AllUsers.jsx';
 import AllProducts from './pages/AllProducts.jsx';
+import changeUserRole from './components/changeUserRole.jsx';
 
 
 
@@ -47,7 +48,8 @@ const router = createBrowserRouter([
           {
             path: "all-products",
             element: <AllProducts />
-          }
+          },
+
         ]
       }
     ]

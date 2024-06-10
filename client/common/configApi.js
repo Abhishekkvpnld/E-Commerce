@@ -19,6 +19,10 @@ const endPoints = {
     user_logout: {
         url: `${backendDomain}/user-logout`,
         method: "GET"
+    },
+    all_users:{
+        url:`${backendDomain}/all-users`,
+        method:"GET"
     }
 
 };
