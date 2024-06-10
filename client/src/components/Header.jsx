@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import Logo from './Logo';
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from "axios";
+import endPoints from '../../common/configApi';
+import toast from "react-hot-toast";
+import { setUserDetails } from "../redux/userSlice";
+
 
 const Header = () => {
 
-  const user = useSelector((state)=>state?.user?.user);
-  console.log("user",user)
+  const dispatch = useDispatch();
+
+  const [menuDisplay, setMenuDisplay] = useState(false);
+
+  const user = useSelector((state) => state?.user?.user);
+  console.log("user", user)
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(endPoints.user_logout.url, { withCredentials: true });
+
+      if (response?.data?.success) {
+        toast.success(response?.data?.message);
+        dispatch(setUserDetails(null))
+      };
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message)
+    };
+
+  };
 
   return (
     <header className='h-16 shadow-md'>
@@ -36,20 +62,50 @@ const Header = () => {
             </div>
           </div>
 
-          <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1'>
-            <CiUser />
+          <div className='relative group flex justify-center' onClick={()=>setMenuDisplay((prev)=>!prev)}>
+            <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1 flex relative justify-center'>
+              {
+                user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
+                ) : (<CiUser />)
+              }
+            </div>
+
+            {
+              menuDisplay && (
+                <div className='absolute bottom-0 top-11 h-fit p-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 '>
+                  <nav>
+                    <Link to={"/admin-panel"} className='whitespace-nowrap p-2'>Admin-Panel</Link>
+                  </nav>
+                </div>
+              )
+            }
+
           </div>
 
-          <Link to={"/login"}>
-            <div>
-              <button className='px-3 py-1 rounded-full text-white bg-green-500 hover:bg-green-600'>
-                Login
-              </button>
-            </div>
-          </Link>
+
+
+          {
+            user?._id ? (
+              <div>
+                <button onClick={handleLogout} className='px-3 py-1 rounded text-white bg-red-500 hover:bg-green-600'>
+                  logout
+                </button>
+              </div>
+            ) : (
+              <Link to={"/login"}>
+                <div>
+                  <button className='px-3 py-1 rounded-full text-white bg-green-500 hover:bg-green-600'>
+                    Login
+                  </button>
+                </div>
+              </Link>
+            )
+          }
+
 
 
         </div>
+
 
       </div>
 

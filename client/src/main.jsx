@@ -9,6 +9,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import Signup from './pages/SignUp.jsx';
 import { Provider } from "react-redux";
 import { store } from './redux/store.js';
+import AdminPanel from './pages/AdminPanel.jsx';
 
 
 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />
+      },
+      {
+        path: "/admin-panel",
+        element: <AdminPanel />
       }
     ]
   },
