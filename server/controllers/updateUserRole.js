@@ -2,34 +2,32 @@ import userModel from "../models/userModel.js";
 
 
 export const updateUserRole = async (req, res) => {
-    const { userId, email, name, role } = req.body;
-    const sessionUser = req.user;
+    const { userId, email, username, role } = req.body;
+    console.log(req.body)
+    const sessionUserId = req.user.id;
+
     try {
 
         const payload = {
             ...(email && { email: email }),
-            ...(name && { name: name }),
+            ...(username && { username: username }),
             ...(role && { role: role })
         };
 
-        const user = await userModel.findOne(sessionUser);
+        const user = await userModel.findById(sessionUserId);
 
         if (!user) {
             throw new Error("User not Available...🤦");
         };
 
-        if (sessionUser !== userId) {
-            throw new Error("User not Authencate...🤦");
-        };
-
         const updatedUser = await userModel.findByIdAndUpdate(userId, payload);
 
         if (updatedUser) {
-            res.status(400).json({
+            res.status(200).json({
                 data: updatedUser,
                 success: true,
                 error: false,
-                message: "User role updated succesfully...🎉"
+                message: `User role updated to ${role} successfully...🎉`
             });
         };
 

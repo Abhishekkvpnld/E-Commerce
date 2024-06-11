@@ -17,7 +17,6 @@ const AllUsers = () => {
     role: ""
   });
 
-  console.log(userData.role);
   const fetchAllUsers = async () => {
     const response = await axios.get(endPoints.all_users.url, { withCredentials: true });
 
@@ -39,7 +38,7 @@ const AllUsers = () => {
   return (
     <div>
       <table className='w-full border userTable'>
-        <thead>
+        <thead className='bg-black text-white'>
           <tr>
             <th>Sr No.</th>
             <th>Name</th>
@@ -74,8 +73,16 @@ const AllUsers = () => {
         </tbody>
       </table>
       {
-        openUpdateBox && (
-          <ChangeUserRole name={userData?.username} email={userData?.email} role={userData?.role} onClose={() => setOpenUpdateBox(false)} />
+        openUpdateBox && ( 
+
+          <ChangeUserRole
+            userId={userData?._id}
+            username={userData?.username}
+            email={userData?.email}
+            role={userData?.role}
+            onClose={() => setOpenUpdateBox(false)}
+            callFunc={fetchAllUsers} />
+
         )
       }
     </div>

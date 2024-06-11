@@ -3,8 +3,10 @@ import { ROLE } from "../../common/role";
 import { IoMdClose } from "react-icons/io";
 import axios from 'axios';
 import endPoints from '../../common/configApi';
+import toast from "react-hot-toast";
 
-const ChangeUserRole = ({ name, email, role, onClose }) => {
+
+const ChangeUserRole = ({ username, email, role, userId, onClose, callFunc }) => {
   const [userRole, setUserRole] = useState(role);
 
   const handleSelectRole = (e) => {
@@ -12,9 +14,21 @@ const ChangeUserRole = ({ name, email, role, onClose }) => {
   };
 
   const updateUserRole = async () => {
-    const response = await axios.post(endPoints.update_User_role.url, { role: userRole }, { withCredentials: true });
+    const response = await axios.post(endPoints.update_User_role.url, { username, email, role: userRole, userId }, { withCredentials: true });
 
-    console.log("updated user role", response.data)
+    console.log("updated user role", response.data);
+
+    if (response?.data?.success) {
+      toast.success(response?.data?.message);
+      onClose();
+      callFunc(); 
+    };
+
+    if (response?.data?.error) {
+      toast.error(response?.data?.message);
+      onClose();
+    };
+
   };
 
   return (
@@ -28,7 +42,7 @@ const ChangeUserRole = ({ name, email, role, onClose }) => {
 
         <h1 className='pb-4 text-lg font-medium'>Change user Role</h1>
 
-        <p>Name : {name}</p>
+        <p>Name : {username}</p>
         <p>Email : {email}</p>
 
         <div className='flex items-center justify-between my-4'>

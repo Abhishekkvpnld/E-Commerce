@@ -8,6 +8,7 @@ import axios from "axios";
 import endPoints from '../../common/configApi';
 import toast from "react-hot-toast";
 import { setUserDetails } from "../redux/userSlice";
+import { ROLE } from "../../common/role";
 
 
 const Header = () => {
@@ -63,15 +64,23 @@ const Header = () => {
           </div>
 
           <div className='relative group flex justify-center' onClick={() => setMenuDisplay((prev) => !prev)}>
-            <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1 flex relative justify-center'>
-              {
-                user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
-                ) : (<CiUser />)
-              }
-            </div>
+
 
             {
-              menuDisplay && (
+              user?._id && (
+                <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1 flex relative justify-center'>
+                  {
+                    user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
+                    ) : (<CiUser />)
+                  }
+                </div>
+              )
+
+            }
+
+
+            {
+              user?.role === ROLE.ADMIN && menuDisplay &&(
                 <div className='absolute bottom-0 top-11 h-fit p-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 hidden md:block'>
                   <nav>
                     <Link to={"/admin-panel"} className='whitespace-nowrap p-2 hidden md:block'>Admin-Panel</Link>
@@ -80,9 +89,9 @@ const Header = () => {
               )
             }
 
+
+
           </div>
-
-
 
           {
             user?._id ? (
