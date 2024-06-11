@@ -48,7 +48,7 @@ const Header = () => {
         </Link>
 
         <div className='hidden lg:flex items-center rounded-full '>
-          <input type="text" placeholder='searc products here...' className='w-full outline-none px-2 ' />
+          <input type="text" placeholder='searc products here...' className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
           <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 flex items-center justify-center rounded-full text-white '>
             <CiSearch />
           </div>
