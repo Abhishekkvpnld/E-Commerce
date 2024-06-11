@@ -20,9 +20,13 @@ const endPoints = {
         url: `${backendDomain}/user-logout`,
         method: "GET"
     },
-    all_users:{
-        url:`${backendDomain}/all-users`,
-        method:"GET"
+    all_users: {
+        url: `${backendDomain}/all-users`,
+        method: "GET"
+    },
+    update_User_role: {
+        url: `${backendDomain}/update-user-role`,
+        method: "POST"
     }
 
 };

@@ -11,7 +11,7 @@ const AdminPanel = () => {
         <div className='min-h-[calc(100vh-96px)] bg-green-50 md:flex hidden'>
             <aside className='bg-slate-200 min-h-full w-full max-w-60 customShadow'>
                 <div className='h-32 flex justify-center items-center flex-col mt-4'>
-                    <div className='text-3xl w-20 h-20 rounded-full border cursor-pointer hover:bg-green-50 flex relative justify-center'>
+                    <div className='text-3xl w-20 h-20 rounded-full border-black bg-slate-300 cursor-pointer hover:bg-green-50 items-center flex relative justify-center'>
                         {
                             user?.profilePicture ? (<img src={user?.profilePicture} className="w-20 h-20 rounded-full" alt={user?.username} />
                             ) : (<CiUser className="w-10 h-10 rounded-full" />)
@@ -20,6 +20,7 @@ const AdminPanel = () => {
                     <p className='capitalize text-lg font-semibold'>{user?.username}</p>
                     <p className='text-sm'>{user?.role}</p>
                 </div>
+                
                 {/* Navigation */}
                 <div>
                     <nav className='grid px-4'>

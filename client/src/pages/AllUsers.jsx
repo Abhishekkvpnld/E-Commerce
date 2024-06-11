@@ -9,9 +9,15 @@ import ChangeUserRole from "../components/ChangeUserRole";
 
 
 const AllUsers = () => {
-  const [allUsers, setAllUsers] = useState()
+  const [allUsers, setAllUsers] = useState([]);
+  const [openUpdateBox, setOpenUpdateBox] = useState(false);
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    role: ""
+  });
 
-
+  console.log(userData.role);
   const fetchAllUsers = async () => {
     const response = await axios.get(endPoints.all_users.url, { withCredentials: true });
 
@@ -48,20 +54,30 @@ const AllUsers = () => {
         <tbody>
           {
             allUsers?.map((user, index) => (
-              <tr className=' items-center'>
+              <tr className=' items-center' key={index}>
                 <td>{index + 1}</td>
                 <td>{user?.username}</td>
                 <td>{user?.email}</td>
                 <td>{user?.role}</td>
                 <td>{moment(user?.createdAt).format("LL")}</td>
                 <td className='text-center flex justify-center'>{user?.profilePicture ? < img src={user?.profilePicture} alt="img" className='w-10 h-10 rounded-full' /> : <CiUser className='w-10 h-10 rounded-full' />}</td>
-                <td ><button className='bg-slate-200 p-2 rounded-full hover:bg-green-400 hover:text-white'>{<FaEdit className='text-green-700 hover:text-white' />}</button></td>
+                <td ><button className='bg-slate-200 p-2 rounded-full hover:bg-green-400 hover:text-white'
+                  onClick={() => {
+                    setUserData(user);
+                    setOpenUpdateBox(true);
+                  }}>
+                  {<FaEdit className='text-green-700 hover:text-white' />}
+                </button></td>
               </tr>
             ))
           }
         </tbody>
       </table>
-      <ChangeUserRole />
+      {
+        openUpdateBox && (
+          <ChangeUserRole name={userData?.username} email={userData?.email} role={userData?.role} onClose={() => setOpenUpdateBox(false)} />
+        )
+      }
     </div>
 
   )
