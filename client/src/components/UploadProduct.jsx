@@ -3,11 +3,14 @@ import { IoCloseOutline } from "react-icons/io5";
 import productCategory from '../helpers/productCategory';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImageToCloudinary from '../helpers/uploadImageToCloudinary';
+import DisplayImage from './DisplayImage';
+import { MdDeleteOutline } from "react-icons/md";
 
 
 
 const UploadProduct = ({ onClose }) => {
 
+    const [displayImage, setDisplayImage] = useState(false);
     const [data, setData] = useState({
         productName: "",
         brandName: "",
@@ -18,7 +21,7 @@ const UploadProduct = ({ onClose }) => {
         selling: ""
     });
 
-    const [uploadImage, setUploadImage] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
 
     const handleOnChange = (e) => {
 
@@ -27,10 +30,7 @@ const UploadProduct = ({ onClose }) => {
 
     const handleUploadProduct = async (e) => {
         const file = e.target.files[0];
-        console.log(file)
-
         const uploadImageCloudinary = await uploadImageToCloudinary(file);
-        console.log("uploadImageCloudinary", uploadImageCloudinary.url);
 
         setData((prev) => {
             return {
@@ -38,6 +38,11 @@ const UploadProduct = ({ onClose }) => {
                 productImage: [...prev.productImage, uploadImageCloudinary?.url]
             }
         });
+    };
+
+
+    const handleProductImageDelete = async (i) => {
+
     };
 
 
@@ -113,7 +118,26 @@ const UploadProduct = ({ onClose }) => {
                                     {
                                         data?.productImage?.map((image, index) => (
 
-                                            <img src={image} alt={image} key={index} width={80} height={80} className='bg-slate-100 border' />
+                                            <div className='relative group'>
+
+                                                <img
+                                                    src={image}
+                                                    alt={image}
+                                                    key={index}
+                                                    width={80}
+                                                    height={80}
+                                                    className='bg-slate-100 border cursor-pointer'
+                                                    onClick={() => {
+                                                        setDisplayImage(true);
+                                                        setImageUrl(image);
+                                                    }}
+                                                />
+
+                                                <div className='absolute bottom-0 right-0 p-1 bg-white text-red-700 cursor-pointer hidden hover:bg-slate-300 rounded-full overflow-hidden group-hover:block' onClick={() => handleProductImageDelete(index)}>
+                                                    <MdDeleteOutline />
+                                                </div>
+
+                                            </div>
                                         ))
                                     }
                                 </div>
@@ -128,6 +152,16 @@ const UploadProduct = ({ onClose }) => {
                 </form>
 
             </div>
+
+            {/** Display image full screen */}
+            <div className='bg-opacity-70'>
+                {
+                    displayImage && (
+                        <DisplayImage imageUrl={imageUrl} onClose={() => setDisplayImage(false)} />
+                    )
+                }
+            </div>
+
         </div>
     )
 }
