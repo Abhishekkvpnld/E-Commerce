@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 import productCategory from '../helpers/productCategory';
+import { FaCloudUploadAlt } from "react-icons/fa";
+import uploadImageToCloudinary from '../helpers/uploadImageToCloudinary';
+
 
 
 const UploadProduct = ({ onClose }) => {
@@ -9,19 +12,38 @@ const UploadProduct = ({ onClose }) => {
         productName: "",
         brandName: "",
         category: "",
-        productImage: "",
+        productImage: [],
         description: "",
         price: "",
         selling: ""
     });
 
+    const [uploadImage, setUploadImage] = useState('');
+
     const handleOnChange = (e) => {
 
     };
 
+
+    const handleUploadProduct = async (e) => {
+        const file = e.target.files[0];
+        console.log(file)
+
+        const uploadImageCloudinary = await uploadImageToCloudinary(file);
+        console.log("uploadImageCloudinary", uploadImageCloudinary.url);
+
+        setData((prev) => {
+            return {
+                ...prev,
+                productImage: [...prev.productImage, uploadImageCloudinary?.url]
+            }
+        });
+    };
+
+
     return (
         <div className='fixed w-full h-full bottom-0 right-0 left-0 top-0 flex justify-center items-center bg-slate-200 bg-opacity-60 rounded'>
-            <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%]' >
+            <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden' >
 
                 <div className='flex justify-between items-center'>
                     <h1 className='font-bold text-xl px-2'>Upload Product</h1>
@@ -31,7 +53,7 @@ const UploadProduct = ({ onClose }) => {
                 </div>
 
 
-                <form className='p-4 grid gap-2'>
+                <form className='p-4 grid gap-2 overflow-y-scroll h-full pb-8'>
 
                     <label htmlFor="productName" className='font-semibold mt-2'>Product Name :</label>
                     <input
@@ -56,13 +78,52 @@ const UploadProduct = ({ onClose }) => {
                     />
 
                     <label htmlFor="category" className='font-semibold mt-2'>Category :</label>
-                    <select value={data.category}>
+                    <select value={data.category} className='p-2 bg-slate-100 hover:bg-slate-200 rounded px-4 border'>
                         {
                             productCategory.map((product, index) => (
                                 <option value={product.value} key={product.value + index}>{product.label}</option>
                             ))
                         }
                     </select>
+
+
+
+                    <label htmlFor="productImage" className='font-semibold mt-2 cursor-pointer'>Product Image</label>
+                    <label htmlFor="uploadImageInput">
+                        <div className='p-2 rounded bg-slate-100 h-32 w-full flex justify-center items-center cursor-pointer'>
+                            <div className='text-slate-500 gap-2 flex justify-center items-center flex-col border-2 border-slate-400 border-dashed py-2 px-10'>
+                                <span className='text-4xl'>
+                                    <FaCloudUploadAlt />
+                                </span>
+                                <p className='text-sm'>Upload Product Image</p>
+                                <input
+                                    type="file"
+                                    name="uploadProductImage"
+                                    id="uploadImageInput"
+                                    className='hidden'
+                                    onChange={handleUploadProduct} />
+                            </div>
+                        </div>
+                    </label>
+
+                    <div>
+                        {
+                            data?.productImage[0] ? (
+                                <div className='flex items-center gap-2 overflow-x-scroll'>
+                                    {
+                                        data?.productImage?.map((image, index) => (
+
+                                            <img src={image} alt={image} key={index} width={80} height={80} className='bg-slate-100 border' />
+                                        ))
+                                    }
+                                </div>
+                            ) : (
+                                <p className='text-red-500 text-xs'>*Please upload product image</p>
+                            )
+                        }
+                    </div>
+
+                    <button className='px-3 py-2 bg-green-600 text-white mb-5 hover:bg-green-700 rounded'>Upload Product</button>
 
                 </form>
 
