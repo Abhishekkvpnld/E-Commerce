@@ -18,13 +18,27 @@ const UploadProduct = ({ onClose }) => {
         productImage: [],
         description: "",
         price: "",
-        selling: ""
+        sellingPrice: ""
     });
 
     const [imageUrl, setImageUrl] = useState('');
 
     const handleOnChange = (e) => {
+        const { name, value } = e.target;
 
+        setData((prev) => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        });
+    };
+
+
+    {/* Upload product */ }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log('data', data);
     };
 
 
@@ -41,8 +55,17 @@ const UploadProduct = ({ onClose }) => {
     };
 
 
-    const handleProductImageDelete = async (i) => {
+    const handleProductImageDelete = async (index) => {
 
+        const newProductImages = [...data?.productImage];
+        newProductImages.splice(index, 1);
+
+        setData((prev) => {
+            return {
+                ...prev,
+                productImage: [...newProductImages]
+            }
+        })
     };
 
 
@@ -58,10 +81,11 @@ const UploadProduct = ({ onClose }) => {
                 </div>
 
 
-                <form className='p-4 grid gap-2 overflow-y-scroll h-full pb-8'>
+                <form className='p-4 grid gap-2 overflow-y-scroll h-full pb-8' onSubmit={handleSubmit}>
 
                     <label htmlFor="productName" className='font-semibold mt-2'>Product Name :</label>
                     <input
+                        required
                         type="text"
                         name="productName"
                         id="productName"
@@ -73,6 +97,7 @@ const UploadProduct = ({ onClose }) => {
 
                     <label htmlFor="brandName" className='font-semibold mt-2'>Brand Name :</label>
                     <input
+                        required
                         type="text"
                         name="brandName"
                         id="brandName"
@@ -83,7 +108,9 @@ const UploadProduct = ({ onClose }) => {
                     />
 
                     <label htmlFor="category" className='font-semibold mt-2'>Category :</label>
-                    <select value={data.category} className='p-2 bg-slate-100 hover:bg-slate-200 rounded px-4 border'>
+                    <select required value={data.category} name='category' onChange={handleOnChange} className='p-2 bg-slate-100 hover:bg-slate-200 rounded px-4 border'>
+
+                        <option value="">Select Category</option>
                         {
                             productCategory.map((product, index) => (
                                 <option value={product.value} key={product.value + index}>{product.label}</option>
@@ -92,7 +119,37 @@ const UploadProduct = ({ onClose }) => {
                     </select>
 
 
+                    <label htmlFor="price" className='font-semibold mt-2'>Price :</label>
+                    <input
+                        required
+                        type="number"
+                        name="price"
+                        id="price"
+                        value={data.price}
+                        placeholder='Enter price...'
+                        onChange={handleOnChange}
+                        className='p-2 bg-slate-100 hover:bg-slate-200 rounded px-4 border'
+                    />
 
+
+                    <label htmlFor="sellingPrice" className='font-semibold mt-2'>Selling Price :</label>
+                    <input
+                        required
+                        type="number"
+                        name="sellingPrice"
+                        id="sellingPrice"
+                        value={data.sellingPrice}
+                        placeholder='Enter selling price...'
+                        onChange={handleOnChange}
+                        className='p-2 bg-slate-100 hover:bg-slate-200 rounded px-4 border'
+                    />
+
+
+                    <label htmlFor="description" className='font-semibold mt-2'>Description :</label>
+                    <textarea required name="description" id="description" onChange={handleOnChange} className="border h-28 bg-slate-100 resize-none p-1" placeholder="Enter product description..." />
+
+
+                    {/* Image uploading component */}
                     <label htmlFor="productImage" className='font-semibold mt-2 cursor-pointer'>Product Image</label>
                     <label htmlFor="uploadImageInput">
                         <div className='p-2 rounded bg-slate-100 h-32 w-full flex justify-center items-center cursor-pointer'>
@@ -106,7 +163,10 @@ const UploadProduct = ({ onClose }) => {
                                     name="uploadProductImage"
                                     id="uploadImageInput"
                                     className='hidden'
-                                    onChange={handleUploadProduct} />
+                                    onChange={handleUploadProduct}
+                                    required
+                                />
+
                             </div>
                         </div>
                     </label>

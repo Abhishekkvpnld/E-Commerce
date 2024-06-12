@@ -27,6 +27,10 @@ const endPoints = {
     update_User_role: {
         url: `${backendDomain}/update-user-role`,
         method: "POST"
+    },
+    uploadProduct: {
+        url: `${backendDomain}/upload-product`,
+        method: "POST"
     }
 
 };
