@@ -3,12 +3,10 @@ import productModel from "../models/productModel.js";
 
 
 export const uploadproduct = async (req, res) => {
-    console.log(req.body);
-
     try {
 
         const sessionUserId = req.user.id;
-        const validUser = uploadProductPermission(sessionUserId);
+        const validUser = await uploadProductPermission(sessionUserId);
 
         if (!validUser) {
             throw new Error("Permission denied...🔐");
@@ -25,7 +23,7 @@ export const uploadproduct = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         res.status(400).json({
             message: error.message || error,
             success: false,

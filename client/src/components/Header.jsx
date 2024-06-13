@@ -81,7 +81,7 @@ const Header = () => {
 
             {
               user?.role === ROLE.ADMIN && menuDisplay &&(
-                <div className='absolute bottom-0 top-11 h-fit p-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 hidden md:block'>
+                <div className='absolute bottom-0 mt-3 top-11 h-fit px-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 hidden md:block'>
                   <nav>
                     <Link to={"/admin-panel"} className='whitespace-nowrap p-2 hidden md:block'>Admin-Panel</Link>
                   </nav>

@@ -11,17 +11,17 @@ import toast from 'react-hot-toast';
 
 
 
-const UploadProduct = ({ onClose }) => {
+const AdminEditProduct = ({ onClose, productData }) => {
 
     const [displayImage, setDisplayImage] = useState(false);
     const [data, setData] = useState({
-        productName: "",
-        brandName: "",
-        category: "",
-        productImage: [],
-        description: "",
-        price: "",
-        sellingPrice: ""
+        productName: productData?.productName,
+        brandName: productData?.brandName,
+        category: productData?.category,
+        productImage: productData?.productImage || [],
+        description: productData?.description,
+        price: productData?.price,
+        sellingPrice: productData?.sellingPrice
     });
 
     const [imageUrl, setImageUrl] = useState('');
@@ -91,7 +91,7 @@ const UploadProduct = ({ onClose }) => {
             <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden' >
 
                 <div className='flex justify-between items-center'>
-                    <h1 className='font-bold text-xl px-2'>Upload Product</h1>
+                    <h1 className='font-bold text-xl px-2'>Edit Product</h1>
                     <div className='border rounded ml-auto px-1 text-2xl hover:bg-slate-200 hover:text-red-600' onClick={onClose}>
                         <button> <IoCloseOutline /></button>
                     </div>
@@ -163,7 +163,7 @@ const UploadProduct = ({ onClose }) => {
 
 
                     <label htmlFor="description" className='font-semibold mt-2'>Description :</label>
-                    <textarea required name="description" id="description" onChange={handleOnChange} className="border h-28 bg-slate-100 resize-none p-1" placeholder="Enter product description..." />
+                    <textarea required name="description" value={data.description} id="description" onChange={handleOnChange} className="border h-28 bg-slate-100 resize-none p-1" placeholder="Enter product description..." />
 
 
                     {/* Image uploading component */}
@@ -224,7 +224,7 @@ const UploadProduct = ({ onClose }) => {
                         }
                     </div>
 
-                    <button className='px-3 py-2 bg-green-600 text-white mb-5 hover:bg-green-700 rounded'>Upload Product</button>
+                    <button className='px-3 py-2 bg-green-600 text-white mb-5 hover:bg-green-700 rounded'>Edit Product</button>
 
                 </form>
 
@@ -243,4 +243,5 @@ const UploadProduct = ({ onClose }) => {
     )
 }
 
-export default UploadProduct;
+
+export default AdminEditProduct;

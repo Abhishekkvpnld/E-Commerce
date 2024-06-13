@@ -5,6 +5,7 @@ import { userLogout } from "../controllers/userLogout.js";
 import { allUsers } from "../controllers/allUsers.js";
 import { updateUserRole } from "../controllers/updateUserRole.js";
 import { uploadproduct } from "../controllers/uploadProduct.js";
+import { getAllProducts } from "../controllers/getAllProducts.js";
 
 
 const router = express.Router();   
@@ -17,5 +18,6 @@ router.get("/user-logout",userLogout);
 router.get("/all-users",authToken,allUsers);
 router.post("/update-user-role",authToken,updateUserRole);
 router.post("/upload-product",authToken,uploadproduct);
+router.get("/get-all-products",getAllProducts);
 
 export default router;
