@@ -39,10 +39,10 @@ const AllProducts = () => {
 
 
       {/**GET ALL PRODUCTS */}
-      <div className='flex items-center py-4 gap-4'>
+      <div className='flex items-center py-4 gap-4 flex-wrap h-[calc(100vh-190px)] overflow-y-scroll'>
         {
           allProducts?.map((product, index) => (
-            <AdminProductCard data={product} key={index} />
+            <AdminProductCard data={product} key={index} fetchAllProducts={fetchAllProducts} />
           ))
         }
       </div>
@@ -52,7 +52,7 @@ const AllProducts = () => {
       {/*Upload product component */}
       {
         openUploadProduct && (
-          <UploadProduct onClose={() => setOpenUploadProduct(false)} />
+          <UploadProduct onClose={() => setOpenUploadProduct(false)} fetchData={fetchAllProducts} />
         )
       }
 

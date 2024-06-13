@@ -3,7 +3,7 @@ import userModel from "../models/userModel.js";
 
 export const updateUserRole = async (req, res) => {
     const { userId, email, username, role } = req.body;
-    console.log(req.body)
+
     const sessionUserId = req.user.id;
 
     try {

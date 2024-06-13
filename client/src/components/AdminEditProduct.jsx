@@ -11,10 +11,11 @@ import toast from 'react-hot-toast';
 
 
 
-const AdminEditProduct = ({ onClose, productData }) => {
+const AdminEditProduct = ({ onClose, productData, fetchAllProducts }) => {
 
     const [displayImage, setDisplayImage] = useState(false);
     const [data, setData] = useState({
+        ...productData,
         productName: productData?.productName,
         brandName: productData?.brandName,
         category: productData?.category,
@@ -43,12 +44,12 @@ const AdminEditProduct = ({ onClose, productData }) => {
         e.preventDefault();
 
         try {
-
-            const response = await axios.post(endPoints.uploadProduct.url, data, { withCredentials: true });
+            const response = await axios.post(endPoints.updateProduct.url, data, { withCredentials: true });
 
             if (response?.data?.success) {
                 toast.success(response?.data?.message);
                 onClose();
+                fetchAllProducts()
             };
 
         } catch (error) {
@@ -181,7 +182,6 @@ const AdminEditProduct = ({ onClose, productData }) => {
                                     id="uploadImageInput"
                                     className='hidden'
                                     onChange={handleUploadProduct}
-                                    required
                                 />
 
                             </div>
@@ -195,7 +195,7 @@ const AdminEditProduct = ({ onClose, productData }) => {
                                     {
                                         data?.productImage?.map((image, index) => (
 
-                                            <div className='relative group'>
+                                            <div className='relative group' key={index}>
 
                                                 <img
                                                     src={image}
@@ -224,7 +224,7 @@ const AdminEditProduct = ({ onClose, productData }) => {
                         }
                     </div>
 
-                    <button className='px-3 py-2 bg-green-600 text-white mb-5 hover:bg-green-700 rounded'>Edit Product</button>
+                    <button className='px-3 py-2 bg-green-600 text-white mb-5 hover:bg-green-700 rounded'>Update Product</button>
 
                 </form>
 

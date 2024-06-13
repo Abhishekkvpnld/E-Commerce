@@ -35,6 +35,10 @@ const endPoints = {
     allProducts:{
         url:`${backendDomain}/get-all-products`,
         method:"Get"
+    },
+    updateProduct:{
+        url:`${backendDomain}/update-product`,
+        method:"POST"
     }
 
 };

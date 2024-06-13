@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 
 
 
-const UploadProduct = ({ onClose }) => {
+const UploadProduct = ({ onClose, fetchData }) => {
 
     const [displayImage, setDisplayImage] = useState(false);
     const [data, setData] = useState({
@@ -49,6 +49,7 @@ const UploadProduct = ({ onClose }) => {
             if (response?.data?.success) {
                 toast.success(response?.data?.message);
                 onClose();
+                fetchData();
             };
 
         } catch (error) {
@@ -163,7 +164,7 @@ const UploadProduct = ({ onClose }) => {
 
 
                     <label htmlFor="description" className='font-semibold mt-2'>Description :</label>
-                    <textarea required name="description" id="description" onChange={handleOnChange} className="border h-28 bg-slate-100 resize-none p-1" placeholder="Enter product description..." />
+                    <textarea value={data.description} required name="description" id="description" onChange={handleOnChange} className="border h-28 bg-slate-100 resize-none p-1" placeholder="Enter product description..." />
 
 
                     {/* Image uploading component */}
