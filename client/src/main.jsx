@@ -12,6 +12,7 @@ import { store } from './redux/store.js';
 import AdminPanel from './pages/AdminPanel.jsx';
 import AllUsers from './pages/AllUsers.jsx';
 import AllProducts from './pages/AllProducts.jsx';
+import CategoryProduct from './pages/CategoryProduct.jsx';
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />
+      },
+      {
+        path:"/product-category/:categoryName",
+        element:<CategoryProduct/>
       },
       {
         path: "/admin-panel",
