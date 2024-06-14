@@ -1,15 +1,16 @@
 import express from "express";
 import { authToken } from "../middleware/authToken.js";
-import { userDetails } from "../controllers/userDetails.js";
-import { userLogout } from "../controllers/userLogout.js";
-import { allUsers } from "../controllers/allUsers.js";
-import { updateUserRole } from "../controllers/updateUserRole.js";
-import { uploadproduct } from "../controllers/uploadProduct.js";
-import { getAllProducts } from "../controllers/getAllProducts.js";
-import { updateProduct } from "../controllers/updateProduct.js";
+import { userDetails } from "../controllers/user/userDetails.js";
+import { userLogout } from "../controllers/user/userLogout.js";
+import { allUsers } from "../controllers/user/allUsers.js";
+import { updateUserRole } from "../controllers/user/updateUserRole.js";
+import { uploadproduct } from "../controllers/product/uploadProduct.js";
+import { getAllProducts } from "../controllers/product/getAllProducts.js";
+import { updateProduct } from "../controllers/product/updateProduct.js";
+import { getCategoryProduct } from "../controllers/product/getCategoryProduct.js";
 
 
-const router = express.Router();   
+const router = express.Router();     
 
 router.get("/user-details",authToken,userDetails);
 router.get("/user-logout",userLogout);
@@ -21,4 +22,7 @@ router.post("/update-user-role",authToken,updateUserRole);
 router.post("/upload-product",authToken,uploadproduct);
 router.get("/get-all-products",getAllProducts);
 router.post("/update-product",authToken,updateProduct);
+router.get("/get-category-product",getCategoryProduct);
+
+
 export default router;

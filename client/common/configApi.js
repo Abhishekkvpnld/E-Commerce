@@ -32,13 +32,17 @@ const endPoints = {
         url: `${backendDomain}/upload-product`,
         method: "POST"
     },
-    allProducts:{
-        url:`${backendDomain}/get-all-products`,
-        method:"Get"
+    allProducts: {
+        url: `${backendDomain}/get-all-products`,
+        method: "Get"
     },
-    updateProduct:{
-        url:`${backendDomain}/update-product`,
-        method:"POST"
+    updateProduct: {
+        url: `${backendDomain}/update-product`,
+        method: "POST"
+    },
+    getProductCategory: {
+        url: `${backendDomain}/get-category-product`,
+        method: "GET"
     }
 
 };

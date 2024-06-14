@@ -1,13 +1,14 @@
-import userModel from "../models/userModel.js";
+import productModel from "../../models/productModel.js";
 
-export const allUsers = async (req, res) => {
+
+export const getAllProducts = async (req, res) => {
     try {
 
-        const allUsers = await userModel.find();
+        const allProducts = await productModel.find().sort({ createdAt: -1 });
 
         res.status(200).json({
-            message: "All users 🧑‍🦰🧑‍🦰",
-            data: allUsers,
+            message: "all products...",
+            data: allProducts,
             success: true,
             error: false
         });
@@ -19,5 +20,5 @@ export const allUsers = async (req, res) => {
             success: false,
             error: true
         });
-    };
+    }
 };
