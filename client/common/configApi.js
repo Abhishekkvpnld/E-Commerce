@@ -43,6 +43,10 @@ const endPoints = {
     getProductCategory: {
         url: `${backendDomain}/get-category-product`,
         method: "GET"
+    },
+    getCategoryWiseProducts:{
+        url:`${backendDomain}/get-categoryWise-product`,
+        method:"POST"
     }
 
 };

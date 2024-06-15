@@ -16,8 +16,6 @@ const Login = () => {
     const navigate = useNavigate();
     const { fetchUserDetails } = useContext(userContext);
 
-    console.log(fetchUserDetails)
-
     const handleLogin = async (e) => {
         e.preventDefault();
 
