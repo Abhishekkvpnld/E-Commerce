@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 import endPoints from '../common/configApi';
 import { useEffect } from 'react';
@@ -18,7 +18,9 @@ function App() {
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
 
-      dispatch(setUserDetails(current_user.data.data));
+      if (current_user?.data?.data?.success) {
+        dispatch(setUserDetails(current_user?.data?.data));
+      };
 
     } catch (error) {
       console.log(error);
