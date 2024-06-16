@@ -53,8 +53,8 @@ const Login = () => {
                 <div className='bg-gray-300 w-full py-2 max-w-md mx-auto rounded p-3 '>
 
 
-                    <div className='w-20 h-20 mx-auto rounded-full mt-4'>
-                        <img src={loginIcon} alt="" />
+                    <div className='w-20 h-20 mx-auto rounded-full mt-4 mb-2 relative flex justify-center overflow-hidden'>
+                        <img src={loginIcon} className='mix-blend-multiply' alt="" />
                     </div>
 
                     <form onSubmit={handleLogin} className='flex flex-col gap-2'>

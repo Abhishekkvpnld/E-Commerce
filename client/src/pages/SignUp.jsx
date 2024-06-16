@@ -84,7 +84,7 @@ const Signup = () => {
           <div className='w-20 h-20 mx-auto rounded-full mt-4 mb-2 relative flex justify-center overflow-hidden'>
 
             <div>
-              <img src={data.profilePicture || loginIcon} alt="" />
+              <img src={data.profilePicture || loginIcon} alt="" className='mix-blend-multiply' />
             </div>
 
             <form className='text-xs text-center py-1 bg-opacity-80 bg-violet-100 w-full absolute bottom-0 cursor-pointer' >
