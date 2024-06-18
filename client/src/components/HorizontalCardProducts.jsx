@@ -3,6 +3,8 @@ import { getCategoryWiseProduct } from '../helpers/getCategoryWiseProducts';
 import displayINRCurrency from '../helpers/displayCurrency';
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
+import { Link } from 'react-router-dom';
+import addToCart from '../helpers/addToCart';
 
 
 
@@ -81,7 +83,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
                     ) : (
                         data?.map((product, index) => (
 
-                            <div key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-sm shadow'>
+                            <Link to={"/product-details/"+product?._id} key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-sm shadow'>
 
                                 <div className='bg-slate-200 h-full p-3 min-w-[120px] md:min-w-[145px] '>
                                     <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down hover:scale-110 transition-all' />
@@ -97,11 +99,11 @@ const HorizontalCardProducts = ({ category, heading }) => {
                                         <p className='text-red-500 line-through'>{displayINRCurrency(product?.price)}</p>
                                     </div>
 
-                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded'>Add to Cart</button>
+                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e)=>addToCart(e,product?._id)}>Add to Cart</button>
 
                                 </div>
 
-                            </div>
+                            </Link>
                         ))
                     )
                 }

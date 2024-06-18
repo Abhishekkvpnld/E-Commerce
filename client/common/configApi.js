@@ -47,7 +47,11 @@ const endPoints = {
     getCategoryWiseProducts:{
         url:`${backendDomain}/get-categoryWise-product`,
         method:"POST"
-    }
+    },
+    getProductDetails:{
+        url:`${backendDomain}/get-product-details`,
+        method:"POST",
+    },
 
 };
 

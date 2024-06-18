@@ -9,12 +9,17 @@ import { getAllProducts } from "../controllers/product/getAllProducts.js";
 import { updateProduct } from "../controllers/product/updateProduct.js";
 import { getCategoryProduct } from "../controllers/product/getCategorySingleProduct.js";
 import { getCategoryWiseProduct } from "../controllers/product/getCategoryWiseProduct.js";
+import { getProductDetails } from "../controllers/product/getProductDetails.js";
 
 
 const router = express.Router();     
 
+//User Data
 router.get("/user-details",authToken,userDetails);
 router.get("/user-logout",userLogout);
+
+//Product Details
+router.post("/get-product-details",getProductDetails);
 
 
 //Admin routes

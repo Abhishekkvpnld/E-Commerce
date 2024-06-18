@@ -13,6 +13,7 @@ import AdminPanel from './pages/AdminPanel.jsx';
 import AllUsers from './pages/AllUsers.jsx';
 import AllProducts from './pages/AllProducts.jsx';
 import CategoryProduct from './pages/CategoryProduct.jsx';
+import ProductDetails from './pages/ProductDetails.jsx';
 
 
 const router = createBrowserRouter([
@@ -37,8 +38,12 @@ const router = createBrowserRouter([
         element: <Signup />
       },
       {
-        path:"/product-category/:categoryName",
-        element:<CategoryProduct/>
+        path: "/product-category/:categoryName",
+        element: <CategoryProduct />
+      },
+      {
+        path: "/product-details/:id",
+        element:<ProductDetails/>
       },
       {
         path: "/admin-panel",
