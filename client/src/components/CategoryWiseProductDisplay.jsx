@@ -8,14 +8,13 @@ import { Link } from 'react-router-dom';
 
 
 
-export const VerticalCardProduct = ({ category, heading }) => {
+export const CategoryWiseProductDisplay = ({ category, heading }) => {
 
 
-    const [scroll, setScroll] = useState(0);
+
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const scrollElement = useRef();
 
     const loadingList = new Array(13).fill(null);
 
@@ -32,25 +31,12 @@ export const VerticalCardProduct = ({ category, heading }) => {
     }, []);
 
 
-    const scrollRight = () => {
-        scrollElement.current.scrollLeft += 300;
-    };
-
-    const scrollLeft = () => {
-        scrollElement.current.scrollLeft -= 300;
-    };
-
     return (
         <div className='mx-auto px-4 my-6 relative py-1'>
 
             <h1 className='font-semibold text-2xl py-2'>{heading}</h1>
 
-            <div className='flex items-center gap-2 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
-
-
-                <button onClick={scrollLeft} className='shadow-md p-1 rounded-full bg-white hover:bg-opacity-50 absolute left-0 hidden md:block '><MdArrowBackIosNew /></button>
-                <button onClick={scrollRight} className='shadow-md p-1 rounded-full bg-white hover:bg-opacity-50 absolute right-0 hidden md:block'><MdArrowForwardIos /></button>
-
+            <div className='grid grid-cols-[repeat(auto-fit,minmax(300px,320px))]  md:gap-6 overflow-scroll scrollbar-none transition-all'>
 
                 {
                     loading ? (

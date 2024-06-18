@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import displayINRCurrency from '../helpers/displayCurrency';
+import { CategoryWiseProductDisplay } from '../components/CategoryWiseProductDisplay';
 
 
 
@@ -21,14 +22,16 @@ const ProductDetails = () => {
 
     const [loading, setLoading] = useState(false);
     const [activeImage, setActiveImage] = useState("");
+    const [zoomImageCoordinate, setZoomImageCoordinate] = useState({ x: "", y: "" });
+    const [zoomImage, setZoomImage] = useState(false);
 
-
+    const productImageLoading = new Array(4).fill(null);
     const params = useParams();
 
     const fetchProductData = async () => {
         setLoading(true);
         const response = await axios.post(endPoints.getProductDetails.url, { productId: params?.id });
-        // setLoading(false);
+        setLoading(false);
         const productData = response?.data;
         if (productData?.success) {
             setData(productData?.data);
@@ -40,7 +43,24 @@ const ProductDetails = () => {
         setActiveImage(url);
     };
 
-    const productImageLoading = new Array(4).fill(null);
+    const handleImageZoom = useCallback((e) => {
+        setZoomImage(true);
+        const { top, left, width, height } = e.target.getBoundingClientRect();
+
+        const x = (e.clientX - left) / width;
+        const y = (e.clientY - top) / height;
+
+        setZoomImageCoordinate({
+            x,
+            y
+        });
+
+    }, [zoomImageCoordinate]);
+
+    const handleLeaveImageZoom = () => {
+        setZoomImage(false);
+    };
+
 
     useEffect(() => {
         fetchProductData();
@@ -49,7 +69,7 @@ const ProductDetails = () => {
     return (
         <div className='container mx-auto p-4'>
 
-            <div className='min-h-[200px] flex flex-col lg:flex-row gap-4 items-center justify-center'>
+            <div className='min-h-[200px] flex flex-col lg:flex-row gap-4 items-center'>
                 {/**product Image */}
                 <div className='h-96 flex flex-col lg:flex-row-reverse gap-4 rounded items-center justify-center'>
 
@@ -58,8 +78,27 @@ const ProductDetails = () => {
                             <div className='w-[300px] h-[300px] lg:h-96 lg:w-96 bg-slate-200 rounded flex items-center justify-center animate-pulse'>
                             </div>
                         ) : (
-                            <div className='w-[300px] h-[300px] lg:h-96 lg:w-96 bg-slate-200 rounded flex items-center justify-center'>
-                                <img src={activeImage} alt="" className='h-full w-full mix-blend-multiply object-scale-down ' />
+                            <div className='w-[300px] h-[300px] lg:h-96 lg:w-96 bg-slate-200 rounded flex items-center relative p-1'>
+                                <img src={activeImage} alt="" className='h-full w-full mix-blend-multiply object-scale-down ' onMouseMove={handleImageZoom} onMouseLeave={handleLeaveImageZoom} />
+
+                                {/**Product Zoom*/}
+                                {
+                                    zoomImage && (
+                                        <div className='hidden lg:block absolute min-w-[500px] min-h-[400px] bg-slate-200 p-1 -right-[510px] top-0 overflow-hidden'>
+
+                                            <div className='w-full h-full min-h-[400px] min-w-[500px] mix-blend-multiply scale-150' style={
+                                                {
+                                                    backgroundImage: `url(${activeImage})`,
+                                                    backgroundRepeat: "no-repeat",
+                                                    backgroundPosition: `${zoomImageCoordinate.x * 100}% ${zoomImageCoordinate.y * 100}%`
+                                                }
+                                            }>
+
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
                             </div>
                         )
                     }
@@ -168,6 +207,12 @@ const ProductDetails = () => {
                 }
 
             </div>
+
+            {
+                data?.category && (
+                    <CategoryWiseProductDisplay category={data?.category} heading={"Recommended Products"} />
+                )
+            }
 
         </div>
     )
