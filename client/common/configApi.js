@@ -44,15 +44,18 @@ const endPoints = {
         url: `${backendDomain}/get-category-product`,
         method: "GET"
     },
-    getCategoryWiseProducts:{
-        url:`${backendDomain}/get-categoryWise-product`,
-        method:"POST"
+    getCategoryWiseProducts: {
+        url: `${backendDomain}/get-categoryWise-product`,
+        method: "POST"
     },
-    getProductDetails:{
-        url:`${backendDomain}/get-product-details`,
-        method:"POST",
+    getProductDetails: {
+        url: `${backendDomain}/get-product-details`,
+        method: "POST",
     },
-
+    addToCartProduct: {
+        url: `${backendDomain}/addToCart`,
+        method: "POST"
+    },
 };
 
 export default endPoints;

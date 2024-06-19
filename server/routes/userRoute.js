@@ -10,6 +10,7 @@ import { updateProduct } from "../controllers/product/updateProduct.js";
 import { getCategoryProduct } from "../controllers/product/getCategorySingleProduct.js";
 import { getCategoryWiseProduct } from "../controllers/product/getCategoryWiseProduct.js";
 import { getProductDetails } from "../controllers/product/getProductDetails.js";
+import { addToCart } from "../controllers/user/addToCart.js";
 
 
 const router = express.Router();     
@@ -31,5 +32,8 @@ router.post("/update-product",authToken,updateProduct);
 router.get("/get-category-product",getCategoryProduct);
 router.post("/get-categoryWise-product",getCategoryWiseProduct);
 
+
+//Add to Cart
+router.post("/addToCart",authToken,addToCart);
 
 export default router;

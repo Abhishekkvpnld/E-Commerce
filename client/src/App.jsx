@@ -18,7 +18,7 @@ function App() {
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
 
-      if (current_user?.data?.data?.success) {
+      if (current_user?.data?.success) {
         dispatch(setUserDetails(current_user?.data?.data));
       };
 

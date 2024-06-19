@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 export const authToken = async (req, res, next) => {
     try {
-
         const token = req.cookies?.token || req.headers?.cookie;
 
         if (!token) {
@@ -10,7 +9,6 @@ export const authToken = async (req, res, next) => {
         };
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-
             if (err) {
                 throw new Error("auth error🔐")
             };

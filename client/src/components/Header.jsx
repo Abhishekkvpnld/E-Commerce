@@ -19,6 +19,7 @@ const Header = () => {
   const [menuDisplay, setMenuDisplay] = useState(false);
 
   const user = useSelector((state) => state?.user?.user);
+  console.log("user",user)
 
   const handleLogout = async () => {
     try {
@@ -31,8 +32,7 @@ const Header = () => {
       };
 
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.message)
     };
 
   };

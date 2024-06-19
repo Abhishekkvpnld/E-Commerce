@@ -68,7 +68,7 @@ const Login = () => {
                                     value={data.email}
                                     onChange={handleOnChange}
                                     required
-                                    id=""
+                                    id="email"
                                     placeholder='enter email'
                                     className='w-full h-full outline-none bg-transparent' />
                             </div>
@@ -83,7 +83,7 @@ const Login = () => {
                                     onChange={handleOnChange}
                                     required
                                     name="password"
-                                    id=""
+                                    id="password"
                                     placeholder='enter password'
                                     className='w-full h-full outline-none bg-transparent' />
 
