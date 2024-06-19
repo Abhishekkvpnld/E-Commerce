@@ -14,7 +14,7 @@ const Login = () => {
     const [data, setData] = useState({ email: "", password: "" });
 
     const navigate = useNavigate();
-    const { fetchUserDetails } = useContext(userContext);
+    const { fetchUserDetails, fetchAddToCart } = useContext(userContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -22,15 +22,15 @@ const Login = () => {
         try {
             const response = await axios.post(endPoints.logIn.url, data, { withCredentials: true });
 
-            if (response.data.success) {
-                toast.success(response.data.message);
+            if (response?.data?.success) {
+                toast.success(response?.data?.message);
                 navigate("/");
                 fetchUserDetails();
+                fetchAddToCart();
             };
 
         } catch (error) {
-            console.log(error.response.data.message || error);
-            toast.error(error.response.data.message || error)
+            toast.error(error?.response?.data?.message || error)
         };
     };
 

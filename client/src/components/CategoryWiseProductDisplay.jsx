@@ -1,22 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { getCategoryWiseProduct } from '../helpers/getCategoryWiseProducts';
 import displayINRCurrency from '../helpers/displayCurrency';
 import { MdArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 import addToCart from '../helpers/addToCart';
 import { Link } from 'react-router-dom';
+import userContext from '../context/userContext';
 
 
 
 export const CategoryWiseProductDisplay = ({ category, heading }) => {
 
-
-
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { fetchAddToCart } = useContext(userContext);
 
 
     const loadingList = new Array(13).fill(null);
+
+
+    const handleAddToCart = async (e, id) => {
+        await addToCart(e, id);
+        fetchAddToCart();
+    };
+
 
     const fetchData = async () => {
         setLoading(true);
@@ -45,7 +52,7 @@ export const CategoryWiseProductDisplay = ({ category, heading }) => {
                             <div key={index} className='bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] rounded-sm shadow'>
 
                                 <div className='bg-slate-200 h-48 p-3 min-w-[28 0px] md:min-w-[145px] flex items-center justify-center animate-pulse'>
-                                    
+
                                 </div>
 
                                 <div className='p-4 grid gap-2'>
@@ -67,7 +74,7 @@ export const CategoryWiseProductDisplay = ({ category, heading }) => {
                     ) : (
                         data?.map((product, index) => (
 
-                            <Link to={"/product-details/"+product?._id} key={index} className='bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] rounded-sm shadow'>
+                            <Link to={"/product-details/" + product?._id} key={index} className='bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] rounded-sm shadow'>
 
                                 <div className='bg-slate-200 h-48 p-3 min-w-[28 0px] md:min-w-[145px] flex items-center justify-center'>
                                     <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down hover:scale-110 transition-all' />
@@ -83,7 +90,7 @@ export const CategoryWiseProductDisplay = ({ category, heading }) => {
                                         <p className='text-red-500 line-through'>{displayINRCurrency(product?.price)}</p>
                                     </div>
 
-                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e)=>addToCart(e,product?._id)}>Add to Cart</button>
+                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
 
                                 </div>
 

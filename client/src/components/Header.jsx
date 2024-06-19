@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import Logo from './Logo';
@@ -9,17 +9,19 @@ import endPoints from '../../common/configApi';
 import toast from "react-hot-toast";
 import { setUserDetails } from "../redux/userSlice";
 import { ROLE } from "../../common/role";
+import userContext from '../context/userContext';
 
 
 const Header = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const context = useContext(userContext);
+
 
   const [menuDisplay, setMenuDisplay] = useState(false);
-
   const user = useSelector((state) => state?.user?.user);
-  console.log("user",user)
+
 
   const handleLogout = async () => {
     try {
@@ -56,15 +58,21 @@ const Header = () => {
 
         <div className='flex items-center gap-7'>
 
-          <div className='text-2xl rounded-lg cursor-pointer hover:bg-gray-200 relative m-5 p-1'>
-            <span> <IoCartOutline /></span>
-            <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-2 -right-3 '>
-              <p className='text-sm'>0</p>
-            </div>
-          </div>
+
+          {
+            user?._id && (
+              <div className='text-2xl rounded-lg cursor-pointer hover:bg-gray-200 relative m-5 p-1'>
+                <span> <IoCartOutline /></span>
+                <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-2 -right-3 '>
+                  <p className='text-sm'>{context?.cartProductCount}</p>
+                </div>
+
+              </div>
+            )
+          }
+
 
           <div className='relative group flex justify-center' onClick={() => setMenuDisplay((prev) => !prev)}>
-
 
             {
               user?._id && (
@@ -80,7 +88,7 @@ const Header = () => {
 
 
             {
-              user?.role === ROLE.ADMIN && menuDisplay &&(
+              user?.role === ROLE.ADMIN && menuDisplay && (
                 <div className='absolute bottom-0 mt-3 top-11 h-fit px-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 hidden md:block'>
                   <nav>
                     <Link to={"/admin-panel"} className='whitespace-nowrap p-2 hidden md:block'>Admin-Panel</Link>
@@ -89,9 +97,8 @@ const Header = () => {
               )
             }
 
-
-
           </div>
+
 
           {
             user?._id ? (
@@ -103,7 +110,7 @@ const Header = () => {
             ) : (
               <Link to={"/login"}>
                 <div>
-                  <button className='px-3 py-1 rounded-full text-white bg-green-500 hover:bg-green-600'>
+                  <button className='px-4 py-1 rounded text-white bg-green-500 hover:bg-green-600'>
                     Login
                   </button>
                 </div>

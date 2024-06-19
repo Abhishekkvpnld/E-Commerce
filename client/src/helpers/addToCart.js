@@ -10,7 +10,7 @@ const addToCart = async (e, id) => {
     try {
         const response = await axios.post(endPoints.addToCartProduct.url, { productId: id }, { withCredentials: true });
         const savedData = response?.data;
-        console.log("response", response)
+
         if (savedData?.success) {
             toast.success(savedData?.message)
         }
@@ -18,6 +18,8 @@ const addToCart = async (e, id) => {
         if (savedData?.error) {
             toast.error(savedData?.message);
         }
+
+        return savedData;
 
 
     } catch (error) {

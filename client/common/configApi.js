@@ -56,6 +56,10 @@ const endPoints = {
         url: `${backendDomain}/addToCart`,
         method: "POST"
     },
+    countAddToCartProduct: {
+        url: `${backendDomain}/count-addtocart-product`,
+        method: "GET"
+    }
 };
 
 export default endPoints;
