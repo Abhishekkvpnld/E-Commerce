@@ -14,6 +14,7 @@ import AllUsers from './pages/AllUsers.jsx';
 import AllProducts from './pages/AllProducts.jsx';
 import CategoryProduct from './pages/CategoryProduct.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
+import Cart from './pages/Cart.jsx';
 
 
 const router = createBrowserRouter([
@@ -43,7 +44,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/product-details/:id",
-        element:<ProductDetails/>
+        element: <ProductDetails />
+      },
+      {
+        path: "/cart",
+        element: <Cart />
       },
       {
         path: "/admin-panel",

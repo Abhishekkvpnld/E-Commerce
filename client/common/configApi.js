@@ -59,7 +59,11 @@ const endPoints = {
     countAddToCartProduct: {
         url: `${backendDomain}/count-addtocart-product`,
         method: "GET"
-    }
+    },
+    cartViewProduct: {
+        url: `${backendDomain}/view-cart-product`,
+        method: "GET"
+    },
 };
 
 export default endPoints;
