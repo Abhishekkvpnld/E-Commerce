@@ -64,6 +64,14 @@ const endPoints = {
         url: `${backendDomain}/view-cart-product`,
         method: "GET"
     },
+    updateCartProduct: {
+        url: `${backendDomain}/update-cart-product`,
+        method: "POST"
+    },
+    deleteCartProduct:{
+        url:`${backendDomain}/delete-cart-product`,
+        method:"POST"
+    }
 };
 
 export default endPoints;

@@ -51,8 +51,8 @@ const Header = () => {
 
         <div className='hidden lg:flex items-center rounded-full '>
           <input type="text" placeholder='searc products here...' className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
-          <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 flex items-center justify-center rounded-full text-white '>
-            <CiSearch />
+          <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 hover:bg-blue-700 flex items-center justify-center rounded-full text-white '>
+            <CiSearch className='hover:scale-110 transition-all' />
           </div>
         </div>
 
@@ -61,8 +61,8 @@ const Header = () => {
 
           {
             user?._id && (
-              <Link to={"/cart"} className='text-2xl rounded-lg cursor-pointer hover:bg-gray-200 relative m-5 p-1'>
-                <span> <IoCartOutline /></span>
+              <Link to={"/cart"} className='text-2xl rounded-full cursor-pointer hover:bg-gray-200 relative m-5 p-2'>
+                <span> <IoCartOutline  className='hover:scale-110 transition-all' /></span>
                 <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-2 -right-3 '>
                   <p className='text-sm'>{context?.cartProductCount}</p>
                 </div>
@@ -76,7 +76,7 @@ const Header = () => {
 
             {
               user?._id && (
-                <div className='text-2xl rounded-lg border cursor-pointer hover:bg-green-50 p-1 flex relative justify-center'>
+                <div className='text-2xl rounded-full border cursor-pointer hover:bg-slate-500 p-1 flex relative justify-center'>
                   {
                     user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
                     ) : (<CiUser />)
@@ -103,14 +103,14 @@ const Header = () => {
           {
             user?._id ? (
               <div>
-                <button onClick={handleLogout} className='px-3 py-1 rounded text-white bg-red-500 hover:bg-green-600'>
+                <button onClick={handleLogout} className='px-3 py-1 rounded-lg border-2 hover:bg-red-600 hover:text-white'>
                   logout
                 </button>
               </div>
             ) : (
               <Link to={"/login"}>
                 <div>
-                  <button className='px-4 py-1 rounded text-white bg-green-500 hover:bg-green-600'>
+                  <button className='px-4 py-1 rounded-lg border-2 hover:bg-green-600 hover:text-white'>
                     Login
                   </button>
                 </div>
