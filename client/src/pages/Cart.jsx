@@ -5,6 +5,7 @@ import userContext from '../context/userContext';
 import displayCurrency from "../helpers/displayCurrency";
 import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlinePayment } from "react-icons/md";
 
 
 
@@ -91,7 +92,11 @@ const Cart = () => {
         } catch (error) {
             console.log(error);
         };
-    }
+    };
+
+
+    const totalQuantity = data?.reduce((prev, current) => prev + current?.quantity, 0);
+    const totalPrice = data?.reduce((prev, current) => prev + (current?.quantity * current?.productId?.sellingPrice), 0);
 
 
     return (
@@ -117,10 +122,10 @@ const Cart = () => {
                             ))
                         ) : (
                             data?.map((product, index) => (
-                                <div key={product?._id + index} className='w-full bg-slate-50 h-32 my-2 border border-slate-300 rounded grid grid-cols-[130px,1fr]'>
+                                <div key={product?._id + index} className='w-full h-40 bg-slate-50 md:h-32  my-2 border border-slate-300 rounded grid grid-cols-[130px,1fr]'>
 
                                     <div className='w-28 h-full border border-slate-300'>
-                                        <img src={product?.productId?.productImage[0]} alt="" className='bg-slate-200 max-h-32 p-1 w-full h-full mix-blend-multiply object-scale-down' />
+                                        <img src={product?.productId?.productImage[0]} alt="" className='bg-slate-200 max-h-40 md:max-h-32 p-1 w-full h-full mix-blend-multiply object-scale-down' />
                                     </div>
 
                                     <div className='py-1 px-4 relative mx-2'>
@@ -132,7 +137,10 @@ const Cart = () => {
 
                                         <h2 className='text-lg md:text-xl text-ellipsis line-clamp-1 font-semibold'> {product?.productId?.productName}</h2>
                                         <p className='capitalize text-slate-500'>{product?.productId?.category}</p>
-                                        <p className='text-blue-700'>{displayCurrency(product?.productId?.sellingPrice)}</p>
+                                        <div className='flex flex-col md:flex-row justify-between'>
+                                            <p className='text-blue-700 font-semibold'>{displayCurrency(product?.productId?.sellingPrice)}</p>
+                                            <p className='text-slate-500 font-semibold'><span className='text-black'>total : </span> {displayCurrency(product?.productId?.sellingPrice * product?.quantity)}</p>
+                                        </div>
 
 
                                         <div className='flex items-center gap-3 mt-2'>
@@ -165,7 +173,25 @@ const Cart = () => {
                             </div>
                         ) : (
 
-                            <div className='h-36 bg-white rounded border border-slate-300'>
+                            <div className='h-36 bg-slate-100 rounded border border-slate-300'>
+                                <h1 className='text-center font-bold py-2 bg-slate-600 text-white'>Summary</h1>
+
+                                <div className='flex p-2 justify-between items-center'>
+                                    <p className='font-bold'>Quantity :</p>
+                                    <p className='font-semibold'>{totalQuantity}</p>
+                                </div>
+
+                                <div className='flex p-2 justify-between items-center'>
+                                    <p className='font-bold'>Total Price :</p>
+                                    <p className='text-slate-600 font-semibold'>{displayCurrency(totalPrice)}</p>
+                                </div>
+
+                                <div className='bg-blue-600 w-full h-12 flex items-center justify-center cursor-pointer hover:bg-blue-700'>
+                                    <button className=' text-white font-semibold text-xl'> <MdOutlinePayment /></button>
+                                    <p className='text-white font-semibold text-lg m-1'>Payment</p>
+                                </div>
+
+
                             </div>
                         )
                     }
