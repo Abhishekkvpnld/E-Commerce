@@ -100,7 +100,7 @@ const Cart = () => {
 
 
     return (
-        <div className='mx-auto p-6 bg-white'>
+        <div className='mx-auto p-4 bg-white'>
             <div className='text-center text-xl my-4'>
                 {
                     data?.length === 0 && !loading && (

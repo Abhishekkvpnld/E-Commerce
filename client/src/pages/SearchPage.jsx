@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import endPoints from '../../common/configApi';
 import toast from 'react-hot-toast';
+import SearchVerticalProducts from '../components/SearchVerticalProducts';
 
 
 const SearchPage = () => {
@@ -42,9 +43,7 @@ const SearchPage = () => {
 
             {
                 data?.length !== 0 && !loading && (
-                    data?.map((product, index) => {
-
-                    })
+                    <SearchVerticalProducts data={data} loading={loading} />
                 )
             }
 
