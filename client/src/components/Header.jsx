@@ -39,6 +39,19 @@ const Header = () => {
 
   };
 
+
+  const handleSearch = async (e) => {
+    const { value } = e.target;
+   
+    if(value){
+      navigate(`/search?q=${value}`);
+    }else{
+      navigate("/search")
+    }
+  }
+
+
+
   return (
     <header className='h-16 shadow-md fixed  bg-white w-full z-50 '>
       <div className="h-full container mx-auto flex items-center px-3 justify-between">
@@ -49,8 +62,8 @@ const Header = () => {
           </div>
         </Link>
 
-        <div className='hidden lg:flex items-center rounded-full '>
-          <input type="text" placeholder='searc products here...' className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
+        <div className='hidden md:flex items-center rounded-full '>
+          <input type="text" placeholder='searc products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
           <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 hover:bg-blue-700 flex items-center justify-center rounded-full text-white '>
             <CiSearch className='hover:scale-110 transition-all' />
           </div>
@@ -62,8 +75,8 @@ const Header = () => {
           {
             user?._id && (
               <Link to={"/cart"} className='text-2xl rounded-full cursor-pointer hover:bg-gray-200 relative m-5 p-2'>
-                <span> <IoCartOutline  className='hover:scale-110 transition-all' /></span>
-                <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-2 -right-3 '>
+                <span> <IoCartOutline className='hover:scale-110 transition-all' /></span>
+                <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-1 -right-2 '>
                   <p className='text-sm'>{context?.cartProductCount}</p>
                 </div>
 

@@ -68,9 +68,13 @@ const endPoints = {
         url: `${backendDomain}/update-cart-product`,
         method: "POST"
     },
-    deleteCartProduct:{
-        url:`${backendDomain}/delete-cart-product`,
-        method:"POST"
+    deleteCartProduct: {
+        url: `${backendDomain}/delete-cart-product`,
+        method: "POST"
+    },
+    searchProducts: {
+        url: `${backendDomain}/search-products`,
+        method: "POST"
     }
 };
 

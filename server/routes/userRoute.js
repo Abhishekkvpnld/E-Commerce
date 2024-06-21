@@ -15,6 +15,7 @@ import { countAddToCartProduct } from "../controllers/user/countAddToCartProduct
 import { addToCartViewProducts } from "../controllers/user/addToCartViewProduct.js";
 import { changeCountAddToCartproduct } from "../controllers/user/changeCountAddToCartproduct.js";
 import { deleteCartProduct } from "../controllers/user/deleteCartProduct.js";
+import { searchProducts } from "../controllers/product/searchProducts.js";
 
 
 const router = express.Router();     
@@ -25,7 +26,7 @@ router.get("/user-logout",userLogout);
 
 //Product Details
 router.post("/get-product-details",getProductDetails);
-
+router.post("/search-products",searchProducts);
 
 //Admin routes
 router.get("/all-users",authToken,allUsers);
