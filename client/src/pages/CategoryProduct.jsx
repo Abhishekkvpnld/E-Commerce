@@ -22,8 +22,9 @@ const CategoryProduct = () => {
 
     const [selectedCategory, setSelectedCategory] = useState(urlCategoryListObject);
     const [filterCategoryList, setFilterCategoryList] = useState([]);
+    const [sortBy, setSortBy] = useState("");
 
-
+    console.log(sortBy)
     const fetchData = async () => {
         try {
             setLoading(true);
@@ -50,6 +51,24 @@ const CategoryProduct = () => {
             }
         });
     };
+
+
+    const handleChangeSortBy = (e) => {
+        const { value } = e?.target;
+        setSortBy(value);
+
+        if (sortBy === "asc") {
+            setData((prev) => prev.sort((a, b) => b.sellingPrice - a.sellingPrice));
+        };
+
+        if (sortBy === "dsc") {
+            setData((prev) => prev.sort((a, b) => a?.sellingPrice - b?.sellingPrice));
+        };
+    };
+
+
+    useEffect(() => {
+    }, [sortBy]);
 
 
     useEffect(() => {
@@ -95,12 +114,12 @@ const CategoryProduct = () => {
                         <form className='text-sm py-2 gap-2 flex flex-col' >
 
                             <div className='flex items-center gap-2'>
-                                <input type="radio" name='sortby' className='cursor-pointer' />
+                                <input type="radio" name='sortby' className='cursor-pointer' checked={sortBy === "asc"} value={"asc"} onChange={handleChangeSortBy} />
                                 <label className='font-semibold' > Price - Low to High</label>
                             </div>
 
                             <div className='flex items-center gap-2'>
-                                <input type="radio" name='sortby' className='cursor-pointer' />
+                                <input type="radio" name='sortby' className='cursor-pointer' checked={sortBy === "dsc"} value={"dsc"} onChange={handleChangeSortBy} />
                                 <label className='font-semibold' > Price - High to Low</label>
                             </div>
 
@@ -128,22 +147,22 @@ const CategoryProduct = () => {
                         </form>
                     </div>
 
-                    
+
 
                 </div>
 
                 {/**Right section -- Product display */}
                 <div className='p-1 overflow-y-scroll'>
-                   
-                   <p className='font-medium my-2 text-lg mx-2 text-slate-700'>Search Results : {data?.length}</p>
 
-                   <div className='min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]'>
-                   {
-                        data?.length !== 0 && (
-                            <SearchVerticalProducts data={data} loading={loading}/>
-                        )
-                    }
-                   </div>
+                    <p className='font-medium my-2 text-lg mx-2 text-slate-700'>Search Results : {data?.length}</p>
+
+                    <div className='min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]'>
+                        {
+                            data?.length !== 0 && (
+                                <SearchVerticalProducts data={data} loading={loading} />
+                            )
+                        }
+                    </div>
                 </div>
 
             </div>

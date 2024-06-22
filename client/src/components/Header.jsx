@@ -17,13 +17,13 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const context = useContext(userContext);
-  const searchInput = useLocation()
-
-  console.log(searchInput?.search.split("=")[1])
+  const searchInput = useLocation();
+  const URLSearch = new URLSearchParams(searchInput?.search);
+  const searchQuery = URLSearch.getAll("q")
 
 
   const [menuDisplay, setMenuDisplay] = useState(false);
-  const [search, setSearch] = useState(searchInput?.search?.split("=")[1]);
+  const [search, setSearch] = useState(searchQuery);
   const user = useSelector((state) => state?.user?.user);
 
 
