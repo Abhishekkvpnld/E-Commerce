@@ -40,7 +40,7 @@ const router = createBrowserRouter([
         element: <Signup />
       },
       {
-        path: "/product-category/:categoryName",
+        path: "/product-category",
         element: <CategoryProduct />
       },
       {

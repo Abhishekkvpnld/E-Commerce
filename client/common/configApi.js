@@ -75,7 +75,11 @@ const endPoints = {
     searchProducts: {
         url: `${backendDomain}/search-products`,
         method: "POST"
-    }
+    },
+    filterProducts:{
+        url:`${backendDomain}/filter-products`,
+        method:"POST"
+    },
 };
 
 export default endPoints;

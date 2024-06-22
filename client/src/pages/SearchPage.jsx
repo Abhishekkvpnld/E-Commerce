@@ -26,7 +26,7 @@ const SearchPage = () => {
     }, [query]);
 
     return (
-        <div className='mx-auto p-4'>
+        <div className='mx-auto p-4 py-2'>
 
             {
                 loading && (
@@ -34,7 +34,7 @@ const SearchPage = () => {
                 )
             }
 
-            <p>Search results : {data?.length}</p>
+            <p className='text-lg font-semibold'>Search results : {data?.length}</p>
             {
                 data?.length === 0 && !loading && (
                     <p className='text-center p-4 text-lg font-semibold'>No Products Found</p>

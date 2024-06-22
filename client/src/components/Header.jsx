@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
 import Logo from './Logo';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 import endPoints from '../../common/configApi';
@@ -17,9 +17,13 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const context = useContext(userContext);
+  const searchInput = useLocation()
+
+  console.log(searchInput?.search.split("=")[1])
 
 
   const [menuDisplay, setMenuDisplay] = useState(false);
+  const [search, setSearch] = useState(searchInput?.search?.split("=")[1]);
   const user = useSelector((state) => state?.user?.user);
 
 
@@ -42,10 +46,11 @@ const Header = () => {
 
   const handleSearch = async (e) => {
     const { value } = e.target;
-   
-    if(value){
+    setSearch(value);
+
+    if (value) {
       navigate(`/search?q=${value}`);
-    }else{
+    } else {
       navigate("/search")
     }
   }
@@ -63,7 +68,7 @@ const Header = () => {
         </Link>
 
         <div className='hidden md:flex items-center rounded-full '>
-          <input type="text" placeholder='searc products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
+          <input type="text" value={search} placeholder='searc products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
           <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 hover:bg-blue-700 flex items-center justify-center rounded-full text-white '>
             <CiSearch className='hover:scale-110 transition-all' />
           </div>
@@ -89,7 +94,7 @@ const Header = () => {
 
             {
               user?._id && (
-                <div className='text-2xl rounded-full border cursor-pointer hover:bg-slate-500 p-1 flex relative justify-center'>
+                <div className='text-2xl rounded-full border cursor-pointer hover:bg-yellow-600 p-1 flex relative justify-center'>
                   {
                     user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
                     ) : (<CiUser />)
