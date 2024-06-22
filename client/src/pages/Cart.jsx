@@ -125,7 +125,7 @@ const Cart = () => {
                                 <div key={product?._id + index} className='w-full h-40 bg-slate-50 md:h-32  my-2 border border-slate-300 rounded grid grid-cols-[130px,1fr]'>
 
                                     <div className='w-28 h-full border border-slate-300'>
-                                        <img src={product?.productId?.productImage[0]} alt="" className='bg-slate-200 max-h-40 md:max-h-32 p-1 w-full h-full mix-blend-multiply object-scale-down' />
+                                        <img src={product?.productId?.productImage[0]} alt="" className='bg-slate-200  mix-blend-multiply object-scale-down max-h-40 md:max-h-32 p-1 w-full h-full' />
                                     </div>
 
                                     <div className='py-1 px-4 relative mx-2'>

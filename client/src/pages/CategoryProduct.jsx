@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import productCategory from '../helpers/productCategory';
 import SearchVerticalProducts from '../components/SearchVerticalProducts';
 import axios from 'axios';
@@ -7,7 +7,8 @@ import endPoints from '../../common/configApi';
 
 
 const CategoryProduct = () => {
-    const params = useParams()
+
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
@@ -29,8 +30,6 @@ const CategoryProduct = () => {
             const response = await axios.post(endPoints?.filterProducts?.url, { category: filterCategoryList });
             const responseData = response?.data;
             setLoading(false);
-
-            console.log(responseData);
 
             setData(responseData?.data || []);
 
@@ -68,8 +67,16 @@ const CategoryProduct = () => {
                 return null
             }).filter((el) => el);
             setFilterCategoryList(arrayOfCategory);
-        }
 
+            const urlFormat = arrayOfCategory.map((el, index) => {
+                if ((arrayOfCategory.length - 1) === index) {
+                    return `category=${el}`;
+                }
+                return `category=${el}&&`;
+            });
+            navigate("/product-category?" + urlFormat.join(""));
+
+        };
     }, [selectedCategory]);
 
     return (
@@ -79,7 +86,7 @@ const CategoryProduct = () => {
             <div className='hidden md:grid grid-cols-[250px,1fr]'>
 
                 {/**Left section */}
-                <div className='p-2 min-h-[calc(100vh-110px)] overflow-y-scroll'>
+                <div className='p-2 min-h-[calc(100vh-110px)] overflow-y-scroll max-h-[calc(100vh-110px)]'>
 
                     {/**Sort by */}
                     <div>
@@ -99,7 +106,6 @@ const CategoryProduct = () => {
 
                         </form>
                     </div>
-
 
 
                     {/** Category */}
@@ -122,15 +128,22 @@ const CategoryProduct = () => {
                         </form>
                     </div>
 
+                    
+
                 </div>
 
                 {/**Right section -- Product display */}
-                <div className='bg-slate-50 p-2'>
-                    {
-                        data?.length !== 0 && !loading && (
-                            <div></div>
+                <div className='p-1 overflow-y-scroll'>
+                   
+                   <p className='font-medium my-2 text-lg mx-2 text-slate-700'>Search Results : {data?.length}</p>
+
+                   <div className='min-h-[calc(100vh-120px)] overflow-y-scroll max-h-[calc(100vh-120px)]'>
+                   {
+                        data?.length !== 0 && (
+                            <SearchVerticalProducts data={data} loading={loading}/>
                         )
                     }
+                   </div>
                 </div>
 
             </div>
