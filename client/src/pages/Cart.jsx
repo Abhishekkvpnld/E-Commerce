@@ -173,30 +173,50 @@ const Cart = () => {
                 <div className='mt-5 lg:mt-0 w-full max-w-sm'>
                     {
                         loading ? (
-                            <div className='h-36 bg-slate-200 animate-pulse rounded border border-slate-300'>
-                            </div>
-                        ) : (
-
-                            <div className='h-36 bg-slate-100 rounded border border-slate-300'>
-                                <h1 className='text-center font-bold py-2 bg-slate-600 text-white'>Summary</h1>
+                            <div className='h-36 bg-slate-200 rounded border border-slate-300'>
+                                <h1 className=' py-2 bg-slate-200'></h1>
 
                                 <div className='flex p-2 justify-between items-center'>
-                                    <p className='font-bold'>Quantity :</p>
-                                    <p className='font-semibold'>{totalQuantity}</p>
+                                    <p className='font-bold text-slate-400 cursor-default'>Quantity :</p>
+                                    <p className='font-semibold text-slate-400 cursor-default'>0</p>
                                 </div>
 
                                 <div className='flex p-2 justify-between items-center'>
-                                    <p className='font-bold'>Total Price :</p>
-                                    <p className='text-slate-600 font-semibold'>{displayCurrency(totalPrice)}</p>
+                                    <p className='font-bold text-slate-400 cursor-default'>Total Price :</p>
+                                    <p className='text-slate-400 font-semibold cursor-default'>{displayCurrency(0)}</p>
                                 </div>
 
-                                <div className='bg-blue-600 w-full h-12 flex items-center justify-center cursor-pointer hover:bg-blue-700'>
-                                    <button className=' text-white font-semibold text-xl'> <MdOutlinePayment /></button>
-                                    <p className='text-white font-semibold text-lg m-1'>Payment</p>
+                                <div className='bg-slate-400 w-full h-12 flex items-center justify-center'>
+                                    <button className=' text-slate-500 font-semibold text-xl cursor-default'> <MdOutlinePayment /></button>
+                                    <p className='text-slate-500 font-semibold text-lg m-1 cursor-default'>Payment</p>
                                 </div>
 
 
                             </div>
+                        ) : (
+                            totalQuantity > 0 && (
+
+                                <div className='h-36 bg-slate-100 rounded border border-slate-300'>
+                                    <h1 className='text-center font-bold py-2 bg-slate-600 text-white'>Summary</h1>
+
+                                    <div className='flex p-2 justify-between items-center'>
+                                        <p className='font-bold'>Quantity :</p>
+                                        <p className='font-semibold'>{totalQuantity}</p>
+                                    </div>
+
+                                    <div className='flex p-2 justify-between items-center'>
+                                        <p className='font-bold'>Total Price :</p>
+                                        <p className='text-slate-600 font-semibold'>{displayCurrency(totalPrice)}</p>
+                                    </div>
+
+                                    <div className='bg-blue-600 w-full h-12 flex items-center justify-center cursor-pointer hover:bg-blue-700'>
+                                        <button className=' text-white font-semibold text-xl'> <MdOutlinePayment /></button>
+                                        <p className='text-white font-semibold text-lg m-1'>Payment</p>
+                                    </div>
+
+
+                                </div>
+                            )
                         )
                     }
                 </div>

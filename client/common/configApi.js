@@ -76,9 +76,13 @@ const endPoints = {
         url: `${backendDomain}/search-products`,
         method: "POST"
     },
-    filterProducts:{
-        url:`${backendDomain}/filter-products`,
-        method:"POST"
+    filterProducts: {
+        url: `${backendDomain}/filter-products`,
+        method: "POST"
+    },
+    payment: {
+        url: `${backendDomain}/checkout`,
+        method: "POST"
     },
 };
 

@@ -5,7 +5,7 @@ export const addToCart = async (req, res) => {
         const { productId } = req?.body;
         const currentUser = req?.user?.id;
 
-        const isProductAvailableInCart = await cartModel.findOne({ productId });
+        const isProductAvailableInCart = await cartModel.findOne({ productId,userId:currentUser });
 
         if (isProductAvailableInCart) {
             throw new Error("Already exits in Add to cart...🤦");
