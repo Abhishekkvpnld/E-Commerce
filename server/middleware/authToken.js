@@ -5,7 +5,7 @@ export const authToken = async (req, res, next) => {
         const token = req.cookies?.token || req.headers?.cookie;
 
         if (!token) {
-            throw new Error('Access denied.User not login..🔐');
+            throw new Error('Please login first..🔐');
         };
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {

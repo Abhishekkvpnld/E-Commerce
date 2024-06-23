@@ -20,9 +20,8 @@ const Cart = () => {
     const fetchCartData = async () => {
 
         try {
-            setLoading(true);
+
             const response = await axios.get(endPoints.cartViewProduct.url, { withCredentials: true });
-            setLoading(false);
             const fetchData = response?.data;
 
             if (fetchData?.success) {
@@ -34,9 +33,14 @@ const Cart = () => {
         };
     };
 
+    const handleLoading = async () => {
+        await fetchCartData();
+    };
 
     useEffect(() => {
-        fetchCartData();
+        setLoading(true);
+        handleLoading();
+        setLoading(false);
     }, []);
 
 
