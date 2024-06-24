@@ -6,6 +6,7 @@ import displayCurrency from "../helpers/displayCurrency";
 import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlinePayment } from "react-icons/md";
+import { loadStripe } from '@stripe/stripe-js';
 
 
 
@@ -91,6 +92,25 @@ const Cart = () => {
                 fetchCartData();
                 contexts?.fetchAddToCart();
                 toast.success(responseData?.message)
+            };
+
+        } catch (error) {
+            console.log(error);
+        };
+    };
+
+
+    const handlePayment = async () => {
+
+        const stripePromise = await loadStripe("pk_test_51PUtq8F3ve2G57TDVhN9ZthiQRGIlsrVu0RBhN8BK7deXYwN3T9FrwL8AmciqeZHT47Ef9yaYZSveDZi92ywKXbe00dOwVapbq");
+
+        try {
+            const response = await axios.post(endPoints?.payment.url, { cartItems: data }, { withCredentials: true });
+            const responseData = response?.data;
+            console.log(responseData);
+
+            if (responseData?.id) {
+                stripePromise.redirectToCheckout({ sessionId: responseData?.id });
             };
 
         } catch (error) {
@@ -209,7 +229,7 @@ const Cart = () => {
                                         <p className='text-slate-600 font-semibold'>{displayCurrency(totalPrice)}</p>
                                     </div>
 
-                                    <div className='bg-blue-600 w-full h-12 flex items-center justify-center cursor-pointer hover:bg-blue-700'>
+                                    <div className='bg-blue-600 w-full h-12 flex items-center justify-center cursor-pointer hover:bg-blue-700' onClick={handlePayment}>
                                         <button className=' text-white font-semibold text-xl'> <MdOutlinePayment /></button>
                                         <p className='text-white font-semibold text-lg m-1'>Payment</p>
                                     </div>
