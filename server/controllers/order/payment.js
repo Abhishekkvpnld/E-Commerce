@@ -21,6 +21,9 @@ export const payment = async (req, res) => {
                 }
             ],
             customer_email: email,
+            metadata:{
+                userId:req?.user?.id
+            },
             line_items: cartItems.map((product) => ({
                 price_data: {
                     currency: "inr",

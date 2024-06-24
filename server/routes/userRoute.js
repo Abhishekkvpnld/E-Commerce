@@ -18,6 +18,7 @@ import { deleteCartProduct } from "../controllers/user/deleteCartProduct.js";
 import { searchProducts } from "../controllers/product/searchProducts.js";
 import { filterProduct } from "../controllers/product/filterProduct.js";
 import { payment } from "../controllers/order/payment.js";
+import { webhooks } from "../controllers/order/webhook.js";
 
 
 const router = express.Router();     
@@ -51,5 +52,6 @@ router.post("/delete-cart-product",authToken,deleteCartProduct);
 
 //Payment and CheckOut
 router.post("/checkout",authToken,payment);
+router.post("/webhook",webhooks);
 
 export default router;

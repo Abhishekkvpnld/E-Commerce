@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlinePayment } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
+import paymentLoadingGif from "../assest/paymentLoading.gif";
 
 
 
@@ -14,6 +15,7 @@ const Cart = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [paymentLoading, setPaymentLoading] = useState(false);
     const contexts = useContext(userContext);
     const loadingCart = new Array(contexts?.cartProductCount).fill(null);
 
@@ -105,11 +107,13 @@ const Cart = () => {
         const stripePromise = await loadStripe("pk_test_51PUtq8F3ve2G57TDVhN9ZthiQRGIlsrVu0RBhN8BK7deXYwN3T9FrwL8AmciqeZHT47Ef9yaYZSveDZi92ywKXbe00dOwVapbq");
 
         try {
+            setPaymentLoading(true);
             const response = await axios.post(endPoints?.payment.url, { cartItems: data }, { withCredentials: true });
             const responseData = response?.data;
             console.log(responseData);
-
+            
             if (responseData?.id) {
+                setPaymentLoading(false);
                 stripePromise.redirectToCheckout({ sessionId: responseData?.id });
             };
 
@@ -242,6 +246,17 @@ const Cart = () => {
                 </div>
 
             </div>
+
+
+            {/**  payment section loading Animation */}
+            {
+                paymentLoading && (
+                    <div className='absolute z-50 left-0 right-0 top-0 bottom-0 flex flex-col items-center justify-center bg-white'>
+                        <h1 className='text-xl font-semibold'>Payment...</h1>
+                        <img className='max-w-[100] max-h-[400px] w-400px h-400px' src={paymentLoadingGif} alt="loading.." />
+                    </div>
+                )
+            }
 
         </div>
     )
