@@ -1,9 +1,6 @@
-
 import stripe from "../../config/stripe.js";
 import orderModel from "../../models/orderModel.js";
 
-// Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = "whsec_29d361d45bd500e2471703826c2203dc01fe948a4aba28050e62446e4ce84516";
 
 const getLineItems = async (lineItems) => {
     const productItems = [];
@@ -11,13 +8,13 @@ const getLineItems = async (lineItems) => {
     if (lineItems?.data?.length) {
         for (const items of lineItems?.data) {
 
-            const product = await stripe.products.retrieve(items.price.products);
+            const product = await stripe.products.retrieve(items?.price?.product);
             const productId = product.metadata.productId;
 
             const productData = {
                 productId: productId,
                 name: product.name,
-                price: items.price.unit_amount,
+                price: items.price.unit_amount / 100,
                 quantity: items.quantity,
                 image: product.images
             }
@@ -32,9 +29,13 @@ const getLineItems = async (lineItems) => {
 
 
 export const webhooks = async (req, res) => {
-    const sig = request.headers['stripe-signature'];
 
-    const payloadString = JSON.parse(req.body);
+    // Stripe CLI webhook secret for testing your endpoint locally.
+    const endpointSecret = process.env.STRIPE_END_POINT_WEBHOOK_SECRET_KEY;
+
+    const sig = req.headers['stripe-signature'];
+
+    const payloadString = JSON.stringify(req?.body);
 
     const header = stripe.webhooks.generateTestHeaderString({
         payload: payloadString,
@@ -44,12 +45,14 @@ export const webhooks = async (req, res) => {
     let event;
 
     try {
-        event = stripe.webhooks.constructEvent(request.body, header, endpointSecret);
-    } catch (err) {
-        response.status(400).send(`Webhook Error: ${err.message}`);
-        return;
-    };
+        // Retrieve the raw body for signature verification 
+        event = stripe.webhooks.constructEvent(payloadString, header, endpointSecret);
 
+    } catch (err) {
+        console.error(`Webhook signature verification failed.`, err.message);
+        res.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+    }
 
     // Handle the event
     switch (event.type) {
@@ -59,6 +62,7 @@ export const webhooks = async (req, res) => {
             const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
             const productDetails = await getLineItems(lineItems);
+            console.log("productDetails", productDetails);
 
             const orderDetails = {
                 productDetails: productDetails,
@@ -69,19 +73,23 @@ export const webhooks = async (req, res) => {
                     payment_method_type: session?.payment_method_types,
                     payment_status: session?.payment_status
                 },
-                shipping_options: session?.shipping_options,
-                totalAmount: session?.amount_total
+                shipping_options: session?.shipping_options.map((i) => {
+                    return {
+                        ...i, shipping_amount: i.shipping_amount / 100
+                    }
+                }),
+                total_amount: session?.amount_total / 100
             }
 
-            console.log("first",orderDetails)
-            // const order = new orderModel(orderDetails);
-            // order.save();
+
+            const order = new orderModel(orderDetails);
+            order.save();
 
             break;
         // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);
-    }
+    };
 
 
     res.status(200).send();
