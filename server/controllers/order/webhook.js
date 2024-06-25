@@ -62,7 +62,7 @@ export const webhooks = async (req, res) => {
             const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
             const productDetails = await getLineItems(lineItems);
-            console.log("productDetails", productDetails);
+
 
             const orderDetails = {
                 productDetails: productDetails,
@@ -79,8 +79,7 @@ export const webhooks = async (req, res) => {
                     }
                 }),
                 total_amount: session?.amount_total / 100
-            }
-
+            };
 
             const order = new orderModel(orderDetails);
             order.save();

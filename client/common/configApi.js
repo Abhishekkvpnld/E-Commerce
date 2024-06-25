@@ -84,6 +84,11 @@ const endPoints = {
         url: `${backendDomain}/checkout`,
         method: "POST"
     },
+    orderList :{
+        url:`${backendDomain}/order-list`,
+        method:"GET"
+    },
+    
 };
 
 export default endPoints;
