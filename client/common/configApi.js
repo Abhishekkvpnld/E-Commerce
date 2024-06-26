@@ -1,7 +1,6 @@
 
 const backendDomain = "http://localhost:8000/api";
 
-
 const endPoints = {
 
     singUp: {
@@ -84,11 +83,15 @@ const endPoints = {
         url: `${backendDomain}/checkout`,
         method: "POST"
     },
-    orderList :{
-        url:`${backendDomain}/order-list`,
-        method:"GET"
+    orderList: {
+        url: `${backendDomain}/order-list`,
+        method: "GET"
     },
-    
+    allOrders: {
+        url: `${backendDomain}/all-orders`,
+        methos: "GET"
+    }
+
 };
 
 export default endPoints;

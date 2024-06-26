@@ -5,7 +5,6 @@ export const payment = async (req, res) => {
         const { cartItems } = req?.body;
         const email = req?.user?.email;
 
-        // console.log("email", email, "cart", cartItems)
         if (!email || !cartItems || cartItems.length === 0) {
             return res.status(400).json({ error: "Invalid request: missing email or cart items" });
         };

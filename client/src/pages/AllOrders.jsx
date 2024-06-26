@@ -5,24 +5,23 @@ import moment from "moment";
 import displayINRCurrency from '../helpers/displayCurrency';
 
 
-const OrderPage = () => {
-
+const AllOrders = () => {
   const [fetchData, setFetchData] = useState([]);
 
   const fetchOrderData = async () => {
-    const orderData = await axios.get(endPoints.orderList.url, { withCredentials: true });
+    const orderData = await axios.get(endPoints.allOrders.url, { withCredentials: true });
     const responseData = orderData?.data;
 
     setFetchData(responseData?.data);
   };
-
+  
 
   useEffect(() => {
     fetchOrderData();
   }, []);
 
   return (
-    <div className='p-4'>
+    <div className='p-4 h-[calc(100vh-190px)] overflow-y-scroll'>
       {
         !fetchData[0] && (
           <div className='flex justify-center items-center w-full font-semibold'>
@@ -35,7 +34,7 @@ const OrderPage = () => {
         {
           fetchData?.map((item, index) => (
 
-            <div key={item?.userId + index} className='border-2 mt-4 p-3 rounded-lg'>
+            <div key={item?.userId + index} className='border-4 mt-4 p-3 rounded-lg bg-white'>
               <p className='text-lg font-semibold'>{moment(item?.createdAt).format("LL")}</p>
 
               <div className='flex flex-col md:flex-row justify-between'>
@@ -44,7 +43,7 @@ const OrderPage = () => {
                   {
                     item?.productDetails?.map((product, index) => {
                       return (
-                        <div key={product?.productId + index} className='flex gap-3 p-1 pr-2 max-w-[700px]'>
+                        <div key={product?.productId + index} className='flex gap-3 p-1 pr-2'>
                           <img src={product?.image[0]} alt="image" className='h-28 w-28 object-scale-down p-2 bg-slate-200' />
 
                           <div>
@@ -62,12 +61,12 @@ const OrderPage = () => {
                   }
                 </div>
 
-                <div className='flex flex-row justify-between md:justify-normal md:flex-col m-3 p-4 gap-3'>
+                <div className='flex flex-row justify-between md:justify-normal md:flex-col  p-4 gap-3'>
 
                   <div className=''>
                     <div className='font-semibold text-lg text-ellipsis line-clamp-1'>Payment Details :</div>
                     <p className='ml-1'>Payment Method : <span className='font-bold text-blue-800'> {item?.paymentDetails?.payment_method_type[0]}💳</span></p>
-                    <p className='ml-1'>Payment Status : <span className='font-bold text-blue-800'>{item?.paymentDetails?.payment_status}✅</span></p>
+                    <p className='ml-1'>Payment Status : <span className='font-bold text-blue-800'>{item?.paymentDetails?.payment_status}✅ </span></p>
                   </div>
 
                   <div>
@@ -98,6 +97,6 @@ const OrderPage = () => {
 
     </div>
   );
-};
+}
 
-export default OrderPage;
+export default AllOrders;

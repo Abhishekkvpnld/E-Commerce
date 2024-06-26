@@ -17,6 +17,7 @@ function App() {
 
 
   const fetchUserDetails = async () => {
+    
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
 
@@ -51,7 +52,7 @@ function App() {
 
 
   return (
-    <>
+    <div className='flex flex-col justify-between'>
       <userContext.Provider value={{
         fetchUserDetails, /*User details*/
         cartProductCount,  // user add to cart product count
@@ -66,7 +67,7 @@ function App() {
         <Footer />
         <Toaster />
       </userContext.Provider>
-    </>
+    </div>
   )
 }
 
