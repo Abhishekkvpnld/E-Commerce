@@ -65,7 +65,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
                       
                         loadingList?.map((i, index) => (
 
-                            <div key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-sm shadow'>
+                            <div key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-lg shadow'>
     
                                 <div className='bg-slate-200 h-full p-3 min-w-[120px] md:min-w-[145px] animate-pulse '>
 

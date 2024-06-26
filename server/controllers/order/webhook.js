@@ -1,4 +1,5 @@
 import stripe from "../../config/stripe.js";
+import cartModel from "../../models/cartModel.js";
 import orderModel from "../../models/orderModel.js";
 
 
@@ -82,7 +83,11 @@ export const webhooks = async (req, res) => {
             };
 
             const order = new orderModel(orderDetails);
-            order.save();
+            const savedOrder = await order.save();
+
+            if (savedOrder?._id) {
+                const deleteCartItems = await cartModel.deleteMany({ userId: session?.metadata?.userId });
+            };
 
             break;
         // ... handle other event types

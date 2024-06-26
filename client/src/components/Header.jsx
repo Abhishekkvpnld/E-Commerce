@@ -107,9 +107,22 @@ const Header = () => {
 
             {
               user?.role === ROLE.ADMIN && menuDisplay && (
-                <div className='absolute bottom-0 mt-3 top-11 h-fit px-2 shadow-lg rounded bg-slate-50  hover:bg-slate-200 hidden md:block'>
+                <div className='absolute flex-col bottom-0 mt-3 top-11 h-fit px-2 shadow-lg rounded bg-slate-100 '>
+                  <nav className='m-1 hidden md:block'>
+                    <Link to={"/admin-panel"} className='whitespace-nowrap p-2 rounded-md hidden md:block hover:bg-slate-300'>Admin-Panel</Link>
+                  </nav>
+                  <nav className='m-2 w-full'>
+                  <Link to={"/order"} className='whitespace-nowrap px-8 py-1 rounded-md hover:bg-slate-300'>Order</Link>
+                  </nav>
+                </div>
+              )
+            }
+
+            {
+              user?.role === ROLE.GENERAL && menuDisplay && (
+                <div className='absolute bottom-0 mt-3 top-11 h-fit px-6 py-2 shadow-lg rounded p-1 bg-slate-100'>
                   <nav>
-                    <Link to={"/admin-panel"} className='whitespace-nowrap p-2 hidden md:block'>Admin-Panel</Link>
+                  <Link to={"/order"} className='whitespace-nowrap px-8 rounded-md py-2 hover:bg-slate-200'>Order</Link>
                   </nav>
                 </div>
               )

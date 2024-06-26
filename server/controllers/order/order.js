@@ -6,7 +6,7 @@ export const orderDetails = async (req, res) => {
     try {
         const userId = req?.user.id;
 
-        const orderList = await orderModel.find({ userId: userId });
+        const orderList = await orderModel.find({ userId: userId }).sort({ createdAt: -1 });
 
         res.status(200).json({
             message: "Order Lists...",
