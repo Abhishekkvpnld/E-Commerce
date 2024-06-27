@@ -47,7 +47,7 @@ const Login = () => {
 
 
     return (
-        <section id='login' className='w-full h-full'>
+        <section id='login' className='w-full h-full min-h-[calc(100vh-100px)] flex items-center justify-center'>
             <div className='mx-auto container p-5 '>
 
                 <div className='bg-gray-300 w-full py-2 max-w-md mx-auto rounded p-3 '>

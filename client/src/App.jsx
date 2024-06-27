@@ -17,13 +17,15 @@ function App() {
 
 
   const fetchUserDetails = async () => {
-    
+
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
 
       if (current_user?.data?.success) {
         dispatch(setUserDetails(current_user?.data?.data));
       };
+      
+      return;
 
     } catch (error) {
       console.log(error);
@@ -36,7 +38,11 @@ function App() {
       const response = await axios.get(endPoints.countAddToCartProduct.url, { withCredentials: true });
       const responseData = response?.data;
 
-      setCartProductCount(responseData?.data?.count);
+      if (responseData?.data) {
+        setCartProductCount(responseData?.data?.count);
+      };
+
+      return;
 
     } catch (error) {
       console.log(error);

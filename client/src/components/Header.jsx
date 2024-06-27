@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
-import Logo from './Logo';
+// import Logo from './Logo';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { setUserDetails } from "../redux/userSlice";
 import { ROLE } from "../../common/role";
 import userContext from '../context/userContext';
+import Logo from "../assest/logo.jpg"
 
 
 const Header = () => {
@@ -62,8 +63,9 @@ const Header = () => {
       <div className="h-full container mx-auto flex items-center px-3 justify-between">
 
         <Link to={"/"}>
-          <div className=''>
-            <Logo w={80} h={50} />
+          <div className='flex items-center'>
+            <img src={Logo} alt="img" width={"50px"} height={"50px"} />
+            <p className='font-bold italic'>Eshop</p>
           </div>
         </Link>
 
@@ -134,14 +136,14 @@ const Header = () => {
           {
             user?._id ? (
               <div>
-                <button onClick={handleLogout} className='px-3 py-1 rounded-lg border-2 hover:bg-red-600 hover:text-white'>
+                <button onClick={handleLogout} className='px-3 py-1 rounded-lg border-2 hover:bg-red-600 hover:text-white font-semibold'>
                   logout
                 </button>
               </div>
             ) : (
               <Link to={"/login"}>
                 <div>
-                  <button className='px-4 py-1 rounded-lg border-2 hover:bg-green-600 hover:text-white'>
+                  <button className='px-4 py-1 rounded-lg border-2 hover:bg-green-600 hover:text-white font-semibold'>
                     Login
                   </button>
                 </div>

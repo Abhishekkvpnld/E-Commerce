@@ -6,12 +6,14 @@ import imageToBaseUrl from '../helpers/imageToBaseUrl';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import toast from 'react-hot-toast';
+import uploadImageToCloudinary from '../helpers/uploadImageToCloudinary';
 
 
 const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [imageBase64,setImageBase64] = useState('');
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -64,18 +66,20 @@ const Signup = () => {
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
+    const ImageBase64File = await imageToBaseUrl(file);
+    setImageBase64(ImageBase64File);
 
-    const image = await imageToBaseUrl(file);
+    const image = await uploadImageToCloudinary(file);
     setData((prev) => {
       return {
         ...prev,
-        profilePicture: image
+        profilePicture: image?.url
       };
     });
   };
 
   return (
-    <section id='signup' className='w-full h-full'>
+    <section id='signup' className='w-full h-full  min-h-[calc(100vh-100px)] flex items-center justify-center'>
       <div className='mx-auto container p-5 '>
 
         <div className='bg-gray-300 w-full py-2 max-w-md mx-auto rounded p-3 '>
@@ -84,7 +88,7 @@ const Signup = () => {
           <div className='w-20 h-20 mx-auto rounded-full mt-4 mb-2 relative flex justify-center overflow-hidden'>
 
             <div>
-              <img src={data.profilePicture || loginIcon} alt="" className='mix-blend-multiply' />
+              <img src={imageBase64 || loginIcon} alt="img" className='mix-blend-multiply' />
             </div>
 
             <form className='text-xs text-center py-1 bg-opacity-80 bg-violet-100 w-full absolute bottom-0 cursor-pointer' >

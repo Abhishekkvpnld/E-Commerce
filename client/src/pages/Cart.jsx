@@ -8,6 +8,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdOutlinePayment } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
 import paymentLoadingGif from "../assest/paymentLoading.gif";
+import cartLoaderGif from "../assest/cartLoader.gif"
 
 
 
@@ -17,8 +18,8 @@ const Cart = () => {
     const [loading, setLoading] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
     const contexts = useContext(userContext);
-    const loadingCart = new Array(contexts?.cartProductCount).fill(null);
 
+    const loadingCart = new Array(contexts?.cartProductCount).fill(null);
 
     const fetchCartData = async () => {
 
@@ -111,7 +112,7 @@ const Cart = () => {
             const response = await axios.post(endPoints?.payment.url, { cartItems: data }, { withCredentials: true });
             const responseData = response?.data;
             console.log(responseData);
-            
+
             if (responseData?.id) {
                 setPaymentLoading(false);
                 stripePromise.redirectToCheckout({ sessionId: responseData?.id });
@@ -128,11 +129,14 @@ const Cart = () => {
 
 
     return (
-        <div className='mx-auto p-4 bg-white'>
-            <div className='text-center text-xl my-4'>
+        <div className='mx-auto p-4 bg-white min-h-[calc(100vh-100px)]'>
+            <div className='text-center text-xl  flex items-center justify-center min-h-[calc(100vh-160px)]'>
                 {
                     data?.length === 0 && !loading && (
-                        <p>No Items</p>
+                        <div className='flex items-center justify-center flex-col'>
+                            <p className='font-semibold text-xl'>No Items</p>
+                            <img src={cartLoaderGif} alt="cart" width={"450px"} height={"450px"} />
+                        </div>
                     )
                 }
             </div>

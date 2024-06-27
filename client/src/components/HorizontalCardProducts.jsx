@@ -12,7 +12,6 @@ import userContext from '../context/userContext';
 const HorizontalCardProducts = ({ category, heading }) => {
 
 
-    const [scroll, setScroll] = useState(0);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 

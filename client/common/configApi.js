@@ -1,4 +1,5 @@
 
+
 const backendDomain = "http://localhost:8000/api";
 
 const endPoints = {
@@ -10,6 +11,10 @@ const endPoints = {
     logIn: {
         url: `${backendDomain}/auth/login`,
         method: "POST"
+    },
+    ForgotPassword:{
+        url:`${backendDomain}/forgot-password`,
+        method:"POST"
     },
     current_user: {
         url: `${backendDomain}/user-details`,
