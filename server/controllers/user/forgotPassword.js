@@ -21,8 +21,7 @@ export const forgotPassword = async (req, res) => {
         const OTP = parseFloat(newOTP)
 
         //Send Mail
-        const mail = await sendMail(sendMail(email,"OTP Verification",`Your OTP for verification is:${OTP}. Please enter this code to complete your verification process.`));
-
+        const mail = await sendMail(sendMail(email,"OTP Verification",`Your OTP for verification is : ${OTP}. Please enter this code to complete your verification process.`));
 
         return res.status(200).json({
             data: { checkEmail, otp: OTP },

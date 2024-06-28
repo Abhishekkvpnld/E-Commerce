@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 const ForgotPassword = (e) => {
 
   const [email, setEmail] = useState('');
-  const [OTP, SetOTP] = useState();
+  const [OTP, SetOTP] = useState(null);
   const [emailCheck, setEmailCheck] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
 
   const navigate = useNavigate();
 
@@ -20,14 +21,14 @@ const ForgotPassword = (e) => {
     try {
       setLoading(true)
       const response = await axios.post(endPoints.ForgotPassword.url, { email: email });
-      const responseData = response.data;
+      const responseData = response?.data;
       setLoading(false);
 
 
       if (responseData?.success) {
         setEmailCheck(true);
+        setData(responseData?.data?.otp);
         toast.success(`${responseData?.message}...📩`);
-
       };
 
     } catch (error) {
@@ -36,10 +37,14 @@ const ForgotPassword = (e) => {
 
   };
 
-  const handleSubmitOTP = async (e) => {
-    e.preventDefault();
-    navigate("/");
-  }
+  const handleSubmitOTP = async () => {
+   
+      alert("success✅✅✅",OTP)
+  
+      toast.error("Wrong OTP...❌❌");
+    
+
+  };
 
 
   return (
@@ -65,16 +70,16 @@ const ForgotPassword = (e) => {
         emailCheck && (
           <div className='border-2 w-48 rounded-md md:w-96 h-32 p-2 gap-2 flex items-center justify-center'>
 
-            <form onSubmit={handleSubmitOTP}>
+            <div>
 
               <p className='text-lg font-semibold text-white'>OTP</p>
 
               <div className='flex flex-col items-center justify-center'>
                 <input className='bg-slate-200 m-1 w-40  md:w-80 border-2 rounded-sm p-1 font-semibold' placeholder='Enter OTP' type="number" name="otp" value={OTP} id="otp" required onChange={(e) => SetOTP(e.target.value)} />
-                <button className='border py-1 px-6 rounded-md font-semibold bg-green-600 hover:bg-green-700 text-white' type='submit'>Submit</button>
+                <button className='border py-1 px-6 rounded-md font-semibold bg-green-600 hover:bg-green-700 text-white' onClick={handleSubmitOTP}>Submit</button>
               </div>
 
-            </form>
+            </div>
 
           </div>
         )

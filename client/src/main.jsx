@@ -20,6 +20,7 @@ import Success from './pages/Success.jsx';
 import Cancel from './pages/Cancel.jsx';
 import OrderPage from './pages/OrderPage.jsx';
 import AllOrders from './pages/AllOrders.jsx';
+import ChangePassword from './components/ChangePassword.jsx';
 
 
 
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />
+      },
+      {
+        path: "/change-password",
+        element: <ChangePassword />
       },
       {
         path: "/product-category",
@@ -85,8 +90,8 @@ const router = createBrowserRouter([
             element: <AllProducts />
           },
           {
-            path:"all-orders",
-            element:<AllOrders/>
+            path: "all-orders",
+            element: <AllOrders />
           }
 
         ]
