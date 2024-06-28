@@ -4,28 +4,37 @@ import endPoints from '../../common/configApi';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const ForgotPassword = (e) => {
 
   const [email, setEmail] = useState('');
   const [OTP, SetOTP] = useState();
   const [emailCheck, setEmailCheck] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
+      setLoading(true)
       const response = await axios.post(endPoints.ForgotPassword.url, { email: email });
       const responseData = response.data;
+      setLoading(false);
 
-      setEmailCheck(true);
-      toast.success("Send an OTP to your email...📩");
+
+      if (responseData?.success) {
+        setEmailCheck(true);
+        toast.success(`${responseData?.message}...📩`);
+
+      };
+
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Please check your email")
+      toast.error(error?.response?.data.message);
     }
-  };
 
+  };
 
   const handleSubmitOTP = async (e) => {
     e.preventDefault();
@@ -44,7 +53,7 @@ const ForgotPassword = (e) => {
               <p className='text-lg font-semibold text-white'>Email</p>
               <div className='flex flex-col items-center justify-center'>
                 <input className='bg-slate-200 m-1 w-40  md:w-80 border-2 rounded-sm p-1 font-semibold' placeholder='Enter email' type="email" name="email" value={email} id="email" required onChange={(e) => setEmail(e.target.value)} />
-                <button className='border py-1 px-6 rounded-md font-semibold bg-green-600 hover:bg-green-700 text-white' type='submit'>Next</button>
+                <button className={`border py-1 px-6 rounded-md font-semibold bg-green-600 hover:bg-green-700 text-white' type='submit ${loading ? "cursor-wait" : "cursor-pointer"}`}>Next</button>
               </div>
             </form>
 

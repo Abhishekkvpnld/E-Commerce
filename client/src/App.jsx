@@ -33,7 +33,7 @@ function App() {
   };
 
 
-  const fetchAddToCart = async () => {
+  const fetchAddToCart = async () => { 
     try {
       const response = await axios.get(endPoints.countAddToCartProduct.url, { withCredentials: true });
       const responseData = response?.data;
@@ -41,11 +41,10 @@ function App() {
       if (responseData?.data) {
         setCartProductCount(responseData?.data?.count);
       };
-
       return;
 
     } catch (error) {
-      console.log(error);
+      console.log(error?.response?.data?.message); 
     }
   }
 
@@ -65,7 +64,7 @@ function App() {
         fetchAddToCart
       }}>
         <Header />
-
+ 
         <main className='min-h-[calc(100vh-100px)] pt-16'>
           <Outlet />
         </main>
