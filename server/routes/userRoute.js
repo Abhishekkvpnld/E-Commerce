@@ -22,6 +22,7 @@ import { webhooks } from "../controllers/order/webhook.js";
 import { orderDetails } from "../controllers/order/order.js";
 import { allOrders } from "../controllers/order/allOrders.js";
 import { forgotPassword } from "../controllers/user/forgotPassword.js";
+import { changePassword } from "../controllers/user/changePassword.js";
 
 
 const router = express.Router();     
@@ -30,6 +31,7 @@ const router = express.Router();
 router.get("/user-details",authToken,userDetails);
 router.get("/user-logout",userLogout);
 router.post("/forgot-password",forgotPassword);
+router.post("/change-password",changePassword);
 
 //Product Details
 router.post("/get-product-details",getProductDetails);

@@ -1,33 +1,39 @@
 import React, { useContext, useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import toast from "react-hot-toast";
-import userContext from '../context/userContext';
+
 
 
 
 const ChangePassword = () => {
+
+    const {email} = useParams();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [data, setData] = useState({ password: "", confirmPassword: "" });
 
     const navigate = useNavigate();
-    const { fetchUserDetails, fetchAddToCart } = useContext(userContext);
 
-    const handleLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(endPoints.logIn.url, data, { withCredentials: true });
 
-            if (response?.data?.success) {
-                toast.success(response?.data?.message);
-                navigate("/");
-                fetchUserDetails();
-                fetchAddToCart();
+            if (data.password === data.confirmPassword) {
+                const response = await axios.post(endPoints.changePassword.url, { password: data.password, email: email }, { withCredentials: true });
+
+                if (response?.data?.success) {
+                    toast.success(response?.data?.message);
+                    navigate("/login");
+                };
+            } else {
+                toast.error("Password not matching...❌");
             };
+
 
         } catch (error) {
             toast.error(error?.response?.data?.message || error)
@@ -57,7 +63,7 @@ const ChangePassword = () => {
 
                 <div className='w-full py-3 max-w-md mx-auto rounded p-6 border-2 shadow-md '>
 
-                    <form onSubmit={handleLogin} className='flex flex-col gap-2'>
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
 
 
                         <div >

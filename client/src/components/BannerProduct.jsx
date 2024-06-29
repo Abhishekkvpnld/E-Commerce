@@ -46,7 +46,7 @@ const BannerProduct = () => {
     const prevImage = () => {
         if (currentImage < 0) {
             setCurrentImage(4);
-        };
+        }
         setCurrentImage((prev) => (prev - 1));
     };
 
@@ -56,7 +56,7 @@ const BannerProduct = () => {
             setCurrentImage((prev) => (prev + 1) % desktopImages.length);
         }, 5000);
         return ()=>clearInterval(interval);
-    }, [currentImage]);
+    }, [currentImage,desktopImages.length]);
 
 
     return (

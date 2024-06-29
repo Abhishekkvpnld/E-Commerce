@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import moment from "moment";
@@ -9,7 +9,7 @@ const AllOrders = () => {
   const [fetchData, setFetchData] = useState([]);
 
   const fetchOrderData = async () => {
-    const orderData = await axios.get(endPoints.allOrders.url, { withCredentials: true });
+    const orderData = await axios.get(endPoints.allOrders.url, { withCredentials: true }); 
     const responseData = orderData?.data;
 
     setFetchData(responseData?.data);

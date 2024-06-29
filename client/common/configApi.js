@@ -12,8 +12,12 @@ const endPoints = {
         url: `${backendDomain}/auth/login`,
         method: "POST"
     },
-    ForgotPassword:{
-        url:`${backendDomain}/forgot-password`,
+    ForgotPassword: {
+        url: `${backendDomain}/forgot-password`,
+        method: "POST"
+    },
+    changePassword: {
+        url: `${backendDomain}/change-password`,
         method:"POST"
     },
     current_user: {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { CiUser } from 'react-icons/ci';
 import { useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -12,8 +12,8 @@ const AdminPanel = () => {
     useEffect(() => {
         if (user?.role !== ROLE.ADMIN) {
             navigate("/")
-        };
-    }, [user]);
+        }
+    }, [user,navigate]);
 
     return (
         <div className='min-h-[calc(100vh-100px)] bg-green-50 md:flex hidden'>

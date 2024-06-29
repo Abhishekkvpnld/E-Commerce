@@ -22,7 +22,7 @@ const OrderPage = () => {
   }, []);
 
   return (
-    <div className='p-4'>
+    <div className='p-4 min-h-[calc(100vh-100px)]'>
       {
         !fetchData[0] && (
           <div className='flex justify-center items-center w-full font-semibold'>

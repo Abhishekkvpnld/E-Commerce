@@ -50,12 +50,12 @@ const AdminEditProduct = ({ onClose, productData, fetchAllProducts }) => {
                 toast.success(response?.data?.message);
                 onClose();
                 fetchAllProducts()
-            };
+            }
 
         } catch (error) {
             console.log(error);
             toast.error(error?.response?.data?.message);
-        };
+        }
 
     };
 
