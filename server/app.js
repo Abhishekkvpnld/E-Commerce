@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 8000;
 
 //MongoDb connection
 dbConnection().then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, () => { 
         console.log(`Server running on port ${PORT}..🚀`);
     });
 });
