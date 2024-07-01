@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import { Toaster } from 'react-hot-toast';
 import axios from "axios";
 import endPoints from '../common/configApi';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import userContext from './context/userContext';
 import { useDispatch } from "react-redux";
 import { setUserDetails } from './redux/userSlice';
@@ -16,21 +16,21 @@ function App() {
   const [cartProductCount, setCartProductCount] = useState(0);
 
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = useCallback(async () => {
 
     try {
       const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
 
       if (current_user?.data?.success) {
         dispatch(setUserDetails(current_user?.data?.data));
-      };
+      }
       
       return;
 
     } catch (error) {
       console.log(error);
-    };
-  };
+    }
+  },[dispatch]);
 
 
   const fetchAddToCart = async () => { 
@@ -40,7 +40,7 @@ function App() {
 
       if (responseData?.data) {
         setCartProductCount(responseData?.data?.count);
-      };
+      }
       return;
 
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,11 +27,11 @@ const Login = () => {
                 navigate("/");
                 fetchUserDetails();
                 fetchAddToCart();
-            };
+            }
 
         } catch (error) {
             toast.error(error?.response?.data?.message || error)
-        };
+        }
     };
 
     const handleOnChange = (e) => {

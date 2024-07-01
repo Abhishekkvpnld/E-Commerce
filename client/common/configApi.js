@@ -1,6 +1,6 @@
 
 
-const backendDomain = "https://e-commerce-app-gamma-nine.vercel.app/api";
+const backendDomain = "https://e-commerce-spb9.onrender.com/api" || "https://e-commerce-app-gamma-nine.vercel.app/api" || "http://localhost:8000/api";
 
 const endPoints = {
 

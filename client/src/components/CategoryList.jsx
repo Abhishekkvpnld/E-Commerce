@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import { Link } from 'react-router-dom';
@@ -24,7 +24,7 @@ const CategoryList = () => {
     }, []);
 
     return (
-        <div className='mx-auto p-3'>
+        <div className='mx-auto p-3'> 
             <div className='flex items-center justify-between gap-4 overflow-scroll scrollbar-none'>
                 {
                     loading ? (

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
@@ -29,15 +29,15 @@ const ChangePassword = () => {
                 if (response?.data?.success) {
                     toast.success(response?.data?.message);
                     navigate("/login");
-                };
+                }
             } else {
                 toast.error("Password not matching...❌");
-            };
+            }
 
 
         } catch (error) {
             toast.error(error?.response?.data?.message || error)
-        };
+        }
     };
 
     const handleOnChange = (e) => {

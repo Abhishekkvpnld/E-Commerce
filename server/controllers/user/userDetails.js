@@ -9,7 +9,7 @@ export const userDetails = async (req, res) => {
 
         res.status(200).json({
             data: userData,
-            message: "User details...🪪",
+            message: "User details...🪪",  
             success: true,
             error: false
         });
