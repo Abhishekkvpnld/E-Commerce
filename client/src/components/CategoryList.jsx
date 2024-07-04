@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const CategoryList = () => {
 
     const [categoryProduct, setCategoryProduct] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const categoryLoadingArray = new Array(13).fill(null);
 
@@ -25,12 +25,11 @@ const CategoryList = () => {
 
     return (
         <div className='mx-auto p-3'> 
-            <div className='flex items-center justify-between gap-4 overflow-scroll scrollbar-none'>
+            <div className='flex items-center gap-4 overflow-scroll scrollbar-none'>
                 {
                     loading ? (
                         categoryLoadingArray.map((i,index)=>(
-                            <div key={"category"+index} className='w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-4 animate-pulse'>
-
+                            <div key={"category"+index} className='w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden bg-slate-200 p-2 animate-pulse'>
                             </div>
                         ))
                     ): (

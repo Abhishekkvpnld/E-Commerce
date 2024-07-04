@@ -116,11 +116,11 @@ const Cart = () => {
             if (responseData?.id) {
                 setPaymentLoading(false);
                 stripePromise.redirectToCheckout({ sessionId: responseData?.id });
-            };
+            }
 
         } catch (error) {
             console.log(error);
-        };
+        }
     };
 
 
@@ -130,7 +130,7 @@ const Cart = () => {
 
     return (
         <div className='mx-auto p-4 bg-white min-h-[calc(100vh-100px)]'>
-            <div className='text-center text-xl  flex items-center justify-center min-h-[calc(100vh-160px)]'>
+            <div className='text-center text-xl  flex items-center justify-center max-h-[calc(100vh-100px)]'>
                 {
                     data?.length === 0 && !loading && (
                         <div className='flex items-center justify-center flex-col'>

@@ -14,8 +14,8 @@ const app = express();
 app.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL ||
-        "https://e-commerce-abhisheks-projects-70ee5198.vercel.app",
+      process.env.FRONTEND_URL,
+      "https://e-commerce-abhisheks-projects-70ee5198.vercel.app",
       "http://localhost:5173",
     ],
     credentials: true,

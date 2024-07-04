@@ -136,11 +136,11 @@ const ProductDetails = () => {
                                 </div>
 
                             ) : (
-                                <div className='flex gap-2 lg:flex-col overflow-scroll scrollbar-none h-full'>
+                                <div className='flex gap-2 lg:flex-col overflow-y-scroll overflow-x-scroll scrollbar-none max-h-[410px] max-w-[320px] h-full'>
                                     {
                                         data?.productImage?.map((imageURL, index) => {
                                             return (
-                                                <div className='h-20 w-20 bg-slate-200 rounded p-1 cursor-pointer' key={imageURL}>
+                                                <div className='h-20 w-20 bg-slate-200 rounded p-1 cursor-pointer' key={imageURL+index}>
                                                     <img src={imageURL} onMouseEnter={() => handleMouseEnterProductImage(imageURL)} onClick={() => handleMouseEnterProductImage(imageURL)} alt="" className='w-full h-full object-scale-down mix-blend-multiply' />
                                                 </div>
                                             )
@@ -226,11 +226,13 @@ const ProductDetails = () => {
 
             </div>
 
+            <div className='mt-2'>
             {
                 data?.category && (
                     <CategoryWiseProductDisplay category={data?.category} heading={"Recommended Products"} />
                 )
             }
+            </div>
 
         </div>
     )

@@ -44,7 +44,7 @@ export const CategoryWiseProductDisplay = ({ category, heading }) => {
 
             <h1 className='font-semibold text-2xl py-2'>{heading}</h1>
 
-            <div className='grid grid-cols-[repeat(auto-fit,minmax(300px,320px))]  md:gap-6 overflow-scroll scrollbar-none transition-all'>
+            <div className='grid grid-cols-[repeat(auto-fit,minmax(250px,300px))]  md:gap-6 overflow-scroll scrollbar-none transition-all'>
 
                 {
                     loading ? (

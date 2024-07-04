@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import UploadProduct from "../components/UploadProduct";
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -20,7 +20,7 @@ const AllProducts = () => {
 
     } catch (error) {
       toast.error(error?.message)
-    };
+    }
   };
 
 
@@ -39,7 +39,7 @@ const AllProducts = () => {
 
 
       {/**GET ALL PRODUCTS */}
-      <div className='flex items-center py-4 gap-4 flex-wrap h-[calc(100vh-190px)] overflow-y-scroll'>
+      <div className='flex items-center p-1 gap-4 flex-wrap h-[calc(100vh-190px)] overflow-y-scroll'>
         {
           allProducts?.map((product, index) => (
             <AdminProductCard data={product} key={index} fetchAllProducts={fetchAllProducts} />
