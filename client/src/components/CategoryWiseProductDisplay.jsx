@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getCategoryWiseProduct } from '../helpers/getCategoryWiseProducts';
 import displayINRCurrency from '../helpers/displayCurrency';
-import { MdArrowBackIosNew } from "react-icons/md";
-import { MdArrowForwardIos } from "react-icons/md";
 import addToCart from '../helpers/addToCart';
 import { Link } from 'react-router-dom';
 import userContext from '../context/userContext';

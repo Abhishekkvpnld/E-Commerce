@@ -6,6 +6,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
 import userContext from '../context/userContext';
+import scrollTop from '../helpers/scrollTop';
 
 
 
@@ -90,7 +91,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
                     ) : (
                         data?.map((product, index) => (
 
-                            <Link to={"/product-details/"+product?._id} key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-lg border-2 shadow'>
+                            <Link to={"/product-details/"+product?._id} key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-lg border-2 shadow' onClick={scrollTop} >
 
                                 <div className='bg-slate-200 h-full p-3 min-w-[120px] md:min-w-[145px] '>
                                     <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down hover:scale-110 transition-all' />

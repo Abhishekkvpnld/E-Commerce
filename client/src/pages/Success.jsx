@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import success from "../assest/success.gif";
 import { Link } from 'react-router-dom';
 import userContext from '../context/userContext';
@@ -8,7 +8,7 @@ const Success = () => {
     const { fetchAddToCart } = useContext(userContext);
 
     useEffect(() => {
-        console.log("fetch add to cart",fetchAddToCart())
+        console.log("fetch add to cart", fetchAddToCart())
         fetchAddToCart();
     }, []);
 

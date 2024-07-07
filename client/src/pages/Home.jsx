@@ -12,6 +12,8 @@ const Home = () => {
 
       <HorizontalCardProducts category={"watches"} heading={"Brand Watches"} />
       <HorizontalCardProducts category={"TWS"} heading={"Top TWS"} />
+      <HorizontalCardProducts category={"tablet"} heading={"Premium Tablets"} />
+
 
       <VerticalCardProduct category={"mobiles"} heading={"Popular Mobile Phones"} />
       <VerticalCardProduct category={"laptops"} heading={"Laptops"} />
@@ -20,7 +22,7 @@ const Home = () => {
       <VerticalCardProduct category={"earphones"} heading={"Wired Earphones"} />
       <VerticalCardProduct category={"speaker"} heading={"Bluetooth Speakers"} />
       <VerticalCardProduct category={"refrigerator"} heading={"Refrigerators"} />
-      <VerticalCardProduct category={"trimmers"} heading={"Air Conditioner"} />
+      <VerticalCardProduct category={"AC"} heading={"Air Conditioner"} />
     </div>
   )
 }

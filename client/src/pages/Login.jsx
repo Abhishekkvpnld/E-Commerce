@@ -11,7 +11,7 @@ import userContext from '../context/userContext';
 const Login = () => {
 
     const [showPassword, setShowPassword] = useState(false);
-    const [data, setData] = useState({ email: "", password: "" });
+    const [data, setData] = useState({ email: "user@gmail.com", password: "User@123" });
 
     const navigate = useNavigate();
     const { fetchUserDetails, fetchAddToCart } = useContext(userContext);
