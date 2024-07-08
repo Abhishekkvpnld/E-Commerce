@@ -70,7 +70,7 @@ const Header = () => {
         </Link>
 
         <div className='hidden md:flex items-center rounded-full '>
-          <input type="text" value={search} placeholder='searc products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
+          <input type="text" value={search} placeholder='search products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
           <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 hover:bg-blue-700 flex items-center justify-center rounded-full text-white '>
             <CiSearch className='hover:scale-110 transition-all' />
           </div>
