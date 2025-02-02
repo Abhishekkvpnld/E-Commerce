@@ -1,0 +1,21 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/" },
+    { "src": "/login", "dest": "/" },
+    { "src": "/forgot-password", "dest": "/" },
+    { "src": "/signup", "dest": "/" },
+    { "src": "/change-password/(.*)", "dest": "/" },
+    { "src": "/product-category", "dest": "/" },
+    { "src": "/product-details/(.*)", "dest": "/" },
+    { "src": "/cart", "dest": "/" },
+    { "src": "/success", "dest": "/" },
+    { "src": "/cancel", "dest": "/" },
+    { "src": "/order", "dest": "/" },
+    { "src": "/search", "dest": "/" },
+    { "src": "/admin-panel", "dest": "/" },
+    { "src": "/admin-panel/all-users", "dest": "/" },
+    { "src": "/admin-panel/all-products", "dest": "/" },
+    { "src": "/admin-panel/all-orders", "dest": "/" }
+  ]
+}
+  
