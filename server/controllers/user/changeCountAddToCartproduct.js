@@ -7,7 +7,6 @@ export const changeCountAddToCartproduct = async (req, res) => {
         const userId = req?.user?.id;
         const { productQty, cartId } = req?.body;
 
-        console.log(cartId)
 
         const updatedproduct = await cartModel.updateOne({ _id: cartId }, {
             ...(productQty && { quantity: productQty })

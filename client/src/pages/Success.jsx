@@ -8,7 +8,6 @@ const Success = () => {
     const { fetchAddToCart } = useContext(userContext);
 
     useEffect(() => {
-        console.log("fetch add to cart", fetchAddToCart())
         fetchAddToCart();
     }, []);
 

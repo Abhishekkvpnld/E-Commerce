@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import productCategory from '../helpers/productCategory';
 import SearchVerticalProducts from '../components/SearchVerticalProducts';
@@ -11,6 +11,7 @@ const CategoryProduct = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    
     const location = useLocation();
     const urlSearch = new URLSearchParams(location?.search);
     const urlCategoryListInArray = urlSearch.getAll("category");
@@ -54,16 +55,16 @@ const CategoryProduct = () => {
 
 
     const handleChangeSortBy = (e) => {
-        const { value } = e?.target;
+        const value = e?.target.value;
         setSortBy(value);
 
         if (sortBy === "asc") {
             setData((prev) => prev.sort((a, b) => b.sellingPrice - a.sellingPrice));
-        };
+        }
 
         if (sortBy === "dsc") {
             setData((prev) => prev.sort((a, b) => a?.sellingPrice - b?.sellingPrice));
-        };
+        }
     };
 
 
@@ -95,7 +96,7 @@ const CategoryProduct = () => {
             });
             navigate("/product-category?" + urlFormat.join(""));
 
-        };
+        }
     }, [selectedCategory]);
 
     return (

@@ -36,11 +36,11 @@ const Header = () => {
         toast.success(response?.data?.message);
         dispatch(setUserDetails(null));
         navigate("/")
-      };
+      }
 
     } catch (error) {
       toast.error(error?.response?.data?.message)
-    };
+    }
 
   };
 
@@ -65,7 +65,7 @@ const Header = () => {
         <Link to={"/"}>
           <div className='flex items-center'>
             <img src={Logo} alt="img" width={"50px"} height={"50px"} />
-            <p className='font-bold italic'>Eshop</p>
+            <p className='font-bold italic'>GadgetHub</p>
           </div>
         </Link>
 

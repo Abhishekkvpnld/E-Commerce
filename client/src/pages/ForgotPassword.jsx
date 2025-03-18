@@ -1,12 +1,12 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import endPoints from '../../common/configApi';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 
 
-const ForgotPassword = (e) => {
+const ForgotPassword = () => {
 
   const [email, setEmail] = useState('');
   const [OTP, SetOTP] = useState(null);
@@ -29,7 +29,7 @@ const ForgotPassword = (e) => {
         setEmailCheck(true);
         setData(responseData?.data?.otp);
         toast.success(`${responseData?.message}...📩`);
-      };
+      }
 
     } catch (error) {
       toast.error(error?.response?.data.message);

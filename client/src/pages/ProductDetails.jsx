@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import endPoints from '../../common/configApi';
@@ -41,7 +41,7 @@ const ProductDetails = () => {
         if (productData?.success) {
             setData(productData?.data);
             setActiveImage(productData?.data?.productImage[0]);
-        };
+        }
     };
 
     const handleMouseEnterProductImage = (url) => {

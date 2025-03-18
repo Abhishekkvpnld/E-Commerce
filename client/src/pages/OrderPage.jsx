@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import moment from "moment";

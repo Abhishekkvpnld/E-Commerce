@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { getCategoryWiseProduct } from '../helpers/getCategoryWiseProducts';
 import displayINRCurrency from '../helpers/displayCurrency';
 import { MdArrowBackIosNew } from "react-icons/md";
