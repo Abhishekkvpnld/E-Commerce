@@ -26,7 +26,7 @@ This is a full-stack E-Commerce application built using the **MERN stack** (Mong
 1. **Clone the repo**
 
 ```bash
-git clone https://github.com/yourusername/ecommerce-app.git
+git clone https://github.com/Abhishekkvpnld/E-Commerce.git
 cd ecommerce-app
 ```
 
