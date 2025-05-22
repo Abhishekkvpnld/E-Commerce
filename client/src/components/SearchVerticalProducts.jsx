@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import scrollTop from '../helpers/scrollTop';
 import displayINRCurrency from '../helpers/displayCurrency';
 import addToCart from '../helpers/addToCart';

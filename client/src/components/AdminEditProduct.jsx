@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 const AdminEditProduct = ({ onClose, productData, fetchAllProducts }) => {
 
     const [displayImage, setDisplayImage] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
     const [data, setData] = useState({
         ...productData,
         productName: productData?.productName,
@@ -25,7 +26,6 @@ const AdminEditProduct = ({ onClose, productData, fetchAllProducts }) => {
         sellingPrice: productData?.sellingPrice
     });
 
-    const [imageUrl, setImageUrl] = useState('');
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;

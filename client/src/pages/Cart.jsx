@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import userContext from '../context/userContext';
@@ -24,17 +24,16 @@ const Cart = () => {
     const fetchCartData = async () => {
 
         try {
-
             const response = await axios.get(endPoints.cartViewProduct.url, { withCredentials: true });
             const fetchData = response?.data;
 
             if (fetchData?.success) {
                 setData(fetchData?.data);
-            };
+            }
 
         } catch (error) {
             console.log(error?.response?.data?.message);
-        };
+        }
     };
 
     const handleLoading = async () => {
@@ -56,7 +55,7 @@ const Cart = () => {
             if (responseData?.success) {
                 fetchCartData();
                 toast.success(responseData?.message);
-            };
+            }
 
         } catch (error) {
             toast.error(error?.response?.data?.message);
@@ -75,9 +74,9 @@ const Cart = () => {
                 if (responseData?.success) {
                     fetchCartData();
                     toast.success(responseData?.message);
-                };
+                }
 
-            };
+            }
 
         } catch (error) {
             toast.error(error?.response?.data?.message);
@@ -111,7 +110,7 @@ const Cart = () => {
             setPaymentLoading(true);
             const response = await axios.post(endPoints?.payment.url, { cartItems: data }, { withCredentials: true });
             const responseData = response?.data;
-            console.log(responseData);
+
 
             if (responseData?.id) {
                 setPaymentLoading(false);

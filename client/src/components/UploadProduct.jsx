@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 import productCategory from '../helpers/productCategory';
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -50,12 +50,12 @@ const UploadProduct = ({ onClose, fetchData }) => {
                 toast.success(response?.data?.message);
                 onClose();
                 fetchData();
-            };
+            }
 
         } catch (error) {
             console.log(error);
             toast.error(error?.response?.data?.message);
-        };
+        }
 
     };
 

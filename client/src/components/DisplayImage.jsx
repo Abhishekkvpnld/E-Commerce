@@ -1,4 +1,3 @@
-import React from 'react';
 import { IoCloseOutline } from "react-icons/io5";
 
 
@@ -8,7 +7,7 @@ const DisplayImage = ({ imageUrl, onClose }) => {
             <div className='bg-white shadow-lg rounded mx-auto flex'>
 
 
-            <div className='flex justify-center p-4 max-w-[100vh] max-h-[100vh]'>
+                <div className='flex justify-center p-4 max-w-[100vh] max-h-[100vh]'>
                     <img src={imageUrl} alt={"image"} />
                 </div>
 

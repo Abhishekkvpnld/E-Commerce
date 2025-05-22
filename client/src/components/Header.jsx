@@ -18,6 +18,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const context = useContext(userContext);
+
+  
   const searchInput = useLocation();
   const URLSearch = new URLSearchParams(searchInput?.search);
   const searchQuery = URLSearch.getAll("q")
@@ -28,7 +30,7 @@ const Header = () => {
   const user = useSelector((state) => state?.user?.user);
 
 
-  const handleLogout = async () => {
+  const handleLogout = async () => {     
     try {
       const response = await axios.get(endPoints.user_logout.url, { withCredentials: true });
 

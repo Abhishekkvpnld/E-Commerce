@@ -16,25 +16,23 @@ const ChangeUserRole = ({ username, email, role, userId, onClose, callFunc }) =>
   const updateUserRole = async () => {
     const response = await axios.post(endPoints.update_User_role.url, { username, email, role: userRole, userId }, { withCredentials: true });
 
-    console.log("updated user role", response.data);
 
     if (response?.data?.success) {
       toast.success(response?.data?.message);
       onClose();
       callFunc(); 
-    };
+    }
 
     if (response?.data?.error) {
       toast.error(response?.data?.message);
       onClose();
-    };
+    }
 
   };
 
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center w-full h-full z-10 bg-slate-200 bg-opacity-60'>
       <div className='mx-auto bg-white shadow-md p-4 w-full max-w-sm rounded'>
-
 
         <button className='bg-slate-100 block ml-auto p-1' onClick={onClose}>
           <IoMdClose />
