@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@stripe/stripe-js": "^4.0.0",
     "axios": "^1.7.2",
+    "framer-motion": "^12.34.4",
     "moment": "^2.30.1",
     "moments": "^0.0.2",
     "react": "^18.2.0",

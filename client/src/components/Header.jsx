@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { CiSearch, CiUser } from "react-icons/ci";
-import { IoCartOutline } from "react-icons/io5";
-// import Logo from './Logo';
+import { useContext, useState, useEffect, useRef } from 'react';
+import { CiUser } from "react-icons/ci";
+import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
+import { FiLogOut, FiShield, FiPackage } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
@@ -10,158 +10,280 @@ import toast from "react-hot-toast";
 import { setUserDetails } from "../redux/userSlice";
 import { ROLE } from "../../common/role";
 import userContext from '../context/userContext';
-import Logo from "../assest/logo.jpg"
-
+import LogoImg from "../assest/logo.jpg";
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const context = useContext(userContext);
+  const menuRef = useRef(null);
 
-  
   const searchInput = useLocation();
   const URLSearch = new URLSearchParams(searchInput?.search);
-  const searchQuery = URLSearch.getAll("q")
-
+  const searchQuery = URLSearch.getAll("q");
 
   const [menuDisplay, setMenuDisplay] = useState(false);
   const [search, setSearch] = useState(searchQuery);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
   const user = useSelector((state) => state?.user?.user);
 
+  // Scroll-aware header
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const handleLogout = async () => {     
+  // Close menu on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuDisplay(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleLogout = async () => {
     try {
       const response = await axios.get(endPoints.user_logout.url, { withCredentials: true });
-
       if (response?.data?.success) {
         toast.success(response?.data?.message);
         dispatch(setUserDetails(null));
-        navigate("/")
+        navigate("/");
       }
-
     } catch (error) {
-      toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     }
-
   };
 
-
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     const { value } = e.target;
     setSearch(value);
-
-    if (value) {
-      navigate(`/search?q=${value}`);
-    } else {
-      navigate("/search")
-    }
-  }
-
-
+    navigate(value ? `/search?q=${value}` : "/search");
+  };
 
   return (
-    <header className='h-16 shadow-md fixed  bg-white w-full z-30 '>
-      <div className="h-full container mx-auto flex items-center px-3 justify-between">
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled
+          ? 'bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(99,102,241,0.10)] border-b border-purple-100/60'
+          : 'bg-white shadow-sm'
+        }`}
+    >
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
 
-        <Link to={"/"}>
-          <div className='flex items-center'>
-            <img src={Logo} alt="img" width={"50px"} height={"50px"} />
-            <p className='font-bold italic'>GadgetHub</p>
+        {/* ── Logo ── */}
+        <Link to="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+          <div className="relative">
+            <img
+              src={LogoImg}
+              alt="GadgetHub"
+              className="w-10 h-10 rounded-xl object-cover shadow-md
+                         group-hover:shadow-purple-300/50 group-hover:scale-105
+                         transition-all duration-300"
+            />
+            {/* Glow on hover */}
+            <div className="absolute inset-0 rounded-xl bg-purple-400/0 group-hover:bg-purple-400/10 transition-all duration-300" />
           </div>
+          <span className="font-extrabold text-lg tracking-tight
+                           bg-gradient-to-r from-indigo-600 via-purple-600 to-purple-500
+                           bg-clip-text text-transparent
+                           group-hover:from-purple-500 group-hover:to-indigo-600
+                           transition-all duration-300">
+            GadgetHub
+          </span>
         </Link>
 
-        <div className='hidden md:flex items-center rounded-full '>
-          <input type="text" value={search} placeholder='search products here...' onChange={handleSearch} className='w-full outline-none px-4 bg-slate-100 py-2 rounded-full ' />
-          <div className='px-2 text-lg min-w-[50px] h-8 bg-blue-600 hover:bg-blue-700 flex items-center justify-center rounded-full text-white '>
-            <CiSearch className='hover:scale-110 transition-all' />
-          </div>
+        {/* ── Search bar ── */}
+        <div className={`hidden md:flex items-center flex-1 max-w-md mx-4 rounded-xl
+                         border transition-all duration-300 overflow-hidden
+                         ${searchFocused
+            ? 'border-purple-400 shadow-[0_0_0_3px_rgba(139,92,246,0.15)] bg-white'
+            : 'border-slate-200 bg-slate-50 hover:border-purple-300'
+          }`}>
+          <input
+            type="text"
+            value={search}
+            placeholder="Search products here..."
+            onChange={handleSearch}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            className="flex-1 px-4 py-2.5 bg-transparent outline-none text-sm text-slate-700 placeholder-slate-400"
+          />
+          <button
+            onClick={() => search && navigate(`/search?q=${search}`)}
+            className="h-full px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500
+                       hover:from-purple-600 hover:to-indigo-600
+                       text-white flex items-center justify-center transition-all duration-200"
+          >
+            <IoSearchOutline className="text-lg" />
+          </button>
         </div>
 
-        <div className='flex items-center gap-7'>
+        {/* ── Right actions ── */}
+        <div className="flex items-center gap-2">
 
+          {/* Cart */}
+          {user?._id && (
+            <Link
+              to="/cart"
+              className="relative p-2.5 rounded-xl text-slate-600 hover:text-purple-600
+                         hover:bg-purple-50 transition-all duration-200 group"
+            >
+              <IoCartOutline className="text-2xl group-hover:scale-110 transition-transform" />
+              {context?.cartProductCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full
+                             bg-gradient-to-br from-red-500 to-rose-600
+                             text-white text-[10px] font-bold
+                             flex items-center justify-center shadow-md"
+                >
+                  {context?.cartProductCount}
+                </motion.span>
+              )}
+            </Link>
+          )}
 
-          {
-            user?._id && (
-              <Link to={"/cart"} className='text-2xl rounded-full cursor-pointer hover:bg-gray-200 relative m-5 p-2'>
-                <span> <IoCartOutline className='hover:scale-110 transition-all' /></span>
-                <div className='bg-red-600 text-white w-5 h-5 rounded-full p-1 flex justify-center items-center absolute -top-1 -right-2 '>
-                  <p className='text-sm'>{context?.cartProductCount}</p>
-                </div>
+          {/* User avatar / menu */}
+          {user?._id && (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setMenuDisplay((prev) => !prev)}
+                className={`flex items-center gap-2 p-1.5 rounded-xl border transition-all duration-200
+                             ${menuDisplay
+                    ? 'border-purple-300 bg-purple-50 shadow-sm'
+                    : 'border-transparent hover:border-slate-200 hover:bg-slate-50'
+                  }`}
+              >
+                {user?.profilePicture ? (
+                  <img
+                    src={user?.profilePicture}
+                    alt={user?.username}
+                    className="w-8 h-8 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-400 to-indigo-500
+                                  flex items-center justify-center text-white">
+                    <CiUser className="text-lg" />
+                  </div>
+                )}
+                <span className="hidden sm:block text-sm font-medium text-slate-700 max-w-[80px] truncate">
+                  {user?.username}
+                </span>
+                <motion.svg
+                  animate={{ rotate: menuDisplay ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-3.5 h-3.5 text-slate-400 hidden sm:block"
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </motion.svg>
+              </button>
 
-              </Link>
-            )
-          }
+              {/* Dropdown */}
+              <AnimatePresence>
+                {menuDisplay && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                    transition={{ duration: 0.18, ease: 'easeOut' }}
+                    className="absolute right-0 top-full mt-2 w-44 rounded-xl
+                               bg-white border border-slate-100 shadow-[0_8px_32px_rgba(0,0,0,0.12)]
+                               overflow-hidden z-50"
+                  >
+                    {/* User info */}
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-slate-100">
+                      <p className="text-xs font-semibold text-slate-700 truncate">{user?.username}</p>
+                      <p className="text-[10px] text-slate-400 mt-0.5 truncate">{user?.email}</p>
+                    </div>
 
+                    <div className="py-1">
+                      {user?.role === ROLE.ADMIN && (
+                        <Link
+                          to="/admin-panel"
+                          onClick={() => setMenuDisplay(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-600
+                                     hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                        >
+                          <FiShield className="text-base" />
+                          Admin Panel
+                        </Link>
+                      )}
+                      <Link
+                        to="/order"
+                        onClick={() => setMenuDisplay(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 text-sm text-slate-600
+                                   hover:bg-purple-50 hover:text-purple-700 transition-colors"
+                      >
+                        <FiPackage className="text-base" />
+                        My Orders
+                      </Link>
+                    </div>
 
-          <div className='relative group flex justify-center' onClick={() => setMenuDisplay((prev) => !prev)}>
+                    <div className="border-t border-slate-100 py-1">
+                      <button
+                        onClick={() => { handleLogout(); setMenuDisplay(false); }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500
+                                   hover:bg-red-50 transition-colors"
+                      >
+                        <FiLogOut className="text-base" />
+                        Logout
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
 
-            {
-              user?._id && (
-                <div className='text-2xl rounded-full border cursor-pointer hover:bg-yellow-600 p-1 flex relative justify-center'>
-                  {
-                    user?.profilePicture ? (<img src={user?.profilePicture} className="w-10 h-10 rounded-full" alt={user?.username} />
-                    ) : (<CiUser />)
-                  }
-                </div>
-              )
-
-            }
-
-
-            {
-              user?.role === ROLE.ADMIN && menuDisplay && (
-                <div className='absolute flex-col bottom-0 mt-3 top-11 h-fit px-2 shadow-lg rounded bg-slate-100 '>
-                  <nav className='m-1 hidden md:block'>
-                    <Link to={"/admin-panel"} className='whitespace-nowrap p-2 rounded-md hidden md:block hover:bg-slate-300'>Admin-Panel</Link>
-                  </nav>
-                  <nav className='m-2 w-full'>
-                  <Link to={"/order"} className='whitespace-nowrap px-8 py-1 rounded-md hover:bg-slate-300'>Order</Link>
-                  </nav>
-                </div>
-              )
-            }
-
-            {
-              user?.role === ROLE.GENERAL && menuDisplay && (
-                <div className='absolute bottom-0 mt-3 top-11 h-fit px-6 py-2 shadow-lg rounded p-1 bg-slate-100'>
-                  <nav>
-                  <Link to={"/order"} className='whitespace-nowrap px-8 rounded-md py-2 hover:bg-slate-200'>Order</Link>
-                  </nav>
-                </div>
-              )
-            }
-
-          </div>
-
-
-          {
-            user?._id ? (
-              <div>
-                <button onClick={handleLogout} className='px-3 py-1 rounded-lg border-2 hover:bg-red-600 hover:text-white font-semibold'>
-                  logout
-                </button>
-              </div>
-            ) : (
-              <Link to={"/login"}>
-                <div>
-                  <button className='px-4 py-1 rounded-lg border-2 hover:bg-green-600 hover:text-white font-semibold'>
-                    Login
-                  </button>
-                </div>
-              </Link>
-            )
-          }
-
-
-
+          {/* Login button (unauthenticated) */}
+          {!user?._id && (
+            <Link to="/login">
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-5 py-2 rounded-xl text-sm font-semibold text-white
+                           bg-gradient-to-r from-purple-500 to-indigo-500
+                           hover:from-purple-600 hover:to-indigo-600
+                           shadow-md hover:shadow-purple-300/50
+                           transition-all duration-200"
+              >
+                Login
+              </motion.button>
+            </Link>
+          )}
         </div>
-
-
       </div>
 
+      {/* ── Mobile search bar ── */}
+      <div className="md:hidden px-4 pb-3">
+        <div className={`flex items-center rounded-xl border overflow-hidden transition-all duration-300
+                         ${searchFocused
+            ? 'border-purple-400 shadow-[0_0_0_3px_rgba(139,92,246,0.12)]'
+            : 'border-slate-200 bg-slate-50'
+          }`}>
+          <input
+            type="text"
+            value={search}
+            placeholder="Search products..."
+            onChange={handleSearch}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            className="flex-1 px-4 py-2.5 bg-transparent outline-none text-sm text-slate-700 placeholder-slate-400"
+          />
+          <button className="px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+            <IoSearchOutline className="text-lg" />
+          </button>
+        </div>
+      </div>
     </header>
-  )
-}
+  );
+};
 
 export default Header;
