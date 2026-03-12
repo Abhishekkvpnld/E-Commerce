@@ -51,7 +51,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
     return (
         <div className='mx-auto px-4 my-6 relative'>
 
-            <h1 className='font-semibold text-2xl py-2'>{heading}</h1>
+            <h1 className='font-semibold text-lg md:text-2xl py-2'>{heading}</h1>
 
             <div className='flex items-center gap-2 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
 
@@ -62,38 +62,38 @@ const HorizontalCardProducts = ({ category, heading }) => {
 
                 {
                     loading ? (
-                      
+
                         loadingList?.map((i, index) => (
 
-                            <div key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-lg shadow'>
-    
-                                <div className='bg-slate-200 h-full p-3 min-w-[120px] md:min-w-[145px] animate-pulse '>
+                            <div key={index} className='flex bg-slate-50 w-full min-w-[220px] md:min-w-[320px] max-w-[220px] md:max-w-[320px] h-36 rounded-lg shadow'>
+
+                                <div className='bg-slate-200 h-full p-3 min-w-[90px] md:min-w-[145px] animate-pulse '>
 
                                 </div>
-    
+
                                 <div className='p-4 grid gap-2'>
-    
+
                                     <h1 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black bg-slate-200 animate-pulse '></h1>
                                     <p className='bg-slate-200 animate-pulse '></p>
-    
+
                                     <div className='flex gap-1'>
                                         <p className='bg-slate-200 w-full animate-pulse '></p>
                                         <p className='bg-slate-200 w-full animate-pulse '></p>
                                     </div>
-    
+
                                     <button className='text-sm text-white bg-slate-200 w-200 px-16 py-1 rounded animate-pulse '></button>
-    
+
                                 </div>
-    
+
                             </div>
                         ))
 
                     ) : (
                         data?.map((product, index) => (
 
-                            <Link to={"/product-details/"+product?._id} key={index} className='flex bg-slate-50 w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 rounded-lg border-2 shadow' onClick={scrollTop} >
+                            <Link to={"/product-details/" + product?._id} key={index} className='flex bg-slate-50 w-full min-w-[220px] md:min-w-[320px] max-w-[220px] md:max-w-[320px] h-36 rounded-lg border-2 shadow' onClick={scrollTop} >
 
-                                <div className='bg-slate-200 h-full p-3 min-w-[120px] md:min-w-[145px] '>
+                                <div className='bg-slate-200 h-full p-3 min-w-[90px] md:min-w-[145px] '>
                                     <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down hover:scale-110 transition-all' />
                                 </div>
 
@@ -107,7 +107,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
                                         <p className='text-red-500 line-through'>{displayINRCurrency(product?.price)}</p>
                                     </div>
 
-                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e)=>handleAddToCart(e,product?._id)}>Add to Cart</button>
+                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
 
                                 </div>
 

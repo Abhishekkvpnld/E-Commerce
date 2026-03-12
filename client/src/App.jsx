@@ -24,16 +24,16 @@ function App() {
       if (current_user?.data?.success) {
         dispatch(setUserDetails(current_user?.data?.data));
       }
-      
+
       return;
 
     } catch (error) {
       console.log(error);
     }
-  },[dispatch]);
+  }, [dispatch]);
 
 
-  const fetchAddToCart = async () => { 
+  const fetchAddToCart = async () => {
     try {
       const response = await axios.get(endPoints.countAddToCartProduct.url, { withCredentials: true });
       const responseData = response?.data;
@@ -44,7 +44,7 @@ function App() {
       return;
 
     } catch (error) {
-      console.log(error?.response?.data?.message); 
+      console.log(error?.response?.data?.message);
     }
   }
 
@@ -64,8 +64,8 @@ function App() {
         fetchAddToCart
       }}>
         <Header />
- 
-        <main className='min-h-[calc(100vh-100px)] pt-16'>
+
+        <main className='min-h-[calc(100vh-100px)] pt-28 md:pt-16'>
           <Outlet />
         </main>
 
