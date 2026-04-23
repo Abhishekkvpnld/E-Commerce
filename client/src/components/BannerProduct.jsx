@@ -9,6 +9,8 @@ import image2 from "../assest/banner/img2.webp";
 import image3 from "../assest/banner/img3.jpg";
 import image4 from "../assest/banner/img4.jpg";
 import image5 from "../assest/banner/img5.webp";
+import image6 from "../assest/banner/promo_appliances.png";
+
 
 //Mobile Images
 import imageMobile1 from "../assest/banner/img1_mobile.jpg";
@@ -17,7 +19,7 @@ import imageMobile3 from "../assest/banner/img3_mobile.jpg";
 import imageMobile4 from "../assest/banner/img4_mobile.jpg";
 import imageMobile5 from "../assest/banner/img5_mobile.png";
 
-
+import imageMobile7 from "../assest/banner/img5_mobile.png";
 
 const BannerProduct = () => {
 
@@ -28,7 +30,8 @@ const BannerProduct = () => {
         image2,
         image3,
         image4,
-        image5
+        image5,
+        image6
     ];
 
     const mobileImages = [
@@ -52,11 +55,11 @@ const BannerProduct = () => {
 
 
     useEffect(() => {
-     const interval = setInterval(() => {
+        const interval = setInterval(() => {
             setCurrentImage((prev) => (prev + 1) % desktopImages.length);
         }, 5000);
-        return ()=>clearInterval(interval);
-    }, [currentImage,desktopImages.length]);
+        return () => clearInterval(interval);
+    }, [currentImage, desktopImages.length]);
 
 
     return (

@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./client
+    container_name: ecom-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    env_file:
+      - ./client/.env
+
+  backend:
+    build: ./server
+    container_name: ecom-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+    env_file:
+      - ./server/.env
+
+  mongodb:
+    image: mongo:7
+    container_name: ecom-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ecommerce_data:/data/db
+
+volumes:
+  ecommerce_data:

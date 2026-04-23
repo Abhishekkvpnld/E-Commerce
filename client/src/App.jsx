@@ -3,57 +3,31 @@ import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { Toaster } from 'react-hot-toast';
-import axios from "axios";
-import endPoints from '../common/configApi';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import userContext from './context/userContext';
 import { useDispatch } from "react-redux";
 import { setUserDetails } from './redux/userSlice';
+import { useGetCartCountQuery, useGetCurrentUserQuery } from './redux/api/apiSlice';
 
 function App() {
 
   const dispatch = useDispatch();
-  const [cartProductCount, setCartProductCount] = useState(0);
 
+  // RTK Query naturally fetches and caches this data automatically!
+  const { data: currentUserData, refetch: fetchUserDetails } = useGetCurrentUserQuery();
+  const { data: cartCountData, refetch: fetchAddToCart } = useGetCartCountQuery();
 
-  const fetchUserDetails = useCallback(async () => {
-
-    try {
-      const current_user = await axios.get(endPoints.current_user.url, { withCredentials: true });
-
-      if (current_user?.data?.success) {
-        dispatch(setUserDetails(current_user?.data?.data));
-      }
-
-      return;
-
-    } catch (error) {
-      console.log(error);
-    }
-  }, [dispatch]);
-
-
-  const fetchAddToCart = async () => {
-    try {
-      const response = await axios.get(endPoints.countAddToCartProduct.url, { withCredentials: true });
-      const responseData = response?.data;
-
-      if (responseData?.data) {
-        setCartProductCount(responseData?.data?.count);
-      }
-      return;
-
-    } catch (error) {
-      console.log(error?.response?.data?.message);
-    }
-  }
-
+  // Keep Redux user slice synced for backward compatibility with other components
   useEffect(() => {
-    //user Details
-    fetchUserDetails();
-    //User AddToCart
-    fetchAddToCart();
-  }, [fetchUserDetails]);
+    if (currentUserData?.success) {
+      dispatch(setUserDetails(currentUserData.data));
+    } else if (currentUserData && !currentUserData.success) {
+      // Handle logged out state
+      dispatch(setUserDetails(null));
+    }
+  }, [currentUserData, dispatch]);
+
+  const cartProductCount = cartCountData || 0;
 
 
   return (
