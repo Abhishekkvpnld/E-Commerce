@@ -23,9 +23,9 @@ import { orderDetails } from "../controllers/order/order.js";
 import { allOrders } from "../controllers/order/allOrders.js";
 import { forgotPassword } from "../controllers/user/forgotPassword.js";
 import { changePassword } from "../controllers/user/changePassword.js";
+import { cacheMiddleware } from "../middleware/cache.js";
 
-
-const router = express.Router();     
+const router = express.Router();
 
 //User Data
 router.get("/user-details",authToken,userDetails);
@@ -42,10 +42,10 @@ router.post("/filter-products",filterProduct);
 router.get("/all-users",authToken,allUsers);
 router.post("/update-user-role",authToken,updateUserRole);
 router.post("/upload-product",authToken,uploadproduct);
-router.get("/get-all-products",getAllProducts);
+router.get("/get-all-products", cacheMiddleware(300), getAllProducts);
 router.post("/update-product",authToken,updateProduct);
-router.get("/get-category-product",getCategoryProduct);
-router.post("/get-categoryWise-product",getCategoryWiseProduct);
+router.get("/get-category-product", cacheMiddleware(600), getCategoryProduct);
+router.post("/get-categoryWise-product", cacheMiddleware(300), getCategoryWiseProduct);
 
 
 //Add to Cart
