@@ -47,6 +47,10 @@ router.post("/update-product",authToken,updateProduct);
 router.get("/get-category-product", cacheMiddleware(600), getCategoryProduct);
 router.post("/get-categoryWise-product", cacheMiddleware(300), getCategoryWiseProduct);
 
+// router.get("/get-category-product", getCategoryProduct);
+// router.post("/get-categoryWise-product", getCategoryWiseProduct);
+// router.get("/get-all-products", getAllProducts);
+
 
 //Add to Cart
 router.post("/addToCart",authToken,addToCart);

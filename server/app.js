@@ -6,7 +6,7 @@ import dbConnection from "./config/database.js";
 import auth from "./routes/auth.js";
 import cookie from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
-import rateLimit from "express-rate-limit";
+// import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import compression from "compression";
 import errorHandler from "./middleware/errorHandler.js";
@@ -26,13 +26,13 @@ app.use(
 );
 
 // ── Body Parsing & Logging ────────────────────────────────────────────────────
-app.use(morgan("dev"));
+app.use(morgan("dev")); // Logs all requests to console
 app.use(express.json());
 app.use(cookie());
 
 // ── Rate Limiting ─────────────────────────────────────────────────────────────
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use("/api", limiter);
+// const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
+// app.use("/api", limiter);
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 app.use("/api/auth", auth);

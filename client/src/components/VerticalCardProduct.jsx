@@ -43,30 +43,40 @@ export const VerticalCardProduct = ({ category, heading }) => {
 
 
     const scrollRight = () => {
-        scrollElement.current.scrollLeft += 300;
+        scrollElement.current.scrollBy({ left: 300, behavior: 'smooth' });
     };
 
     const scrollLeft = () => {
-        scrollElement.current.scrollLeft -= 300;
+        scrollElement.current.scrollBy({ left: -300, behavior: 'smooth' });
     };
 
     return (
         <div className='mx-auto px-4 my-6 relative py-1'>
 
-            <h1 className='font-semibold text-lg md:text-2xl py-2'>{heading}</h1>
+            <style>{`
+                @keyframes cardFadeIn {
+                    from { opacity: 0; transform: translateY(8px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .card-fade-in {
+                    animation: cardFadeIn 0.4s ease-out both;
+                }
+            `}</style>
 
-            <div className='flex items-center gap-2 md:gap-6 overflow-scroll scrollbar-none transition-all' ref={scrollElement}>
+            <h1 className='font-semibold text-lg md:text-2xl py-2 text-slate-800'>{heading}</h1>
+
+            <div className='flex items-center gap-3 md:gap-6 overflow-scroll scrollbar-none scroll-smooth snap-x transition-all py-1' ref={scrollElement}>
 
 
-                <button onClick={scrollLeft} className='shadow-md p-1 rounded-full bg-white hover:bg-opacity-50 absolute left-0 hidden md:block '><MdArrowBackIosNew /></button>
-                <button onClick={scrollRight} className='shadow-md p-1 rounded-full bg-white hover:bg-opacity-50 absolute right-0 hidden md:block'><MdArrowForwardIos /></button>
+                <button onClick={scrollLeft} className='shadow-sm p-2 rounded-full bg-white ring-1 ring-slate-200 hover:shadow-md hover:ring-slate-300 active:scale-90 transition-all duration-200 absolute left-1 top-1/2 -translate-y-1/2 z-10 hidden md:block text-slate-600'><MdArrowBackIosNew size={14} /></button>
+                <button onClick={scrollRight} className='shadow-sm p-2 rounded-full bg-white ring-1 ring-slate-200 hover:shadow-md hover:ring-slate-300 active:scale-90 transition-all duration-200 absolute right-1 top-1/2 -translate-y-1/2 z-10 hidden md:block text-slate-600'><MdArrowForwardIos size={14} /></button>
 
 
                 {
                     loading ? (
                         loadingList?.map((product, index) => (
 
-                            <div key={index} className='bg-slate-50 w-full min-w-[160px] md:min-w-[320px] max-w-[160px] md:max-w-[320px] rounded-sm shadow'>
+                            <div key={index} className='bg-slate-50 w-full min-w-[160px] md:min-w-[320px] max-w-[160px] md:max-w-[320px] rounded-lg ring-1 ring-slate-200 overflow-hidden'>
 
                                 <div className='bg-slate-200 h-36 md:h-48 p-3 flex items-center justify-center animate-pulse'>
 
@@ -74,15 +84,15 @@ export const VerticalCardProduct = ({ category, heading }) => {
 
                                 <div className='p-4 grid gap-2'>
 
-                                    <h1 className='bg-slate-200 p-2 animate-pulse'></h1>
-                                    <p className='bg-slate-200 p-1 animate-pulse'></p>
+                                    <h1 className='bg-slate-200 rounded p-2 animate-pulse'></h1>
+                                    <p className='bg-slate-200 rounded p-1 w-2/5 animate-pulse'></p>
 
                                     <div className='flex gap-2'>
-                                        <p className='bg-slate-200 w-full p-1 animate-pulse'></p>
-                                        <p className='bg-slate-200 w-full p-1 animate-pulse'></p>
+                                        <p className='bg-slate-200 rounded w-full p-1 animate-pulse'></p>
+                                        <p className='bg-slate-200 rounded w-full p-1 animate-pulse'></p>
                                     </div>
 
-                                    <button className='text-sm text-white bg-slate-200 px-16 py-3 rounded'></button>
+                                    <button className='text-sm text-white bg-slate-200 px-16 py-3 rounded-md animate-pulse'></button>
 
                                 </div>
 
@@ -91,23 +101,33 @@ export const VerticalCardProduct = ({ category, heading }) => {
                     ) : (
                         data?.map((product, index) => (
 
-                            <Link to={"/product-details/" + product?._id} key={index} className='bg-slate-50 w-full min-w-[160px] md:min-w-[320px] max-w-[160px] md:max-w-[320px] rounded-md border-2 shadow '>
+                            <Link
+                                to={"/product-details/" + product?._id}
+                                key={index}
+                                style={{ animationDelay: `${Math.min(index, 10) * 40}ms` }}
+                                className='card-fade-in group bg-slate-50 w-full min-w-[160px] md:min-w-[320px] max-w-[160px] md:max-w-[320px] rounded-lg ring-1 ring-slate-200 overflow-hidden shadow-sm snap-start transition-all duration-300 ease-out hover:shadow-lg hover:ring-slate-300 hover:-translate-y-1'
+                            >
 
-                                <div className='bg-slate-200 h-36 md:h-48 p-3 flex items-center justify-center'>
-                                    <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down hover:scale-110 transition-all' />
+                                <div className='bg-slate-200 h-36 md:h-48 p-3 flex items-center justify-center overflow-hidden'>
+                                    <img src={product?.productImage[0]} alt="img" className='h-full mix-blend-multiply object-scale-down transition-transform duration-500 ease-out group-hover:scale-105' />
                                 </div>
 
-                                <div className='p-4 grid gap-2'>
+                                <div className='p-4 grid gap-1.5'>
 
-                                    <h1 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black'>{product?.productName}</h1>
-                                    <p className='capitalize text-slate-600'>{product?.category}</p>
+                                    <h1 className='font-semibold text-base md:text-lg text-ellipsis line-clamp-1 text-slate-800'>{product?.productName}</h1>
+                                    <p className='capitalize text-slate-500 text-sm'>{product?.category}</p>
 
-                                    <div className='flex gap-1'>
-                                        <p className='text-blue-700 font-semibold'>{displayINRCurrency(product?.sellingPrice)}</p>
-                                        <p className='text-red-500 line-through'>{displayINRCurrency(product?.price)}</p>
+                                    <div className='flex items-baseline gap-2 pt-0.5'>
+                                        <p className='text-slate-900 font-bold text-lg'>{displayINRCurrency(product?.sellingPrice)}</p>
+                                        <p className='text-slate-400 line-through text-sm'>{displayINRCurrency(product?.price)}</p>
                                     </div>
 
-                                    <button className='text-sm text-white bg-green-700 hover:bg-green-800 px-2 py-1 rounded' onClick={(e) => handleAddToCart(e, product?._id)}>Add to Cart</button>
+                                    <button
+                                        className='text-sm text-white bg-emerald-700 hover:bg-emerald-800 active:scale-95 shadow-sm hover:shadow transition-all duration-200 px-2 py-2 mt-2 rounded-md font-medium'
+                                        onClick={(e) => handleAddToCart(e, product?._id)}
+                                    >
+                                        Add to Cart
+                                    </button>
 
                                 </div>
 
