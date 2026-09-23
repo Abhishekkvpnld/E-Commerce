@@ -22,7 +22,8 @@ import OrderPage from './pages/OrderPage.jsx';
 import AllOrders from './pages/AllOrders.jsx';
 import ChangePassword from './components/ChangePassword.jsx';
 
-
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/queryClient";
 
 const router = createBrowserRouter([
   {
@@ -103,7 +104,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </Provider>
   </React.StrictMode  >
 );
