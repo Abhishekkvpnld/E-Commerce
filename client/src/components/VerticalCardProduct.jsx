@@ -6,6 +6,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import addToCart from '../helpers/addToCart';
 import { Link } from 'react-router-dom';
 import userContext from '../context/userContext';
+import { useCategoryWiseProduct } from '../hooks/products/useCategoryWiseProduct';
 
 
 
@@ -13,8 +14,8 @@ export const VerticalCardProduct = ({ category, heading }) => {
 
 
     const [scroll, setScroll] = useState(0);
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
 
     const scrollElement = useRef();
     const { fetchAddToCart } = useContext(userContext);
@@ -29,17 +30,27 @@ export const VerticalCardProduct = ({ category, heading }) => {
     };
 
 
-    const fetchData = async () => {
-        setLoading(true);
-        const categoryProduct = await getCategoryWiseProduct(category);
-        setLoading(false);
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     const categoryProduct = await getCategoryWiseProduct(category);
+    //     setLoading(false);
 
-        setData(categoryProduct?.data);
-    };
+    //     setData(categoryProduct?.data);
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
+
+
+    // Using react-query to fetch category-wise products
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        error,
+    } = useCategoryWiseProduct(category);
 
 
     const scrollRight = () => {
@@ -99,7 +110,7 @@ export const VerticalCardProduct = ({ category, heading }) => {
                             </div>
                         ))
                     ) : (
-                        data?.map((product, index) => (
+                        data?.data?.map((product, index) => (
 
                             <Link
                                 to={"/product-details/" + product?._id}

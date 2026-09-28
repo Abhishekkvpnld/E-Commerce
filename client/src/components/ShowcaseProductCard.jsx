@@ -11,33 +11,45 @@ import displayINRCurrency from "../helpers/displayCurrency";
 import addToCart from "../helpers/addToCart";
 import userContext from "../context/userContext";
 import scrollTop from "../helpers/scrollTop";
+import { useCategoryWiseProduct } from "../hooks/products/useCategoryWiseProduct";
 
 const ShowcaseProductCard = ({ category, heading }) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
 
     const { fetchAddToCart } = useContext(userContext);
 
     const loadingList = new Array(6).fill(null);
 
-    const fetchData = async () => {
-        setLoading(true);
+    // const fetchData = async () => {
+    //     setLoading(true);
 
-        try {
-            const categoryProduct = await getCategoryWiseProduct(category);
+    //     try {
+    //         const categoryProduct = await getCategoryWiseProduct(category);
 
-            setData(categoryProduct?.data || []);
-        } catch (error) {
-            console.error("Showcase product error:", error);
-            setData([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+    //         setData(categoryProduct?.data || []);
+    //     } catch (error) {
+    //         console.error("Showcase product error:", error);
+    //         setData([]);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, [category]);
+    // useEffect(() => {
+    //     fetchData();
+    // }, [category]);
+
+
+    
+        // Using react-query to fetch category-wise products
+        const {
+            data,
+            isLoading: loading,
+            isError,
+            error,
+        } = useCategoryWiseProduct(category);
+
 
     const handleAddToCart = async (e, id) => {
         e.preventDefault();
@@ -108,7 +120,7 @@ const ShowcaseProductCard = ({ category, heading }) => {
                     ))}
                 </div>
 
-            ) : data?.length > 0 ? (
+            ) : data?.data?.length > 0 ? (
 
                 <div
                     className="
@@ -121,7 +133,7 @@ const ShowcaseProductCard = ({ category, heading }) => {
                     "
                 >
 
-                    {data.slice(0, 10).map((product, index) => {
+                    {data?.data?.slice(0, 10).map((product, index) => {
 
                         const price = Number(product?.price) || 0;
                         const sellingPrice =

@@ -7,14 +7,15 @@ import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
 import userContext from '../context/userContext';
 import scrollTop from '../helpers/scrollTop';
+import { useCategoryWiseProduct } from '../hooks/products/useCategoryWiseProduct';
 
 
 
 const HorizontalCardProducts = ({ category, heading }) => {
 
 
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
 
     const scrollElement = useRef();
     const { fetchAddToCart } = useContext(userContext);
@@ -27,17 +28,25 @@ const HorizontalCardProducts = ({ category, heading }) => {
         fetchAddToCart();
     };
 
-    const fetchData = async () => {
-        setLoading(true);
-        const categoryProduct = await getCategoryWiseProduct(category);
-        setLoading(false);
+    // const fetchData = async () => {
+    //     setLoading(true);
+    //     const categoryProduct = await getCategoryWiseProduct(category);
+    //     setLoading(false);
 
-        setData(categoryProduct?.data);
-    };
+    //     setData(categoryProduct?.data);
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
+    // Using react-query to fetch category-wise products
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        error,
+    } = useCategoryWiseProduct(category);
 
 
     const scrollRight = () => {
@@ -89,7 +98,7 @@ const HorizontalCardProducts = ({ category, heading }) => {
                         ))
 
                     ) : (
-                        data?.map((product, index) => (
+                        data?.data?.map((product, index) => (
 
                             <Link to={"/product-details/" + product?._id} key={index} className='group flex bg-slate-50 w-full min-w-[220px] md:min-w-[320px] max-w-[220px] md:max-w-[320px] h-36 rounded-xl ring-1 ring-slate-100 shadow-sm snap-start transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:ring-slate-200' onClick={scrollTop} >
 

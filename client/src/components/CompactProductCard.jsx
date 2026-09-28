@@ -11,27 +11,38 @@ import displayINRCurrency from "../helpers/displayCurrency";
 import addToCart from "../helpers/addToCart";
 import userContext from "../context/userContext";
 import scrollTop from "../helpers/scrollTop";
+import { useCategoryWiseProduct } from "../hooks/products/useCategoryWiseProduct";
 
 const CompactProductCard = ({ category, heading }) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(true);
 
     const { fetchAddToCart } = useContext(userContext);
 
     const loadingList = new Array(6).fill(null);
 
-    const fetchData = async () => {
-        setLoading(true);
+    // const fetchData = async () => {
+    //     setLoading(true);
 
-        const categoryProduct = await getCategoryWiseProduct(category);
+    //     const categoryProduct = await getCategoryWiseProduct(category);
 
-        setData(categoryProduct?.data || []);
-        setLoading(false);
-    };
+    //     setData(categoryProduct?.data || []);
+    //     setLoading(false);
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, [category]);
+    // useEffect(() => {
+    //     fetchData();
+    // }, [category]);
+
+
+
+    // Using react-query to fetch category-wise products
+    const {
+        data,
+        isLoading: loading,
+        isError,
+        error,
+    } = useCategoryWiseProduct(category);
 
     const handleAddToCart = async (e, id) => {
         e.preventDefault();
@@ -119,7 +130,7 @@ const CompactProductCard = ({ category, heading }) => {
                     md:gap-5
                 ">
 
-                    {data?.slice(0, 12).map((product) => {
+                    {data?.data?.slice(0, 12).map((product) => {
 
                         const discount =
                             product?.price > product?.sellingPrice

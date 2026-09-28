@@ -2,26 +2,37 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import endPoints from '../../common/configApi';
 import { Link } from 'react-router-dom';
+import { useCategoryProduct } from "../hooks/products/useCategoryProduct";
 
 
 const CategoryList = () => {
 
-    const [categoryProduct, setCategoryProduct] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [categoryProduct, setCategoryProduct] = useState([]);
+    // const [loading, setLoading] = useState(true);
 
     const categoryLoadingArray = new Array(13).fill(null);
 
-    const fetchCategoryProduct = async () => {
-        setLoading(true)
-        const response = await axios.get(endPoints.getProductCategory.url);
-        const data = response?.data?.data;
-        setLoading(false)
-        setCategoryProduct(data)
-    };
+    // const fetchCategoryProduct = async () => {
+    //     setLoading(true)
+    //     const response = await axios.get(endPoints.getProductCategory.url);
+    //     const data = response?.data?.data;
+    //     setLoading(false)
+    //     setCategoryProduct(data)
+    // };
 
-    useEffect(() => {
-        fetchCategoryProduct();
-    }, []);
+    // useEffect(() => {
+    //     fetchCategoryProduct();
+    // }, []);
+
+    const {
+        data: responseData,
+        isLoading: loading,
+        isError,
+    } = useCategoryProduct();
+
+    const categoryProduct = responseData?.data || [];
+
+
 
     return (
         <div className='mx-auto p-4'>
