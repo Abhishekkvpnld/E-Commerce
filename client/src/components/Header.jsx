@@ -69,8 +69,8 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(99,102,241,0.10)] border-b border-purple-100/60'
-          : 'bg-white shadow-sm'
+        ? 'bg-white/90 backdrop-blur-xl shadow-[0_4px_24px_rgba(99,102,241,0.10)] border-b border-purple-100/60'
+        : 'bg-white shadow-sm'
         }`}
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
@@ -242,22 +242,44 @@ const Header = () => {
             </div>
           )}
 
+
+
           {/* Login button (unauthenticated) */}
           {!user?._id && (
             <Link to="/login">
               <motion.button
-                whileHover={{ scale: 1.04 }}
+                whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.97 }}
-                className="px-5 py-2 rounded-xl text-sm font-semibold text-white
-                           bg-gradient-to-r from-purple-500 to-indigo-500
-                           hover:from-purple-600 hover:to-indigo-600
-                           shadow-md hover:shadow-purple-300/50
-                           transition-all duration-200"
+                className="
+        flex
+        items-center
+        gap-2
+        px-4
+        py-2
+        rounded-lg
+        border
+        border-slate-300
+        bg-white
+        text-slate-700
+        text-sm
+        font-semibold
+        hover:border-purple-500
+        hover:text-purple-600
+        hover:bg-purple-50/50
+        transition-all
+        duration-200
+      "
               >
-                Login
+                <CiUser className="text-lg" />
+
+                <span>Login</span>
               </motion.button>
             </Link>
           )}
+
+
+
+
         </div>
       </div>
 
