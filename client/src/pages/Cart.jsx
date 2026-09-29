@@ -9,51 +9,66 @@ import { MdOutlinePayment } from "react-icons/md";
 import { loadStripe } from '@stripe/stripe-js';
 import paymentLoadingGif from "../assest/paymentLoading.gif";
 import cartLoaderGif from "../assest/cartLoader.gif"
+import { useCartProducts } from '../hooks/cart/useCartProducts ';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 
 const Cart = () => {
 
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [data, setData] = useState([]);
+    // const [loading, setLoading] = useState(false);
     const [paymentLoading, setPaymentLoading] = useState(false);
     const contexts = useContext(userContext);
 
     const loadingCart = new Array(contexts?.cartProductCount).fill(null);
 
-    const fetchCartData = async () => {
+    // const fetchCartData = async () => {
 
-        try {
-            const response = await axios.get(endPoints.cartViewProduct.url, { withCredentials: true });
-            const fetchData = response?.data;
+    //     try {
+    //         const response = await axios.get(endPoints.cartViewProduct.url, { withCredentials: true });
+    //         const fetchData = response?.data;
 
-            if (fetchData?.success) {
-                setData(fetchData?.data);
-            }
+    //         if (fetchData?.success) {
+    //             setData(fetchData?.data);
+    //         }
 
-        } catch (error) {
-            console.log(error?.response?.data?.message);
-        }
-    };
+    //     } catch (error) {
+    //         console.log(error?.response?.data?.message);
+    //     }
+    // };
 
-    const handleLoading = async () => {
-        await fetchCartData();
-    };
+    // const handleLoading = async () => {
+    //     await fetchCartData();
+    // };
 
-    useEffect(() => {
-        setLoading(true);
-        handleLoading();
-        setLoading(false);
-    }, []);
+    // useEffect(() => {
+    //     setLoading(true);
+    //     handleLoading();
+    //     setLoading(false);
+    // }, []);
+
+    const {
+        data = [],
+        isLoading: loading,
+        isError,
+        error
+    } = useCartProducts();
+
+    const queryClient = useQueryClient();
 
 
+    // Increase the quantity of a product in the cart
     const increaseQty = async (cartId, qty) => {
         try {
             const response = await axios.post(endPoints?.updateCartProduct.url, { productQty: qty + 1, cartId: cartId }, { withCredentials: true });
             const responseData = response?.data;
 
             if (responseData?.success) {
-                fetchCartData();
+                await queryClient.invalidateQueries({
+                    queryKey: ["cart", "products"],
+                });
+
                 toast.success(responseData?.message);
             }
 
@@ -63,7 +78,7 @@ const Cart = () => {
     };
 
 
-
+    // Decrease the quantity of a product in the cart
     const decreaseQty = async (cartId, qty) => {
         try {
             if (qty >= 2) {
@@ -72,7 +87,9 @@ const Cart = () => {
                 const responseData = response?.data;
 
                 if (responseData?.success) {
-                    fetchCartData();
+                    await queryClient.invalidateQueries({
+                        queryKey: ["cart", "products"],
+                    });
                     toast.success(responseData?.message);
                 }
 
@@ -83,7 +100,7 @@ const Cart = () => {
         }
     };
 
-
+    // Delete a product from the cart
     const deleteCartProduct = async (cartId) => {
         try {
 
@@ -91,7 +108,9 @@ const Cart = () => {
             const responseData = response?.data;
 
             if (responseData?.success) {
-                fetchCartData();
+                await queryClient.invalidateQueries({
+                    queryKey: ["cart", "products"],
+                });
                 contexts?.fetchAddToCart();
                 toast.success(responseData?.message)
             };
@@ -101,7 +120,7 @@ const Cart = () => {
         };
     };
 
-
+    // Handle the payment process
     const handlePayment = async () => {
 
         const stripePromise = await loadStripe("pk_test_51PUtq8F3ve2G57TDVhN9ZthiQRGIlsrVu0RBhN8BK7deXYwN3T9FrwL8AmciqeZHT47Ef9yaYZSveDZi92ywKXbe00dOwVapbq");
@@ -123,8 +142,10 @@ const Cart = () => {
     };
 
 
-    const totalQuantity = data?.reduce((prev, current) => prev + current?.quantity, 0);
-    const totalPrice = data?.reduce((prev, current) => prev + (current?.quantity * current?.productId?.sellingPrice), 0);
+
+
+    const totalQuantity = data?.data?.reduce((prev, current) => prev + current?.quantity, 0);
+    const totalPrice = data?.data?.reduce((prev, current) => prev + (current?.quantity * current?.productId?.sellingPrice), 0);
 
 
     return (
@@ -152,7 +173,7 @@ const Cart = () => {
                                 </div>
                             ))
                         ) : (
-                            data?.map((product, index) => (
+                            data?.data?.map((product, index) => (
                                 <div key={product?._id + index} className='w-full h-40 bg-slate-50 md:h-32  my-2 border border-slate-300 rounded grid grid-cols-[130px,1fr]'>
 
                                     <div className='w-28 h-full border border-slate-300'>

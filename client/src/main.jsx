@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
@@ -25,80 +25,85 @@ import ChangePassword from './components/ChangePassword.jsx';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 
+
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
         path: "",
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
       },
       {
         path: "/forgot-password",
-        element: <ForgotPassword />
+        element: <ForgotPassword />,
       },
       {
         path: "/signup",
-        element: <Signup />
+        element: <Signup />,
       },
       {
         path: "/change-password/:email",
-        element: <ChangePassword />
+        element: <ChangePassword />,
       },
       {
         path: "/product-category",
-        element: <CategoryProduct />
+        element: <CategoryProduct />,
       },
       {
         path: "/product-details/:id",
-        element: <ProductDetails />
+        element: <ProductDetails />,
       },
       {
         path: "/cart",
-        element: <Cart />
+        element: <Cart />,
       },
       {
         path: "/success",
-        element: <Success />
+        element: <Success />,
       },
       {
         path: "/cancel",
-        element: <Cancel />
+        element: <Cancel />,
       },
       {
         path: "/order",
-        element: <OrderPage />
+        element: <OrderPage />,
       },
       {
         path: "search",
-        element: <SearchPage />
+        element: <SearchPage />,
       },
+
       {
         path: "/admin-panel",
         element: <AdminPanel />,
         children: [
           {
+            index: true,
+            element: <Navigate to="all-users" replace />,
+          },
+          {
             path: "all-users",
-            element: <AllUsers />
+            element: <AllUsers />,
           },
           {
             path: "all-products",
-            element: <AllProducts />
+            element: <AllProducts />,
           },
           {
             path: "all-orders",
-            element: <AllOrders />
-          }
-
-        ]
-      }
-    ]
-  }
+            element: <AllOrders />,
+          },
+        ],
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

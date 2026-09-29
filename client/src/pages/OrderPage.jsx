@@ -7,14 +7,14 @@ import {
 } from "react-icons/fi";
 
 import displayINRCurrency from "../helpers/displayCurrency";
-import { useCartProducts } from "../hooks/cart/useCartProducts ";
+import { useOrders } from "../hooks/order/useOrders ";
 
 const OrderPage = () => {
   const {
     data: responseData,
     isLoading,
     isError,
-  } = useCartProducts();
+  } = useOrders();
 
   const fetchData = responseData?.data || [];
 
