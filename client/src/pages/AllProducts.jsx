@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import UploadProduct from "../components/UploadProduct";
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import AdminProductCard from '../components/AdminProductCard';
 
 const AllProducts = () => {

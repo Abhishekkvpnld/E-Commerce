@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import userContext from '../context/userContext';
 import displayCurrency from "../helpers/displayCurrency";
 import toast from "react-hot-toast";

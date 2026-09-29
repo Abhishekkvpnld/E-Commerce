@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react'
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 

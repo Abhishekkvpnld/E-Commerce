@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from "../common/configApi";
 import toast from "react-hot-toast";
 import { CiUser } from "react-icons/ci";
 import moment from "moment";

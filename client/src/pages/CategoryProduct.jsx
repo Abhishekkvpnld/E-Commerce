@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import productCategory from '../helpers/productCategory';
 import SearchVerticalProducts from '../components/SearchVerticalProducts';
 import axios from 'axios';
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import { FiFilter, FiX, FiChevronDown } from 'react-icons/fi';
 
 const CategoryProduct = () => {

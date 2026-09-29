@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ROLE } from "../../common/role";
+import { ROLE } from "../common/role";
 import { IoMdClose } from "react-icons/io";
 import axios from 'axios';
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from "react-hot-toast";
 
 

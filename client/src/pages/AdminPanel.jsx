@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { CiUser } from 'react-icons/ci';
 import { useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { ROLE } from '../../common/role';
+import { ROLE } from '../common/role';
 
 const AdminPanel = () => {
 

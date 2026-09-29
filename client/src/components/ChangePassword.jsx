@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from "react-hot-toast";
 
 

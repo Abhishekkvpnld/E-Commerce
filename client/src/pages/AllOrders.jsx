@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import moment from "moment";
 import displayINRCurrency from '../helpers/displayCurrency';
 

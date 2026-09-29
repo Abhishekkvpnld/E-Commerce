@@ -1,5 +1,5 @@
 import axios from "axios";
-import endPoints from "../../common/configApi";
+import endPoints from "../common/configApi";
 
 
 export const getCategoryWiseProduct = async (category) => { 

@@ -6,7 +6,7 @@ import uploadImageToCloudinary from '../helpers/uploadImageToCloudinary';
 import DisplayImage from './DisplayImage';
 import { MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from 'react-hot-toast';
 
 

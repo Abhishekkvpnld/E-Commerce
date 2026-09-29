@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import { Link } from 'react-router-dom';
 import { useCategoryProduct } from "../hooks/products/useCategoryProduct";
 

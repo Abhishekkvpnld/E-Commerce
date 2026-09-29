@@ -3,7 +3,7 @@ import loginIcon from "../assest/signin.gif";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from "react-hot-toast";
 import userContext from '../context/userContext';
 import { motion, AnimatePresence } from 'framer-motion';

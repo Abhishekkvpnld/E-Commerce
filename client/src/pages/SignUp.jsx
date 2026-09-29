@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash, FaCamera } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import imageToBaseUrl from '../helpers/imageToBaseUrl';
 import axios from "axios";
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import toast from 'react-hot-toast';
 import uploadImageToCloudinary from '../helpers/uploadImageToCloudinary';
 import { motion, AnimatePresence } from 'framer-motion';

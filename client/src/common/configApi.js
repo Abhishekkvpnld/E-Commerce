@@ -96,7 +96,7 @@ const endPoints = {
   },
   allOrders: {
     url: `${backendDomain}/all-orders`,
-    methos: "GET",
+    method: "GET",
   },
 };
 

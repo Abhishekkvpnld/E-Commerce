@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import endPoints from '../../common/configApi';
+import endPoints from '../common/configApi';
 import SearchVerticalProducts from '../components/SearchVerticalProducts';
 
 
