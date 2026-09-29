@@ -5,3 +5,10 @@ export const getOrders = async () => {
 
   return data;
 };
+
+
+export const getAllOrders = async () => {
+  const response = await api.get("/all-orders");
+
+  return response?.data?.data || [];
+};
