@@ -20,16 +20,12 @@ export const searchProducts = async (search) => {
   return data;
 };
 
-//filter products
-export const filterProducts = async (filters) => {
-  const { data } = await api.post(
-    "/filter-products",
-    filters
-  );
 
+// filter products
+export const filterProducts = async (filters) => {
+  const { data } = await api.post("/filter-products", filters);
   return data;
 };
-
 
 // Get all products
 export const getAllProducts = async () => {

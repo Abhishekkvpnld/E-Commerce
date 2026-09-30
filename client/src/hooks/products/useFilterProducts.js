@@ -3,12 +3,11 @@ import { filterProducts } from "../../api/productApi";
 
 export const useFilterProducts = (filters) => {
   return useQuery({
-
-    queryKey: ["products", "filter", filters],
+    queryKey: ["products", "filter", filters?.category || []],
     queryFn: () => filterProducts(filters),
-    enabled: Boolean(filters),
+    enabled: Array.isArray(filters?.category),
     staleTime: 2 * 60 * 1000,
     placeholderData: (previousData) => previousData,
+    refetchOnWindowFocus: false,
   });
-
 };
