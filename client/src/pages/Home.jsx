@@ -6,6 +6,7 @@ import { VerticalCardProduct } from '../components/VerticalCardProduct';
 import CompactProductCard from '../components/CompactProductCard';
 import FeaturedProductCard from '../components/FeaturedProductCard';
 import ShowcaseProductCard from '../components/ShowcaseProductCard';
+import ChatBot from '../components/ChatBot';
 
 const Home = () => {
   return (
@@ -26,6 +27,9 @@ const Home = () => {
       <FeaturedProductCard category={"speaker"} heading={"Bluetooth Speakers"} />
       <CompactProductCard category={"refrigerator"} heading={"Refrigerators"} />
       <CompactProductCard category={"AC"} heading={"Air Conditioner"} />
+
+      {/* AI Product Assistant */}
+      <ChatBot />
     </div>
   )
 }

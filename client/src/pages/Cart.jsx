@@ -109,11 +109,9 @@ const Cart = () => {
             const responseData = response?.data;
 
             if (responseData?.success) {
-
                 await queryClient.invalidateQueries({
                     queryKey: ["cart", "products"],
                 });
-
                 toast.success(responseData?.message);
             }
 
