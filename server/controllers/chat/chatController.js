@@ -1,8 +1,8 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import productModel from "../../models/productModel.js";
 import { generateEmbedding } from "../../helper/embeddings.js";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const chatWithBot = async (req, res) => {
   try {
@@ -77,9 +77,11 @@ Customer Question: ${message}
 
 Answer:`;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const reply = result.response.text();
+    const result = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    const reply = result.text;
 
     res.json({
       success: true,

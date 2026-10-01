@@ -12,7 +12,7 @@ import productModel from "../models/productModel.js";
 import { generateEmbedding, buildProductText } from "../helper/embeddings.js";
 
 const BATCH_SIZE = 5; // Process 5 at a time to avoid rate limits
-const DELAY_MS = 1000; // 1 second between batches
+const DELAY_MS = 3000; // 3 seconds between batches (free tier = 100 req/min)
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -55,8 +55,24 @@ const embedAllProducts = async () => {
             console.log(`  ✅ Embedded: ${product.productName}`);
             successCount++;
           } catch (err) {
-            console.error(`  ❌ Failed: ${product.productName} — ${err.message}`);
-            failCount++;
+            // Auto-retry once on rate limit (429)
+            if (err.message?.includes("429") || err.message?.includes("RESOURCE_EXHAUSTED")) {
+              console.warn(`  ⏳ Rate limited on "${product.productName}" — retrying in 35s...`);
+              await sleep(35000);
+              try {
+                const text = buildProductText(product);
+                const embedding = await generateEmbedding(text);
+                await productModel.updateOne({ _id: product._id }, { $set: { embedding } });
+                console.log(`  ✅ Embedded (retry): ${product.productName}`);
+                successCount++;
+              } catch (retryErr) {
+                console.error(`  ❌ Failed after retry: ${product.productName} — ${retryErr.message}`);
+                failCount++;
+              }
+            } else {
+              console.error(`  ❌ Failed: ${product.productName} — ${err.message}`);
+              failCount++;
+            }
           }
         })
       );

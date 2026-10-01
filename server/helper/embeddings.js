@@ -1,15 +1,17 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 /**
  * Generate a 768-dim embedding vector for a given text
- * Uses Google's text-embedding-004 model (free tier)
+ * Uses Google's gemini-embedding-001 model (new @google/genai SDK)
  */
 export const generateEmbedding = async (text) => {
-  const model = genAI.getGenerativeModel({ model: "embedding-001" });
-  const result = await model.embedContent(text);
-  return result.embedding.values; // Array of 768 floats
+  const response = await ai.models.embedContent({
+    model: "gemini-embedding-001",
+    contents: text,
+  });
+  return response.embeddings[0].values; // Array of 768 floats
 };
 
 /**

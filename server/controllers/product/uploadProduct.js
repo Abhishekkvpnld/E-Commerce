@@ -1,5 +1,6 @@
 import { uploadProductPermission } from "../../helper/permission.js";
 import productModel from "../../models/productModel.js";
+import { generateEmbedding, buildProductText } from "../../helper/embeddings.js";
 
 
 export const uploadproduct = async (req, res) => {
@@ -12,7 +13,18 @@ export const uploadproduct = async (req, res) => {
             throw new Error("Permission denied...🔐");
         };
 
-        const uploadProduct = new productModel(req.body);
+        const productData = req.body;
+
+        // ── Auto-generate embedding for Vector Search ─────────────────────────
+        try {
+            const text = buildProductText(productData);
+            productData.embedding = await generateEmbedding(text);
+        } catch (embErr) {
+            // Embedding failure should NOT block product upload
+            console.warn("⚠️ Embedding generation failed (product saved without it):", embErr.message);
+        }
+
+        const uploadProduct = new productModel(productData);
         const savedProduct = await uploadProduct.save();
 
         res.status(200).json({
