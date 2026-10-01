@@ -11,11 +11,12 @@ import {
 
 const Success = () => {
 
-    const { fetchAddToCart } = useContext(userContext);
+    const queryClient = useQueryClient();
 
     useEffect(() => {
-        fetchAddToCart();
-    }, []);
+        // Refresh cart data after successful payment
+        queryClient.invalidateQueries({ queryKey: ["cart", "products"], });
+    }, [queryClient]);
 
     return (
         <div className="
