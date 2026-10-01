@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import success from "../assest/success.gif";
 import { Link } from "react-router-dom";
-import userContext from "../context/userContext";
+import { useQueryClient } from "@tanstack/react-query";
 import {
     FiCheck,
     FiPackage,
