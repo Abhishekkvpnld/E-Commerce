@@ -73,9 +73,9 @@ const ChatBot = () => {
     try {
       const backendUrl =
         import.meta.env.VITE_APP_BACKEND_URL ||
-        "http://localhost:8000";
+        "http://localhost:8000/api";
 
-      const res = await fetch(`${backendUrl}/api/chat`, {
+      const res = await fetch(`${backendUrl}/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

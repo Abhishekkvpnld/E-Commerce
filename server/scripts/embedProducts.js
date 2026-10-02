@@ -1,99 +1,225 @@
 /**
  * ONE-TIME MIGRATION SCRIPT
- * Run this ONCE to generate embeddings for all existing products.
- * 
- * Usage: node --experimental-vm-modules scripts/embedProducts.js
- * Or add to package.json scripts and run: npm run embed
+ *
+ * Generates 768-dimensional embeddings for all existing products.
+ *
+ * Prerequisites:
+ * 1. Existing `embedding` fields have been removed.
+ * 2. generateEmbedding() uses outputDimensionality: 768.
+ *
+ * Run:
+ * node scripts/embedProducts.js
+ *
+ * Or:
+ * npm run embed
  */
 
 import "dotenv/config";
 import mongoose from "mongoose";
+
 import productModel from "../models/productModel.js";
 import { generateEmbedding, buildProductText } from "../helper/embeddings.js";
 
-const BATCH_SIZE = 5; // Process 5 at a time to avoid rate limits
-const DELAY_MS = 3000; // 3 seconds between batches (free tier = 100 req/min)
+const BATCH_SIZE = 5;
+const DELAY_MS = 3000;
 
-const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+const EXPECTED_DIMENSIONS = 768;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const embedAllProducts = async () => {
   try {
+    // --------------------------------------------------
+    // Connect to MongoDB
+    // --------------------------------------------------
+
     await mongoose.connect(process.env.MONGODB_URI);
+    console.log("Database:", mongoose.connection.name);
+    console.log("Host:", mongoose.connection.host);
+    const collections = await mongoose.connection.db
+      .listCollections()
+      .toArray();
+
+    console.log(
+      "Collections:",
+      collections.map((collection) => collection.name),
+    );
+
     console.log("✅ Connected to MongoDB Atlas");
 
-    // Only fetch products that don't have embeddings yet
+    // --------------------------------------------------
+    // Get products without embeddings
+    // --------------------------------------------------
+
     const products = await productModel
-      .find({ embedding: { $exists: false } })
+      .find({
+        embedding: { $exists: false },
+      })
       .lean();
 
     console.log(`📦 Found ${products.length} products without embeddings`);
 
     if (products.length === 0) {
-      console.log("✅ All products already have embeddings!");
-      process.exit(0);
+      console.log("✅ No products need embedding.");
+      return;
     }
 
     let successCount = 0;
     let failCount = 0;
 
-    // Process in batches to respect API rate limits
+    const totalBatches = Math.ceil(products.length / BATCH_SIZE);
+
+    // --------------------------------------------------
+    // Process products in batches
+    // --------------------------------------------------
+
     for (let i = 0; i < products.length; i += BATCH_SIZE) {
       const batch = products.slice(i, i + BATCH_SIZE);
-      console.log(`\n🔄 Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(products.length / BATCH_SIZE)}`);
+
+      const batchNumber = Math.floor(i / BATCH_SIZE) + 1;
+
+      console.log(`\n🔄 Processing batch ${batchNumber}/${totalBatches}`);
 
       await Promise.all(
         batch.map(async (product) => {
           try {
+            // ------------------------------------------
+            // Build text for embedding
+            // ------------------------------------------
+
             const text = buildProductText(product);
+
+            // ------------------------------------------
+            // Generate 768-dimensional embedding
+            // ------------------------------------------
+
             const embedding = await generateEmbedding(text);
+
+            // ------------------------------------------
+            // Validate dimensions
+            // ------------------------------------------
+
+            console.log(
+              `  📐 ${product.productName}: ${embedding.length} dimensions`,
+            );
+
+            if (embedding.length !== EXPECTED_DIMENSIONS) {
+              throw new Error(
+                `Expected ${EXPECTED_DIMENSIONS} dimensions, got ${embedding.length}`,
+              );
+            }
+
+            // ------------------------------------------
+            // Save embedding
+            // ------------------------------------------
 
             await productModel.updateOne(
               { _id: product._id },
-              { $set: { embedding } }
+              {
+                $set: {
+                  embedding,
+                },
+              },
             );
 
             console.log(`  ✅ Embedded: ${product.productName}`);
+
             successCount++;
           } catch (err) {
-            // Auto-retry once on rate limit (429)
-            if (err.message?.includes("429") || err.message?.includes("RESOURCE_EXHAUSTED")) {
-              console.warn(`  ⏳ Rate limited on "${product.productName}" — retrying in 35s...`);
+            // ------------------------------------------
+            // Handle rate limiting
+            // ------------------------------------------
+
+            if (
+              err.message?.includes("429") ||
+              err.message?.includes("RESOURCE_EXHAUSTED")
+            ) {
+              console.warn(`  ⏳ Rate limited: ${product.productName}`);
+
+              console.warn("  Waiting 35 seconds before retry...");
+
               await sleep(35000);
+
               try {
                 const text = buildProductText(product);
+
                 const embedding = await generateEmbedding(text);
-                await productModel.updateOne({ _id: product._id }, { $set: { embedding } });
-                console.log(`  ✅ Embedded (retry): ${product.productName}`);
+
+                // Validate retry embedding
+                if (embedding.length !== EXPECTED_DIMENSIONS) {
+                  throw new Error(
+                    `Expected ${EXPECTED_DIMENSIONS} dimensions, got ${embedding.length}`,
+                  );
+                }
+
+                await productModel.updateOne(
+                  { _id: product._id },
+                  {
+                    $set: {
+                      embedding,
+                    },
+                  },
+                );
+
+                console.log(
+                  `  ✅ Embedded after retry: ${product.productName}`,
+                );
+
                 successCount++;
               } catch (retryErr) {
-                console.error(`  ❌ Failed after retry: ${product.productName} — ${retryErr.message}`);
+                console.error(
+                  `  ❌ Failed after retry: ${product.productName}`,
+                );
+
+                console.error(`     ${retryErr.message}`);
+
                 failCount++;
               }
             } else {
-              console.error(`  ❌ Failed: ${product.productName} — ${err.message}`);
+              console.error(`  ❌ Failed: ${product.productName}`);
+
+              console.error(`     ${err.message}`);
+
               failCount++;
             }
           }
-        })
+        }),
       );
 
-      // Wait between batches to avoid rate limiting
+      // ------------------------------------------------
+      // Delay between batches
+      // ------------------------------------------------
+
       if (i + BATCH_SIZE < products.length) {
-        console.log(`  ⏳ Waiting ${DELAY_MS}ms before next batch...`);
+        console.log(`  ⏳ Waiting ${DELAY_MS / 1000}s before next batch...`);
+
         await sleep(DELAY_MS);
       }
     }
 
+    // --------------------------------------------------
+    // Final result
+    // --------------------------------------------------
+
     console.log("\n═══════════════════════════════");
-    console.log(`✅ Success: ${successCount} products embedded`);
+    console.log(`✅ Success: ${successCount} products`);
     console.log(`❌ Failed:  ${failCount} products`);
     console.log("═══════════════════════════════");
-    console.log("🎉 Migration complete! You can now run the chatbot.");
+
+    if (failCount === 0) {
+      console.log("🎉 All products successfully embedded with 768 dimensions!");
+    } else {
+      console.log(
+        "⚠️ Some products failed. Run the script again to retry them.",
+      );
+    }
   } catch (error) {
-    console.error("Migration failed:", error);
+    console.error("\n❌ Migration failed:");
+    console.error(error.message);
   } finally {
     await mongoose.disconnect();
-    process.exit(0);
+
+    console.log("🔌 MongoDB connection closed");
   }
 };
 
