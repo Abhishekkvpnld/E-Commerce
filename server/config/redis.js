@@ -1,8 +1,8 @@
 import Redis from "ioredis";
 
-const redis = new Redis(process.env.REDIS_URL || "redis://localhost:6379", {
+const redis = new Redis(process.env.REDIS_URL_CLOUD || "redis://localhost:6379", {
   retryStrategy: (times) => {
-    if (times > 3) {
+    if (times > 10) {
       console.warn("⚠️ Redis unavailable — caching disabled, falling back to MongoDB");
       return null; // stop retrying after 3 attempts
     }
